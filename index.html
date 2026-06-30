@@ -199,9 +199,9 @@ section{position:relative;z-index:1}
 }
 .reel{display:flex;flex-direction:column;gap:1.25rem}
 .reel__cap{display:flex;flex-direction:column;gap:.35rem;text-align:center}
-.reel__num{font-family:var(--display);font-weight:600;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.02em}
-.reel__sub{color:var(--muted);font-size:.95rem}
-.reel__client{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
+.reel__num{font-family:var(--display);font-weight:600;font-size:clamp(2.7rem,5.4vw,4.05rem);line-height:1;letter-spacing:-.02em}
+.reel__sub{color:var(--muted);font-size:1.14rem}
+.reel__client{font-family:var(--mono);font-size:.79rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
 
 /* iPhone mockup */
 .phone{
@@ -252,13 +252,28 @@ section{position:relative;z-index:1}
 .process__col--right{text-align:right}
 .process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .process__phones .phone{aspect-ratio:9/18.5}
-.step{
-  display:flex;flex-direction:column;justify-content:flex-end;
-  height:100%;padding:18px;gap:.6rem;
-  background:linear-gradient(180deg,#141417 0%,#0b0b0d 100%);
+
+/* Feed scrollable média-mixte dans le mockup */
+.feed{
+  position:relative;height:100%;width:100%;
+  border-radius:clamp(1.05rem,2.4vw,1.65rem);
+  overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;background:#0c0c0e;
 }
-.step__tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--meta)}
-.step__txt{font-size:.9rem;line-height:1.4;color:rgba(255,255,255,.85)}
+.feed::-webkit-scrollbar{display:none}
+.feed .slide{
+  width:100%;height:100%;object-fit:cover;display:block;
+  border-radius:0;background:#0c0c0e;
+  scroll-snap-align:start;scroll-snap-stop:always;
+}
+.feed-tag{
+  position:absolute;top:14px;left:14px;z-index:4;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#fff;background:rgba(10,10,11,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  padding:.45em .8em;border-radius:999px;border:1px solid rgba(255,255,255,.18);
+}
+
 .meta-mark{width:clamp(130px,17vw,230px);margin:1.7rem 0 0 auto;animation:metaPulse 3.6s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(0,132,255,.55)) drop-shadow(0 0 55px rgba(0,165,255,.32))}
 .meta-mark svg{width:100%;height:auto;display:block}
 @keyframes metaPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,132,255,.5)) drop-shadow(0 0 48px rgba(0,165,255,.28))}50%{filter:drop-shadow(0 0 36px rgba(0,170,255,.82)) drop-shadow(0 0 88px rgba(0,190,255,.5))}}
@@ -278,6 +293,11 @@ section{position:relative;z-index:1}
 .result__num{
   font-family:var(--display);font-weight:600;
   font-size:clamp(3.5rem,11vw,9rem);line-height:.9;letter-spacing:-.03em;
+  transition:text-shadow .55s var(--ease);
+}
+.result__num:hover,
+.result__num.is-glow{
+  text-shadow:0 0 14px rgba(255,255,255,.45),0 0 36px rgba(24,119,242,.7),0 0 72px rgba(24,119,242,.45);
 }
 .result__lbl{
   font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;
@@ -289,8 +309,10 @@ section{position:relative;z-index:1}
    AVIS
    ============================================================ */
 .avis__top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;margin-bottom:clamp(3.5rem,7vw,5.5rem)}
+.avis__rating{display:flex;flex-direction:column;align-items:center;gap:1.1rem;color:inherit;cursor:pointer;transition:opacity .25s var(--ease)}
+.avis__rating:hover{opacity:.82}
 .stars{font-size:1.8rem;letter-spacing:.18em;color:var(--gold)}
-.avis__score{font-family:var(--display);font-weight:700;font-size:clamp(4rem,14vw,9rem);line-height:.85;letter-spacing:-.03em}
+.avis__score{font-family:var(--display);font-weight:700;font-size:clamp(4rem,14vw,9rem);line-height:.85;letter-spacing:-.03em;color:var(--gold)}
 .avis__src{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .cards{
   display:grid;grid-template-columns:repeat(3,1fr);
@@ -362,7 +384,7 @@ section{position:relative;z-index:1}
 }
 .book-screen .bk-head{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1.1rem}
 .book-screen .bk-day{font-family:var(--display);font-weight:600;font-size:1.5rem}
-.book-screen .bk-time{font-family:var(--display);font-weight:600;font-size:2.6rem;color:var(--gold);line-height:1.1;margin-bottom:.8rem}
+.book-screen .bk-time{font-family:var(--display);font-weight:600;font-size:2.6rem;color:var(--meta);line-height:1.1;margin-bottom:.8rem}
 .book-screen .bk-row{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.02em;line-height:1.9}
 .book-screen .bk-confirm{margin-top:1.2rem;background:#fff;color:var(--ink);text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.9em;border-radius:10px;font-weight:500}
 .book-screen .bk-hint{font-size:.74rem;color:var(--faint);text-align:center;margin-top:.9rem;line-height:1.4}
@@ -506,16 +528,20 @@ section{position:relative;z-index:1}
       <div class="process__phones reveal">
         <div class="phone">
           <span class="phone__notch"></span>
-          <div class="phone__screen step">
-            <span class="step__tag">Étape 01</span>
-            <span class="step__txt">On trouve les idées, on écrit les scripts.</span>
+          <span class="feed-tag">Étape 01</span>
+          <div class="feed">
+            <video class="slide" src="assets/video/process/reel1.mp4" autoplay muted loop playsinline preload="auto"></video>
+            <video class="slide" src="assets/video/process/reel2.mp4" autoplay muted loop playsinline preload="auto"></video>
+            <img class="slide" src="assets/img/process/reel3.jpg" alt="" loading="lazy">
           </div>
         </div>
         <div class="phone">
           <span class="phone__notch"></span>
-          <div class="phone__screen step">
-            <span class="step__tag">Étape 02</span>
-            <span class="step__txt">On filme les créatives publicitaires.</span>
+          <span class="feed-tag">Étape 02</span>
+          <div class="feed">
+            <img class="slide" src="assets/img/process/reel4.jpg" alt="" loading="lazy">
+            <video class="slide" src="assets/video/process/reel5.mp4" autoplay muted loop playsinline preload="auto"></video>
+            <video class="slide" src="assets/video/process/reel6.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
         </div>
       </div>
@@ -571,10 +597,12 @@ section{position:relative;z-index:1}
 <section class="section" aria-label="Avis clients">
   <div class="wrap">
     <div class="avis__top reveal">
-      <span class="eyebrow eyebrow--gold">Ils nous ont noté</span>
-      <div class="stars" aria-hidden="true">★★★★★</div>
-      <div class="avis__score">5/5</div>
-      <div class="avis__src">Google · 22 clients nous recommandent</div>
+      <span class="eyebrow eyebrow--meta">Ils nous ont noté</span>
+      <a class="avis__rating" href="__LIEN_GOOGLE_AVIS__" target="_blank" rel="noopener">
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <div class="avis__score">5/5</div>
+        <div class="avis__src">Google · 22 clients nous recommandent</div>
+      </a>
     </div>
 
     <div class="cards">
@@ -611,7 +639,7 @@ section{position:relative;z-index:1}
     </div>
 
     <div class="avis__more reveal">
-      <a class="link-mono" href="#">Voir tous les avis →</a>
+      <a class="link-mono" href="__LIEN_GOOGLE_AVIS__" target="_blank" rel="noopener">Voir tous les avis →</a>
     </div>
   </div>
 </section>
@@ -731,6 +759,13 @@ section{position:relative;z-index:1}
   window.addEventListener("touchstart", function(){ vids.forEach(kick); }, {once:true, passive:true});
   window.addEventListener("click", function(){ vids.forEach(kick); }, {once:true});
 
+  /* --- Feeds process : relance les vidéos au scroll du feed --- */
+  document.querySelectorAll(".feed").forEach(function(feed){
+    feed.addEventListener("scroll", function(){
+      feed.querySelectorAll("video").forEach(kick);
+    }, {passive:true});
+  });
+
   /* --- Reveal au scroll --- */
   var reveals = document.querySelectorAll(".reveal");
   if (reduce || !("IntersectionObserver" in window)){
@@ -745,6 +780,17 @@ section{position:relative;z-index:1}
       });
     }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
     reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* --- Résultats : glow quand le chiffre entre dans le viewport (appareils sans hover) --- */
+  var canHover = window.matchMedia("(hover: hover)").matches;
+  if (!reduce && !canHover && "IntersectionObserver" in window){
+    var gio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        e.target.classList.toggle("is-glow", e.isIntersecting);
+      });
+    }, {threshold:0.6});
+    document.querySelectorAll(".result__num").forEach(function(el){ gio.observe(el); });
   }
 })();
 </script>
