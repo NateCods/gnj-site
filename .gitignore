@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Masters vidéo (hors repo)
+*.MOV
+*.mov

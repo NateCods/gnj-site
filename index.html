@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GNJ MÉDIA — Studio vidéo & publicité Meta au Québec</title>
+<meta name="description" content="GNJ MÉDIA — On transforme les vues en clients. Contenu organique, créatives publicitaires et campagnes Meta pour les PME du Québec.">
+
+<!-- Polices -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#0A0A0B;
+  --bg-soft:#101012;
+  --text:#FFFFFF;
+  --muted:rgba(255,255,255,.55);
+  --faint:rgba(255,255,255,.38);
+  --line:rgba(255,255,255,.10);
+  --cream:#F4F3EF;
+  --ink:#0A0A0B;
+  --meta:#1877F2;
+  --gold:#FFB200;
+
+  --grid:84px;
+  --maxw:1280px;
+  --pad:clamp(20px,5vw,72px);
+
+  --display:"Clash Display",-apple-system,system-ui,sans-serif;
+  --sans:"Inter",-apple-system,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img,svg,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+::selection{background:var(--meta);color:#fff}
+
+/* Blueprint grid — couche fixe derrière tout (thème sombre) */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:var(--grid) var(--grid);
+  mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 35%,transparent 100%);
+}
+
+/* ============================================================
+   PRIMITIVES
+   ============================================================ */
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);position:relative;z-index:1}
+section{position:relative;z-index:1}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--faint);
+}
+.eyebrow--meta{color:var(--meta)}
+.eyebrow--gold{color:var(--gold)}
+
+/* Micro-labels verticaux dans les marges */
+.vlabel{
+  position:absolute;
+  top:50%;
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--faint);
+  white-space:nowrap;
+  writing-mode:vertical-rl;
+  z-index:2;
+  pointer-events:none;
+}
+.vlabel--left{left:14px;transform:translateY(-50%) rotate(180deg)}
+.vlabel--right{right:14px;transform:translateY(-50%)}
+
+/* Boutons */
+.btn{
+  display:inline-flex;align-items:center;gap:.55em;
+  font-family:var(--mono);
+  font-size:.78rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.85em 1.6em;
+  border-radius:999px;
+  transition:transform .25s var(--ease),background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+}
+.btn--outline{border:1px solid rgba(255,255,255,.28);color:#fff}
+.btn--outline:hover{border-color:#fff;transform:translateY(-2px)}
+.btn--solid{background:#fff;color:var(--ink);font-weight:500}
+.btn--solid:hover{transform:translateY(-2px);box-shadow:0 14px 40px -12px rgba(255,255,255,.4)}
+
+/* Reveal au scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* Logomark */
+.logo{width:26px;height:26px;color:#fff;flex:none}
+.ghost{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  color:#fff;
+  opacity:.025;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:background .35s var(--ease),backdrop-filter .35s var(--ease),border-color .35s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(10,10,11,.72);
+  backdrop-filter:blur(18px) saturate(1.3);
+  -webkit-backdrop-filter:blur(18px) saturate(1.3);
+  border-bottom-color:var(--line);
+}
+.nav__in{
+  max-width:var(--maxw);margin-inline:auto;padding:18px var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:600;letter-spacing:.02em;font-size:1.05rem}
+.brand .logo{width:22px;height:22px}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:140px 0 80px;
+  overflow:hidden;
+}
+.hero .ghost{
+  width:min(140vw,1600px);height:auto;
+  top:48%;left:50%;transform:translate(-50%,-50%);
+  opacity:.03;
+}
+.hero__word{text-align:center;position:relative;z-index:1}
+.hero__gnj{
+  display:block;
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(6rem,32vw,26rem);
+  line-height:.8;letter-spacing:-.04em;
+}
+.hero__media{
+  display:block;
+  font-family:var(--mono);font-weight:500;
+  font-size:clamp(.9rem,4vw,2.1rem);
+  letter-spacing:clamp(.3em,2vw,.85em);
+  text-transform:uppercase;
+  padding-left:clamp(.3em,2vw,.85em);
+  color:var(--muted);
+  margin-top:clamp(.4rem,1.5vw,1rem);
+}
+
+.reels{
+  margin-top:clamp(3rem,7vw,6rem);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(1rem,3vw,2.5rem);
+  align-items:start;
+}
+.reel{display:flex;flex-direction:column;gap:1.25rem}
+.reel__cap{display:flex;flex-direction:column;gap:.35rem;text-align:center}
+.reel__num{font-family:var(--display);font-weight:600;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.02em}
+.reel__sub{color:var(--muted);font-size:.95rem}
+.reel__client{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
+
+/* iPhone mockup */
+.phone{
+  position:relative;
+  aspect-ratio:9/19.2;
+  background:#000;
+  border-radius:clamp(1.4rem,3vw,2.1rem);
+  border:2px solid rgba(255,255,255,.16);
+  padding:6px;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.04);
+  overflow:hidden;
+}
+.phone__notch{
+  position:absolute;top:11px;left:50%;transform:translateX(-50%);
+  width:34%;height:14px;background:#000;border-radius:0 0 12px 12px;z-index:3;
+}
+.phone video,.phone__screen{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:clamp(1.05rem,2.4vw,1.65rem);
+  background:#0c0c0e;
+}
+
+.hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
+
+/* ============================================================
+   SECTION GÉNÉRIQUE
+   ============================================================ */
+.section{padding:clamp(6rem,12vw,10rem) 0;position:relative}
+.section__head{max-width:62ch;margin-bottom:clamp(3rem,6vw,5rem)}
+.section__head .eyebrow{margin-bottom:1.25rem;display:block}
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+.process__grid{
+  display:grid;
+  grid-template-columns:1fr 1.1fr 1fr;
+  gap:clamp(2rem,4vw,3.5rem);
+  align-items:center;
+}
+.process__col h3{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.05;letter-spacing:-.02em;
+  margin-top:1rem;
+}
+.process__col .eyebrow{display:block}
+.process__col--right{text-align:right}
+.process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.process__phones .phone{aspect-ratio:9/18.5}
+.step{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  height:100%;padding:18px;gap:.6rem;
+  background:linear-gradient(180deg,#141417 0%,#0b0b0d 100%);
+}
+.step__tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--meta)}
+.step__txt{font-size:.9rem;line-height:1.4;color:rgba(255,255,255,.85)}
+.meta-mark{width:clamp(130px,17vw,230px);margin:1.7rem 0 0 auto;animation:metaPulse 3.6s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(0,132,255,.55)) drop-shadow(0 0 55px rgba(0,165,255,.32))}
+.meta-mark svg{width:100%;height:auto;display:block}
+@keyframes metaPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,132,255,.5)) drop-shadow(0 0 48px rgba(0,165,255,.28))}50%{filter:drop-shadow(0 0 36px rgba(0,170,255,.82)) drop-shadow(0 0 88px rgba(0,190,255,.5))}}
+
+/* ============================================================
+   RÉSULTATS
+   ============================================================ */
+.result{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);
+  gap:clamp(1rem,4vw,3rem);
+  align-items:baseline;
+  padding:clamp(2rem,4vw,3rem) 0;
+  border-top:1px solid var(--line);
+}
+.result:last-child{border-bottom:1px solid var(--line)}
+.result__num{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(3.5rem,11vw,9rem);line-height:.9;letter-spacing:-.03em;
+}
+.result__lbl{
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);line-height:1.7;
+  align-self:center;
+}
+
+/* ============================================================
+   AVIS
+   ============================================================ */
+.avis__top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;margin-bottom:clamp(3.5rem,7vw,5.5rem)}
+.stars{font-size:1.8rem;letter-spacing:.18em;color:var(--gold)}
+.avis__score{font-family:var(--display);font-weight:700;font-size:clamp(4rem,14vw,9rem);line-height:.85;letter-spacing:-.03em}
+.avis__src{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(1.2rem,2.5vw,1.8rem);
+}
+.card{
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  padding:1.8rem;
+  display:flex;flex-direction:column;gap:1rem;
+  transition:transform .35s var(--ease),background .35s var(--ease);
+}
+.card:hover{background:rgba(255,255,255,.07);transform:translateY(-4px) rotate(0deg) !important}
+.card:nth-child(3n+1){transform:rotate(-1.4deg)}
+.card:nth-child(3n+2){transform:rotate(.8deg)}
+.card:nth-child(3n+3){transform:rotate(-.6deg)}
+.card__stars{color:var(--gold);font-size:.95rem;letter-spacing:.12em}
+.card__txt{font-size:.98rem;line-height:1.55;color:rgba(255,255,255,.85)}
+.card__who{display:flex;align-items:center;gap:.65rem;margin-top:auto}
+.card__name{font-weight:600;font-size:.95rem}
+.gbadge{
+  width:22px;height:22px;border-radius:50%;flex:none;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-weight:500;font-size:.8rem;
+  background:#fff;color:#1877F2;
+}
+.avis__more{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
+.link-mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:inline-flex;gap:.5em;transition:color .25s,gap .25s}
+.link-mono:hover{color:#fff;gap:.85em}
+
+/* ============================================================
+   ÉQUIPE (crème)
+   ============================================================ */
+.team{background:var(--cream);color:var(--ink);position:relative;z-index:1}
+.team::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(10,10,11,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(10,10,11,.05) 1px,transparent 1px);
+  background-size:var(--grid) var(--grid);
+}
+.team .wrap{z-index:1}
+.team .eyebrow{color:rgba(10,10,11,.45)}
+.team h2{font-family:var(--display);font-weight:600;font-size:clamp(2.8rem,8vw,6rem);line-height:.95;letter-spacing:-.03em;margin-top:1rem}
+.team__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,2.5rem);margin-top:clamp(3rem,6vw,5rem)}
+.member__photo{aspect-ratio:4/5;background:#d9d8d2 linear-gradient(135deg,#dedcd5,#cfcdc5);border-radius:14px;position:relative;overflow:hidden}
+.member__photo::after{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,rgba(0,0,0,.018) 0 10px,transparent 10px 20px);
+}
+.member__name{font-family:var(--display);font-weight:600;font-size:1.5rem;margin-top:1.1rem}
+.member__role{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(10,10,11,.5);margin-top:.4rem;line-height:1.6}
+
+/* ============================================================
+   BOOKING
+   ============================================================ */
+.booking{padding:clamp(6rem,12vw,11rem) 0;overflow:hidden}
+.booking .ghost{width:min(90vw,900px);height:auto;top:50%;right:-12%;transform:translateY(-50%);opacity:.03}
+.booking__grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(2.5rem,5vw,5rem);align-items:center}
+.booking h2{font-family:var(--display);font-weight:700;font-size:clamp(4rem,13vw,10rem);line-height:.85;letter-spacing:-.04em}
+.booking__cta{margin-top:clamp(2rem,4vw,3rem)}
+.booking__phone{max-width:340px;margin-inline:auto;width:100%}
+.book-screen{
+  width:100%;height:100%;border-radius:clamp(1.05rem,2.4vw,1.65rem);
+  background:linear-gradient(180deg,#141417,#0a0a0c);
+  padding:26px 20px;display:flex;flex-direction:column;gap:.2rem;
+  font-family:var(--sans);
+}
+.book-screen .bk-head{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1.1rem}
+.book-screen .bk-day{font-family:var(--display);font-weight:600;font-size:1.5rem}
+.book-screen .bk-time{font-family:var(--display);font-weight:600;font-size:2.6rem;color:var(--gold);line-height:1.1;margin-bottom:.8rem}
+.book-screen .bk-row{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.02em;line-height:1.9}
+.book-screen .bk-confirm{margin-top:1.2rem;background:#fff;color:var(--ink);text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.9em;border-radius:10px;font-weight:500}
+.book-screen .bk-hint{font-size:.74rem;color:var(--faint);text-align:center;margin-top:.9rem;line-height:1.4}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{border-top:1px solid var(--line);padding:clamp(3rem,6vw,5rem) 0}
+.footer__in{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:space-between}
+.footer__links{display:flex;flex-wrap:wrap;gap:1.5rem 2rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em}
+.footer__links a{color:var(--muted);transition:color .25s}
+.footer__links a:hover{color:#fff}
+.footer__copy{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);width:100%;margin-top:1rem}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:900px){
+  .process__grid{grid-template-columns:1fr;text-align:left}
+  .process__col--right{text-align:left}
+  .meta-mark{margin:1.4rem auto 0}
+  .process__phones{max-width:440px}
+  .booking__grid{grid-template-columns:1fr}
+  .result{grid-template-columns:1fr;gap:.6rem}
+  .cards{grid-template-columns:1fr 1fr}
+  .team__grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .vlabel{display:none}
+  .reels{grid-template-columns:1fr;max-width:340px;margin-inline:auto;gap:3rem}
+  .cards{grid-template-columns:1fr}
+  .team__grid{grid-template-columns:1fr;max-width:360px}
+  .nav__in{padding:14px var(--pad)}
+  .btn{font-size:.72rem;padding:.8em 1.3em}
+  body{font-size:16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Logomark réutilisable : 5 barres d'égaliseur -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logomark" viewBox="0 0 40 40">
+    <g fill="currentColor">
+      <rect x="2"  y="14" width="5" height="12" rx="1.5"/>
+      <rect x="10" y="8"  width="5" height="24" rx="1.5"/>
+      <rect x="18" y="2"  width="5" height="36" rx="1.5"/>
+      <rect x="26" y="10" width="5" height="20" rx="1.5"/>
+      <rect x="34" y="16" width="5" height="8"  rx="1.5"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ====================== NAV ====================== -->
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="brand" href="#top" aria-label="GNJ MÉDIA, accueil">
+      <svg class="logo"><use href="#logomark"/></svg>
+      <span>GNJ MÉDIA</span>
+    </a>
+    <a class="btn btn--outline" href="#rdv">Prendre rendez-vous</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ====================== HERO ====================== -->
+<section class="hero" aria-label="Accueil">
+  <svg class="ghost" aria-hidden="true"><use href="#logomark"/></svg>
+  <span class="vlabel vlabel--left">Réalisations</span>
+  <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
+
+  <div class="wrap">
+    <h1 class="hero__word">
+      <span class="hero__gnj">GNJ</span>
+      <span class="hero__media">MÉDIA</span>
+    </h1>
+
+    <div class="reels">
+      <figure class="reel reveal">
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/rockfish.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
+        <figcaption class="reel__cap">
+          <span class="reel__num">800+</span>
+          <span class="reel__sub">prospects · +2,5M vues</span>
+          <span class="reel__client">Rock Fish Tattoo</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reel reveal">
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/shineup.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
+        <figcaption class="reel__cap">
+          <span class="reel__num">750+</span>
+          <span class="reel__sub">prospects en 2 étés</span>
+          <span class="reel__client">Shine Up</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reel reveal">
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
+        <figcaption class="reel__cap">
+          <span class="reel__num">+1 an</span>
+          <span class="reel__sub">ils nous font confiance</span>
+          <span class="reel__client">Jardin Paradis et Accessoires</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="hero__cta">
+      <a class="btn btn--solid" href="#rdv">Prendre rendez-vous →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== PROCESS ====================== -->
+<section class="section" aria-label="Comment on marche">
+  <span class="vlabel vlabel--left">Comment on marche</span>
+  <span class="vlabel vlabel--right">Du short-form qui génère des leads</span>
+
+  <div class="wrap">
+    <div class="process__grid">
+      <div class="process__col reveal">
+        <span class="eyebrow eyebrow--meta">01 · Contenu organique</span>
+        <h3>On crée vos Reels qui vous font connaître.</h3>
+      </div>
+
+      <div class="process__phones reveal">
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <div class="phone__screen step">
+            <span class="step__tag">Étape 01</span>
+            <span class="step__txt">On trouve les idées, on écrit les scripts.</span>
+          </div>
+        </div>
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <div class="phone__screen step">
+            <span class="step__tag">Étape 02</span>
+            <span class="step__txt">On filme les créatives publicitaires.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="process__col process__col--right reveal">
+        <span class="eyebrow eyebrow--meta">02 · Publicité Meta</span>
+        <h3>On transforme le contenu en pubs qui convertissent.</h3>
+        <div class="meta-mark" role="img" aria-label="Meta">
+          <svg viewBox="0 0 128 72" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1FB6FF"/>
+                <stop offset="48%" stop-color="#0A82FB"/>
+                <stop offset="100%" stop-color="#0064E1"/>
+              </linearGradient>
+              <filter id="metaBlur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path d="M64 36 C64 13 33 13 33 36 C33 59 64 59 64 36 C64 13 95 13 95 36 C95 59 64 59 64 36 Z"
+              fill="none" stroke="url(#metaGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" filter="url(#metaBlur)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== RÉSULTATS ====================== -->
+<section class="section" aria-label="Résultats">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">Résultats · Clients</span>
+    </div>
+
+    <div class="result reveal">
+      <div class="result__num">30M+</div>
+      <div class="result__lbl">Vues cumulées<br>toutes campagnes · tous clients</div>
+    </div>
+    <div class="result reveal">
+      <div class="result__num">2500+</div>
+      <div class="result__lbl">Leads générés<br>organique + paid</div>
+    </div>
+    <div class="result reveal">
+      <div class="result__num">0,95&nbsp;$</div>
+      <div class="result__lbl">Coût par lead record<br>ShineUp · paid</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== AVIS ====================== -->
+<section class="section" aria-label="Avis clients">
+  <div class="wrap">
+    <div class="avis__top reveal">
+      <span class="eyebrow eyebrow--gold">Ils nous ont noté</span>
+      <div class="stars" aria-hidden="true">★★★★★</div>
+      <div class="avis__score">5/5</div>
+      <div class="avis__src">Google · 22 clients nous recommandent</div>
+    </div>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Des résultats concrets dès le premier mois. L'équipe comprend vraiment notre business.</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Jonathan Hovington</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Professionnels, rapides, créatifs. Nos Reels n'ont jamais aussi bien performé.</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Cédric Dubé</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Le meilleur investissement marketing qu'on a fait. Les leads rentrent pour vrai.</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Adam Ouellet</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Une équipe à l'écoute qui livre au-delà des attentes. Je recommande sans hésiter.</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Caroline Léger</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Du contenu qui sort du lot et des pubs qui convertissent. Merci GNJ&nbsp;!</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Dave Gervais</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="card__stars" aria-hidden="true">★★★★★</div>
+        <p class="card__txt">Communication impeccable et résultats au rendez-vous. On continue avec eux longtemps.</p>
+        <div class="card__who"><span class="gbadge">G</span><span class="card__name">Stéphanie Lavoie</span></div>
+      </article>
+    </div>
+
+    <div class="avis__more reveal">
+      <a class="link-mono" href="#">Voir tous les avis →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== ÉQUIPE ====================== -->
+<section class="section team" aria-label="L'équipe">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">L'équipe</span>
+      <h2>Notre équipe</h2>
+    </div>
+
+    <div class="team__grid">
+      <article class="member reveal">
+        <div class="member__photo"></div>
+        <h3 class="member__name">Nate</h3>
+        <p class="member__role">Fondateur · Stratégie, gestion &amp; campagnes pub</p>
+      </article>
+      <article class="member reveal">
+        <div class="member__photo"></div>
+        <h3 class="member__name">Georges</h3>
+        <p class="member__role">Communications · RH · Comptabilité</p>
+      </article>
+      <article class="member reveal">
+        <div class="member__photo"></div>
+        <h3 class="member__name">Jérémie</h3>
+        <p class="member__role">Monteur vidéo</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== BOOKING ====================== -->
+<section class="booking" id="rdv" aria-label="Prendre rendez-vous">
+  <svg class="ghost" aria-hidden="true"><use href="#logomark"/></svg>
+  <div class="wrap">
+    <div class="booking__grid">
+      <div class="reveal">
+        <h2>À votre<br>tour.</h2>
+        <div class="booking__cta">
+          <a class="btn btn--solid" href="#rdv">Réserver un appel →</a>
+        </div>
+      </div>
+
+      <div class="booking__phone reveal">
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <div class="book-screen">
+            <div class="bk-head">GNJ MÉDIA · Appel découverte</div>
+            <div class="bk-day">Mardi 30 juin</div>
+            <div class="bk-time">09:30</div>
+            <div class="bk-row">└ 30:00 minutes</div>
+            <div class="bk-row">└ visio · Google Meet</div>
+            <div class="bk-row">└ 0&nbsp;$ · sans engagement</div>
+            <div class="bk-confirm">Confirmer le rendez-vous →</div>
+            <div class="bk-hint">Sélectionne une date pour voir les créneaux</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <a class="brand" href="#top">
+      <svg class="logo"><use href="#logomark"/></svg>
+      <span>GNJ MÉDIA</span>
+    </a>
+    <nav class="footer__links" aria-label="Pied de page">
+      <a href="#rdv">Prendre rendez-vous</a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
+    </nav>
+    <div class="footer__copy">© <span id="year">2026</span> GNJ MÉDIA · Québec, QC</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- Année footer --- */
+  var y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* --- Nav : blur au scroll --- */
+  var nav = document.getElementById("nav");
+  function onScroll(){
+    if (window.scrollY > 24) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, {passive:true});
+
+  /* --- Vidéos : forcer le play (battre le blocage autoplay) --- */
+  var vids = document.querySelectorAll("video");
+  function kick(v){
+    var p = v.play();
+    if (p && typeof p.catch === "function") p.catch(function(){});
+  }
+  vids.forEach(function(v){
+    v.muted = true;                 // garantit l'autoplay
+    if (v.readyState >= 2) kick(v);
+    v.addEventListener("loadeddata", function(){ kick(v); });
+    v.addEventListener("canplay", function(){ kick(v); });
+    var phone = v.closest(".phone");
+    if (phone){
+      phone.addEventListener("mouseenter", function(){ kick(v); });
+    }
+  });
+  // Relance au premier geste utilisateur (filet de sécurité iOS/Safari)
+  window.addEventListener("touchstart", function(){ vids.forEach(kick); }, {once:true, passive:true});
+  window.addEventListener("click", function(){ vids.forEach(kick); }, {once:true});
+
+  /* --- Reveal au scroll --- */
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
