@@ -229,7 +229,7 @@ section{position:relative;z-index:1}
 
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
 
-/* Hero — props 3D derrière le wordmark (model-viewer) */
+/* Hero — props derrière le wordmark (images PNG) */
 .hero-props{position:absolute;inset:0;z-index:1;pointer-events:none}
 .hero-prop{
   position:absolute;left:50%;top:50%;
@@ -239,8 +239,8 @@ section{position:relative;z-index:1}
 }
 .hero-prop--cam{width:clamp(150px,20vw,320px);aspect-ratio:1/0.82}
 .hero-prop--phone{width:clamp(95px,12vw,190px);aspect-ratio:1/1.7}
-.hero-prop model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent;animation:floatY 4.2s ease-in-out infinite}
-.hero-prop--phone model-viewer{animation-duration:4.8s;animation-delay:.5s}
+.hero-prop img{width:100%;height:100%;object-fit:contain;animation:floatY 4.2s ease-in-out infinite}
+.hero-prop--phone img{animation-duration:4.8s;animation-delay:.5s}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .props-out .hero-prop--cam{opacity:1;transform:translate(calc(-50% - 34vw),calc(-50% - 2vw)) rotate(-6deg) scale(1)}
 .props-out .hero-prop--phone{opacity:1;transform:translate(calc(-50% + 34vw),calc(-50% - 2vw)) rotate(5deg) scale(1)}
@@ -250,7 +250,7 @@ section{position:relative;z-index:1}
 }
 @media (prefers-reduced-motion:reduce){
   .hero-prop{transition:none}
-  .hero-prop model-viewer{animation:none}
+  .hero-prop img{animation:none}
 }
 
 /* ============================================================
@@ -495,12 +495,8 @@ section{position:relative;z-index:1}
       <span class="hero__gnj">GNJ</span>
       <span class="hero__media">MÉDIA</span>
       <span class="hero-props" aria-hidden="true">
-        <span class="hero-prop hero-prop--cam">
-          <model-viewer src="assets/3d/camera.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="0deg 0deg 135%" field-of-view="30deg" loading="eager"></model-viewer>
-        </span>
-        <span class="hero-prop hero-prop--phone">
-          <model-viewer src="assets/3d/phone.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="0deg 90deg 135%" field-of-view="30deg" loading="eager"></model-viewer>
-        </span>
+        <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
+        <span class="hero-prop hero-prop--phone"><img src="assets/img/props/phone.png" alt=""></span>
       </span>
     </h1>
 
@@ -843,6 +839,5 @@ section{position:relative;z-index:1}
   }
 })();
 </script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
 </body>
 </html>
