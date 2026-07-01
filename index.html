@@ -242,8 +242,12 @@ section{position:relative;z-index:1}
 .hero-prop model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent;animation:floatY 4.2s ease-in-out infinite}
 .hero-prop--phone model-viewer{animation-duration:4.8s;animation-delay:.5s}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.props-out .hero-prop--cam{transform:translate(calc(-50% - 13vw),calc(-50% - 3vw)) rotate(-5deg) scale(1);opacity:1}
-.props-out .hero-prop--phone{transform:translate(calc(-50% + 13vw),calc(-50% - 1vw)) rotate(4deg) scale(1);opacity:1}
+.props-out .hero-prop--cam{opacity:1;transform:translate(calc(-50% - 34vw),calc(-50% - 2vw)) rotate(-6deg) scale(1)}
+.props-out .hero-prop--phone{opacity:1;transform:translate(calc(-50% + 34vw),calc(-50% - 2vw)) rotate(5deg) scale(1)}
+@media (max-width:600px){
+  .props-out .hero-prop--cam{transform:translate(calc(-50% - 38vw),calc(-50% - 2vw)) rotate(-6deg) scale(1)}
+  .props-out .hero-prop--phone{transform:translate(calc(-50% + 38vw),calc(-50% - 2vw)) rotate(5deg) scale(1)}
+}
 @media (prefers-reduced-motion:reduce){
   .hero-prop{transition:none}
   .hero-prop model-viewer{animation:none}
@@ -492,10 +496,10 @@ section{position:relative;z-index:1}
       <span class="hero__media">MÉDIA</span>
       <span class="hero-props" aria-hidden="true">
         <span class="hero-prop hero-prop--cam">
-          <model-viewer src="assets/3d/camera.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="-22deg 78deg 105%" loading="eager"></model-viewer>
+          <model-viewer src="assets/3d/camera.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="-22deg 78deg 135%" field-of-view="30deg" loading="eager"></model-viewer>
         </span>
         <span class="hero-prop hero-prop--phone">
-          <model-viewer src="assets/3d/phone.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="20deg 80deg 108%" loading="eager"></model-viewer>
+          <model-viewer src="assets/3d/phone.glb" disable-zoom disable-tap interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="20deg 80deg 135%" field-of-view="30deg" loading="eager"></model-viewer>
         </span>
       </span>
     </h1>
