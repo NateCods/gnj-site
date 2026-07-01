@@ -290,6 +290,14 @@ section{position:relative;z-index:1}
 .section__head{max-width:62ch;margin-bottom:clamp(3rem,6vw,5rem)}
 .section__head .eyebrow{margin-bottom:1.25rem;display:block}
 
+/* Transitions entre sections (couche 3) — divider + fade/scale + eyebrow */
+.section::after,.booking::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease) .1s;z-index:2}
+.sec-in::after{transform:scaleX(1)}
+.sec-anim{opacity:0;transform:scale(.98);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.sec-anim.sec-in{opacity:1;transform:none}
+.sec-anim .eyebrow{opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.sec-anim.sec-in .eyebrow{opacity:1;transform:none;transition-delay:.15s}
+
 /* ============================================================
    PROCESS
    ============================================================ */
@@ -490,6 +498,8 @@ section{position:relative;z-index:1}
   *{animation:none !important;transition:none !important}
   .reveal{opacity:1;transform:none}
   .reveal-wipe{clip-path:none}
+  .sec-anim{opacity:1;transform:none}
+  .sec-anim .eyebrow{opacity:1;transform:none}
 }
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
@@ -954,6 +964,18 @@ section{position:relative;z-index:1}
       });
     }, {threshold:0.6});
     document.querySelectorAll(".result__num[data-count]").forEach(function(el){ cio.observe(el); });
+  }
+
+  /* --- Couche 3 : transitions d'entrée de section (divider scaleX + fade/scale + eyebrow) --- */
+  if (!reduce && "IntersectionObserver" in window){
+    var secs = document.querySelectorAll(".section, .booking");
+    secs.forEach(function(s){ s.classList.add("sec-anim"); });
+    var sio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add("sec-in"); sio.unobserve(e.target); }
+      });
+    }, {threshold:0.12});
+    secs.forEach(function(s){ sio.observe(s); });
   }
 
 })();
