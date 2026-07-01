@@ -76,19 +76,22 @@ body::before{
 /* ============================================================
    INTRO D'OUVERTURE
    ============================================================ */
-.intro{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:introLift .6s var(--ease) 1.2s forwards}
-.intro__grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:var(--grid) var(--grid);mask-image:radial-gradient(ellipse 85% 70% at 50% 50%,#000 30%,transparent 100%);opacity:0;animation:introGrid .8s var(--ease) .1s forwards}
-.intro__word{position:relative;text-align:center;transform:scale(.94);opacity:0;animation:introWord .8s var(--ease) .1s forwards}
-.intro__gnj{display:flex;justify-content:center;font-family:var(--display);font-weight:700;font-size:clamp(4rem,18vw,12rem);line-height:.8;letter-spacing:-.04em}
-.intro__gnj span{display:inline-block;transform:translateY(1.1em);opacity:0;animation:introLetter .7s var(--ease) forwards}
-.intro__gnj span:nth-child(1){animation-delay:.2s}
-.intro__gnj span:nth-child(2){animation-delay:.32s}
-.intro__gnj span:nth-child(3){animation-delay:.44s}
-.intro__media{display:block;margin-top:.55em;font-family:var(--mono);font-weight:500;font-size:clamp(.7rem,3vw,1.4rem);letter-spacing:.6em;padding-left:.6em;text-transform:uppercase;color:var(--muted);opacity:0;animation:introMedia .6s var(--ease) .55s forwards}
+.intro{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:introLift .7s cubic-bezier(.76,0,.24,1) 1.45s forwards}
+.intro__grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:var(--grid) var(--grid);mask-image:radial-gradient(ellipse 85% 70% at 50% 50%,#000 30%,transparent 100%);opacity:0;animation:introGrid .8s var(--ease) .05s forwards}
+.intro__stage{position:relative;text-align:center}
+.intro__eq{width:clamp(64px,9vw,104px);height:auto;color:#fff;fill:currentColor;margin:0 auto 1.5rem;display:block;filter:drop-shadow(0 0 18px rgba(255,255,255,.25))}
+.intro__eq .eqbar{transform-origin:50% 38px;transform:scaleY(.15);animation:eqbar .7s var(--ease) forwards}
+.intro__eq .eqbar:nth-child(1){--h:.34;animation-delay:.06s}
+.intro__eq .eqbar:nth-child(2){--h:.67;animation-delay:.13s}
+.intro__eq .eqbar:nth-child(3){--h:1;animation-delay:0s}
+.intro__eq .eqbar:nth-child(4){--h:.56;animation-delay:.13s}
+.intro__eq .eqbar:nth-child(5){--h:.22;animation-delay:.06s}
+.intro__line{display:block;overflow:hidden}
+.intro__gnj{display:block;font-family:var(--display);font-weight:700;font-size:clamp(3rem,13vw,9rem);line-height:.92;letter-spacing:-.04em;transform:translateY(110%);animation:introRise .8s cubic-bezier(.76,0,.24,1) .5s forwards}
+.intro__media{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(.7rem,3vw,1.3rem);letter-spacing:.55em;padding-left:.55em;text-transform:uppercase;color:var(--muted);transform:translateY(110%);animation:introRise .8s cubic-bezier(.76,0,.24,1) .64s forwards}
 @keyframes introGrid{to{opacity:1}}
-@keyframes introWord{to{transform:scale(1);opacity:1}}
-@keyframes introLetter{to{transform:translateY(0);opacity:1}}
-@keyframes introMedia{to{opacity:1}}
+@keyframes eqbar{0%{transform:scaleY(.15)}35%{transform:scaleY(1)}55%{transform:scaleY(.35)}78%{transform:scaleY(.92)}100%{transform:scaleY(var(--h))}}
+@keyframes introRise{to{transform:translateY(0)}}
 @keyframes introLift{to{transform:translateY(-105%)}}
 @media (prefers-reduced-motion:reduce){.intro{display:none}}
 
@@ -487,9 +490,18 @@ section{position:relative;z-index:1}
 <body>
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro__grid"></div>
-  <div class="intro__word">
-    <span class="intro__gnj"><span>G</span><span>N</span><span>J</span></span>
-    <span class="intro__media">MÉDIA</span>
+  <div class="intro__stage">
+    <svg class="intro__eq" viewBox="0 0 41 40" aria-hidden="true">
+      <rect class="eqbar" x="2"  y="2" width="5" height="36" rx="1.5"/>
+      <rect class="eqbar" x="10" y="2" width="5" height="36" rx="1.5"/>
+      <rect class="eqbar" x="18" y="2" width="5" height="36" rx="1.5"/>
+      <rect class="eqbar" x="26" y="2" width="5" height="36" rx="1.5"/>
+      <rect class="eqbar" x="34" y="2" width="5" height="36" rx="1.5"/>
+    </svg>
+    <div class="intro__word">
+      <span class="intro__line"><span class="intro__gnj">GNJ</span></span>
+      <span class="intro__line"><span class="intro__media">MÉDIA</span></span>
+    </div>
   </div>
 </div>
 
@@ -795,11 +807,23 @@ section{position:relative;z-index:1}
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* --- Intro d'ouverture : retire l'overlay après le lift (ou direct si reduced-motion) --- */
+  /* --- Intro d'ouverture : bloque le scroll, révèle les props à la fin (skip si reduced-motion) --- */
   var intro = document.getElementById("intro");
+  function endIntro(){
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    if (intro){ intro.remove(); }
+    var hp = document.querySelector(".hero-props");
+    if (hp && !reduce) hp.classList.add("props-out");
+  }
   if (intro){
-    if (reduce){ intro.remove(); }
-    else { intro.addEventListener("animationend", function(e){ if (e.animationName === "introLift") intro.remove(); }); }
+    if (reduce){ endIntro(); }
+    else {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      intro.addEventListener("animationend", function(e){ if (e.animationName === "introLift") endIntro(); });
+      setTimeout(endIntro, 2600); // filet de sécurité si l'anim ne se termine pas
+    }
   }
 
   /* --- Année footer --- */
@@ -867,7 +891,6 @@ section{position:relative;z-index:1}
       var syncProps = function(){
         heroProps.classList.toggle("props-out", window.scrollY < window.innerHeight * 0.45);
       };
-      syncProps();
       window.addEventListener("scroll", syncProps, {passive:true});
     }
   }
