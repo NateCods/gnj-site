@@ -148,6 +148,13 @@ section{position:relative;z-index:1}
 /* Reveal au scroll */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .reveal.in{opacity:1;transform:none}
+/* Reveals directionnels (couche 2) */
+.reveal-wipe{clip-path:inset(0 100% 0 0);transition:clip-path 1s var(--ease)}
+.reveal-wipe.in{clip-path:inset(0 0 0 0)}
+.cards .card.reveal:nth-child(2){transition-delay:.1s}
+.cards .card.reveal:nth-child(3){transition-delay:.2s}
+.team__grid .member.reveal:nth-child(2){transition-delay:.1s}
+.team__grid .member.reveal:nth-child(3){transition-delay:.2s}
 
 /* Logomark */
 .logo{width:26px;height:26px;color:#fff;flex:none}
@@ -482,6 +489,7 @@ section{position:relative;z-index:1}
   html{scroll-behavior:auto}
   *{animation:none !important;transition:none !important}
   .reveal{opacity:1;transform:none}
+  .reveal-wipe{clip-path:none}
 }
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
@@ -599,7 +607,7 @@ section{position:relative;z-index:1}
   <div class="wrap">
     <div class="section__head process__head reveal">
       <span class="eyebrow eyebrow--meta">Process</span>
-      <h2>Comment on marche</h2>
+      <h2 class="reveal-wipe">Comment on marche</h2>
     </div>
     <div class="process__grid">
       <div class="process__col reveal">
@@ -661,15 +669,15 @@ section{position:relative;z-index:1}
     </div>
 
     <div class="result reveal">
-      <div class="result__num">30M+</div>
+      <div class="result__num" data-count="30" data-suffix="M+">30M+</div>
       <div class="result__lbl">Vues cumulées<br>toutes campagnes · tous clients</div>
     </div>
     <div class="result reveal">
-      <div class="result__num">2500+</div>
+      <div class="result__num" data-count="2500" data-suffix="+">2500+</div>
       <div class="result__lbl">Leads générés<br>organique + paid</div>
     </div>
     <div class="result reveal">
-      <div class="result__num">0,95&nbsp;$</div>
+      <div class="result__num" data-count="0.95" data-dec="2" data-suffix="&nbsp;$">0,95&nbsp;$</div>
       <div class="result__lbl">Coût par lead record<br>ShineUp · paid</div>
     </div>
   </div>
@@ -730,7 +738,7 @@ section{position:relative;z-index:1}
   <div class="wrap">
     <div class="section__head reveal">
       <span class="eyebrow">L'équipe</span>
-      <h2>Notre équipe</h2>
+      <h2 class="reveal-wipe">Notre équipe</h2>
     </div>
 
     <div class="team__grid">
@@ -763,7 +771,7 @@ section{position:relative;z-index:1}
   <div class="wrap">
     <div class="booking__grid">
       <div class="reveal">
-        <h2>À votre<br>tour.</h2>
+        <h2 class="reveal-wipe">À votre<br>tour.</h2>
         <div class="booking__cta">
           <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Réserver un appel →</a>
         </div>
@@ -867,7 +875,7 @@ section{position:relative;z-index:1}
   });
 
   /* --- Reveal au scroll --- */
-  var reveals = document.querySelectorAll(".reveal");
+  var reveals = document.querySelectorAll(".reveal, .reveal-wipe");
   if (reduce || !("IntersectionObserver" in window)){
     reveals.forEach(function(el){ el.classList.add("in"); });
   } else {
@@ -905,6 +913,49 @@ section{position:relative;z-index:1}
     }, {threshold:0.6});
     document.querySelectorAll(".result__num").forEach(function(el){ gio.observe(el); });
   }
+
+  /* --- Couche 2 : parallax hero (throttlé rAF, off <768px, off reduced-motion) --- */
+  if (!reduce && window.innerWidth >= 768){
+    var pxGhost = document.querySelector(".hero .ghost");
+    var pxProps = document.querySelector(".hero-props");
+    var pxTick = false;
+    var applyParallax = function(){
+      var y = window.scrollY;
+      if (pxGhost) pxGhost.style.transform = "translate(-50%,-50%) translateY(" + (y * 0.15) + "px)";
+      if (pxProps) pxProps.style.transform = "translateY(" + (y * 0.08) + "px)";
+      pxTick = false;
+    };
+    window.addEventListener("scroll", function(){
+      if (!pxTick){ requestAnimationFrame(applyParallax); pxTick = true; }
+    }, {passive:true});
+  }
+
+  /* --- Couche 2 : count-up des gros chiffres résultats (entrée viewport) --- */
+  function countUp(el){
+    var target = parseFloat(el.getAttribute("data-count"));
+    var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
+    var suffix = el.getAttribute("data-suffix") || "";
+    var dur = 1200, start = null;
+    var fmt = function(v){ return dec ? v.toFixed(dec).replace(".", ",") : Math.round(v).toString(); };
+    var step = function(ts){
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = fmt(target) + suffix;
+    };
+    requestAnimationFrame(step);
+  }
+  if (!reduce && "IntersectionObserver" in window){
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ countUp(e.target); cio.unobserve(e.target); }
+      });
+    }, {threshold:0.6});
+    document.querySelectorAll(".result__num[data-count]").forEach(function(el){ cio.observe(el); });
+  }
+
 })();
 </script>
 </body>
