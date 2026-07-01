@@ -74,6 +74,25 @@ body::before{
 }
 
 /* ============================================================
+   INTRO D'OUVERTURE
+   ============================================================ */
+.intro{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:introLift .6s var(--ease) 1.2s forwards}
+.intro__grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:var(--grid) var(--grid);mask-image:radial-gradient(ellipse 85% 70% at 50% 50%,#000 30%,transparent 100%);opacity:0;animation:introGrid .8s var(--ease) .1s forwards}
+.intro__word{position:relative;text-align:center;transform:scale(.94);opacity:0;animation:introWord .8s var(--ease) .1s forwards}
+.intro__gnj{display:flex;justify-content:center;font-family:var(--display);font-weight:700;font-size:clamp(4rem,18vw,12rem);line-height:.8;letter-spacing:-.04em}
+.intro__gnj span{display:inline-block;transform:translateY(1.1em);opacity:0;animation:introLetter .7s var(--ease) forwards}
+.intro__gnj span:nth-child(1){animation-delay:.2s}
+.intro__gnj span:nth-child(2){animation-delay:.32s}
+.intro__gnj span:nth-child(3){animation-delay:.44s}
+.intro__media{display:block;margin-top:.55em;font-family:var(--mono);font-weight:500;font-size:clamp(.7rem,3vw,1.4rem);letter-spacing:.6em;padding-left:.6em;text-transform:uppercase;color:var(--muted);opacity:0;animation:introMedia .6s var(--ease) .55s forwards}
+@keyframes introGrid{to{opacity:1}}
+@keyframes introWord{to{transform:scale(1);opacity:1}}
+@keyframes introLetter{to{transform:translateY(0);opacity:1}}
+@keyframes introMedia{to{opacity:1}}
+@keyframes introLift{to{transform:translateY(-105%)}}
+@media (prefers-reduced-motion:reduce){.intro{display:none}}
+
+/* ============================================================
    PRIMITIVES
    ============================================================ */
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);position:relative;z-index:1}
@@ -111,10 +130,10 @@ section{position:relative;z-index:1}
 .btn{
   display:inline-flex;align-items:center;gap:.55em;
   font-family:var(--mono);
-  font-size:.78rem;
+  font-size:.94rem;
   letter-spacing:.12em;
   text-transform:uppercase;
-  padding:.85em 1.6em;
+  padding:1.02em 1.92em;
   border-radius:999px;
   transition:transform .25s var(--ease),background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
 }
@@ -279,6 +298,8 @@ section{position:relative;z-index:1}
 .process__col--right{text-align:right}
 .process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .process__phones .phone{aspect-ratio:9/18.5}
+.process__head h2{font-family:var(--display);font-weight:600;font-size:clamp(2.4rem,6vw,4.5rem);line-height:1;letter-spacing:-.03em;margin-top:1rem}
+.process__cta{display:flex;justify-content:center;margin-top:clamp(3rem,6vw,5rem)}
 
 /* Feed scrollable média-mixte dans le mockup */
 .feed{
@@ -314,16 +335,19 @@ section{position:relative;z-index:1}
   align-items:baseline;
   padding:clamp(2rem,4vw,3rem) 0;
   border-top:1px solid var(--line);
+  position:relative;
 }
+.result::after{content:"";position:absolute;left:0;top:-1px;height:2px;width:100%;background:#1877F2;box-shadow:0 0 12px rgba(24,119,242,.7);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.result:hover::after{transform:scaleX(1)}
 .result:last-child{border-bottom:1px solid var(--line)}
 .result__num{
   font-family:var(--display);font-weight:600;
   font-size:clamp(3.5rem,11vw,9rem);line-height:.9;letter-spacing:-.03em;
   transition:text-shadow .55s var(--ease);
 }
-.result__num:hover,
+.result:hover .result__num,
 .result__num.is-glow{
-  text-shadow:0 0 22px rgba(24,119,242,.45);
+  text-shadow:0 0 30px rgba(24,119,242,.6);
 }
 .result__lbl{
   font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;
@@ -447,7 +471,7 @@ section{position:relative;z-index:1}
   .cards{grid-template-columns:1fr}
   .team__grid{grid-template-columns:1fr;max-width:360px}
   .nav__in{padding:14px var(--pad)}
-  .btn{font-size:.72rem;padding:.8em 1.3em}
+  .btn{font-size:.86rem;padding:.96em 1.56em}
   body{font-size:16px}
 }
 
@@ -461,6 +485,13 @@ section{position:relative;z-index:1}
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__grid"></div>
+  <div class="intro__word">
+    <span class="intro__gnj"><span>G</span><span>N</span><span>J</span></span>
+    <span class="intro__media">MÉDIA</span>
+  </div>
+</div>
 
 <!-- Logomark réutilisable : 5 barres d'égaliseur -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -554,6 +585,10 @@ section{position:relative;z-index:1}
   <span class="vlabel vlabel--right">Du short-form qui génère des leads</span>
 
   <div class="wrap">
+    <div class="section__head process__head reveal">
+      <span class="eyebrow eyebrow--meta">Process</span>
+      <h2>Comment on marche</h2>
+    </div>
     <div class="process__grid">
       <div class="process__col reveal">
         <span class="eyebrow eyebrow--meta">01 · Contenu organique</span>
@@ -599,6 +634,10 @@ section{position:relative;z-index:1}
         </div>
       </div>
     </div>
+
+    <div class="process__cta reveal">
+      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+    </div>
   </div>
 </section>
 
@@ -628,7 +667,6 @@ section{position:relative;z-index:1}
 <section class="section" aria-label="Avis clients">
   <div class="wrap">
     <div class="avis__top reveal">
-      <span class="eyebrow eyebrow--meta">Ils nous ont noté</span>
       <a class="avis__rating" href="https://share.google/SYOcRHtg5JeV8JL8f" target="_blank" rel="noopener">
         <div class="stars" aria-hidden="true">★★★★★</div>
         <div class="avis__score">5/5</div>
@@ -756,6 +794,13 @@ section{position:relative;z-index:1}
 (function(){
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- Intro d'ouverture : retire l'overlay après le lift (ou direct si reduced-motion) --- */
+  var intro = document.getElementById("intro");
+  if (intro){
+    if (reduce){ intro.remove(); }
+    else { intro.addEventListener("animationend", function(e){ if (e.animationName === "introLift") intro.remove(); }); }
+  }
 
   /* --- Année footer --- */
   var y = document.getElementById("year");
