@@ -413,7 +413,7 @@ section{position:relative;z-index:1}
 .book-screen .bk-day{font-family:var(--display);font-weight:600;font-size:1.5rem}
 .book-screen .bk-time{font-family:var(--display);font-weight:600;font-size:2.6rem;color:var(--meta);line-height:1.1;margin-bottom:.8rem}
 .book-screen .bk-row{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.02em;line-height:1.9}
-.book-screen .bk-confirm{margin-top:1.2rem;background:#fff;color:var(--ink);text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.9em;border-radius:10px;font-weight:500}
+.book-screen .bk-confirm{display:block;text-decoration:none;margin-top:1.2rem;background:#fff;color:var(--ink);text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.9em;border-radius:10px;font-weight:500}
 .book-screen .bk-hint{font-size:.74rem;color:var(--faint);text-align:center;margin-top:.9rem;line-height:1.4}
 
 /* ============================================================
@@ -455,6 +455,8 @@ section{position:relative;z-index:1}
   .reveal{opacity:1;transform:none}
 }
 </style>
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
 <body>
 
@@ -478,7 +480,7 @@ section{position:relative;z-index:1}
       <svg class="logo"><use href="#logomark"/></svg>
       <span>GNJ MÉDIA</span>
     </a>
-    <a class="btn btn--outline" href="#rdv">Prendre rendez-vous</a>
+    <a class="btn btn--outline" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous</a>
   </div>
 </header>
 
@@ -539,7 +541,7 @@ section{position:relative;z-index:1}
     </div>
 
     <div class="hero__cta">
-      <a class="btn btn--solid" href="#rdv">Prendre rendez-vous →</a>
+      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
     </div>
   </div>
 </section>
@@ -711,7 +713,7 @@ section{position:relative;z-index:1}
       <div class="reveal">
         <h2>À votre<br>tour.</h2>
         <div class="booking__cta">
-          <a class="btn btn--solid" href="#rdv">Réserver un appel →</a>
+          <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Réserver un appel →</a>
         </div>
       </div>
 
@@ -720,13 +722,9 @@ section{position:relative;z-index:1}
           <span class="phone__notch"></span>
           <div class="book-screen">
             <div class="bk-head">GNJ MÉDIA · Appel découverte</div>
-            <div class="bk-day">Mardi 30 juin</div>
-            <div class="bk-time">09:30</div>
-            <div class="bk-row">└ 30:00 minutes</div>
-            <div class="bk-row">└ visio · Google Meet</div>
-            <div class="bk-row">└ 0&nbsp;$ · sans engagement</div>
-            <div class="bk-confirm">Confirmer le rendez-vous →</div>
-            <div class="bk-hint">Sélectionne une date pour voir les créneaux</div>
+            <div class="bk-time">Prochaine disponibilité</div>
+            <div class="bk-row">30 min · visio Google Meet · 0&nbsp;$ sans engagement</div>
+            <a class="bk-confirm" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Voir les créneaux →</a>
           </div>
         </div>
       </div>
@@ -744,7 +742,7 @@ section{position:relative;z-index:1}
       <span>GNJ MÉDIA</span>
     </a>
     <nav class="footer__links" aria-label="Pied de page">
-      <a href="#rdv">Prendre rendez-vous</a>
+      <a href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous</a>
       <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
       <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
     </nav>
