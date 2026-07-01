@@ -324,17 +324,20 @@ section{position:relative;z-index:1}
    ============================================================ */
 .trust{padding:clamp(2.5rem,5vw,3.8rem) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;position:relative;z-index:1}
 .trust__label{text-align:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint);margin-bottom:clamp(1.4rem,3vw,2.1rem)}
-.trust__viewport{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.trust__track{display:flex;align-items:center;width:max-content;animation:trustScroll 40s linear infinite}
+.trust__viewport{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.trust__track{display:flex;align-items:center;width:max-content;animation:trustScroll 45s linear infinite}
 .trust:hover .trust__track{animation-play-state:paused}
-.trust__logo{height:34px;width:auto;flex:none;margin-right:clamp(2.5rem,5vw,4.5rem);filter:brightness(0) invert(1);opacity:.55;transition:opacity .3s var(--ease)}
-.trust__logo:hover{opacity:1}
 @keyframes trustScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.preuve__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(1.4rem,3vw,2.5rem);align-items:center;margin-top:clamp(2rem,4vw,3.5rem)}
-.preuve__cell{display:flex;align-items:center;justify-content:center;padding:.8rem 1rem}
-.preuve__logo{height:42px;width:auto;max-width:100%;filter:brightness(0) invert(1);opacity:.6;transition:opacity .3s var(--ease)}
-.preuve__logo:hover{opacity:1}
-@media(max-width:600px){.preuve__grid{grid-template-columns:repeat(3,1fr)}}
+/* Tuiles logos : fond blanc, couleurs d'origine conservées (aucun filtre invert/brightness) */
+.logo-tile{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:18px;box-shadow:0 8px 30px -12px rgba(0,0,0,.5);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.logo-tile img{max-height:46px;width:auto;max-width:100%;object-fit:contain;display:block}
+.logo-tile:hover{transform:translateY(-4px);box-shadow:0 18px 44px -14px rgba(0,0,0,.65)}
+.trust__tile{flex:none;width:158px;height:82px;margin-right:clamp(1rem,2.2vw,1.7rem)}
+.preuve__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(1rem,2vw,1.6rem);margin-top:clamp(2rem,4vw,3.5rem)}
+.preuve__tile{width:100%;min-height:104px}
+@media(max-width:900px){.preuve__grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.preuve__grid{grid-template-columns:repeat(2,1fr)}}
+@media (prefers-reduced-motion:reduce){.trust__track{animation:none;flex-wrap:wrap;justify-content:center;gap:clamp(1rem,2vw,1.6rem);width:100%}.trust__tile{margin-right:0}}
 
 /* Feed scrollable média-mixte dans le mockup */
 .feed{
@@ -1016,25 +1019,25 @@ section{position:relative;z-index:1}
   }
 
 
-  /* --- Logos clients : trust bar (marquee, dupliquée) + grille preuve, depuis un array --- */
+  /* --- Logos clients : tuiles blanches (couleurs d'origine) — marquee + grille, depuis un seul array --- */
   var CLIENT_LOGOS = [];
   for (var li = 1; li <= 15; li++){ CLIENT_LOGOS.push("assets/img/logos/logo" + li + ".png"); }
-  var mkLogo = function(src, cls){
+  var mkTile = function(src, cls){
+    var tile = document.createElement("div"); tile.className = "logo-tile " + cls;
     var im = document.createElement("img");
-    im.src = src; im.alt = ""; im.loading = "lazy"; im.className = cls;
-    return im;
+    im.src = src; im.alt = ""; im.loading = "lazy";
+    tile.appendChild(im);
+    return tile;
   };
   var trustTrack = document.getElementById("trustTrack");
   if (trustTrack){
-    CLIENT_LOGOS.concat(CLIENT_LOGOS).forEach(function(src){ trustTrack.appendChild(mkLogo(src, "trust__logo")); });
+    // marquee : séquence dupliquée pour un défilement infini seamless (copie unique si reduced-motion)
+    var seq = reduce ? CLIENT_LOGOS : CLIENT_LOGOS.concat(CLIENT_LOGOS);
+    seq.forEach(function(src){ trustTrack.appendChild(mkTile(src, "trust__tile")); });
   }
   var preuveGrid = document.getElementById("preuveGrid");
   if (preuveGrid){
-    CLIENT_LOGOS.forEach(function(src){
-      var cell = document.createElement("div"); cell.className = "preuve__cell";
-      cell.appendChild(mkLogo(src, "preuve__logo"));
-      preuveGrid.appendChild(cell);
-    });
+    CLIENT_LOGOS.forEach(function(src){ preuveGrid.appendChild(mkTile(src, "preuve__tile")); });
   }
 
 })();
