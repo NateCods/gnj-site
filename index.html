@@ -227,6 +227,21 @@ section{position:relative;z-index:1}
 
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
 
+/* Hero — props 3D flottantes (model-viewer) */
+.hero-props{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-prop{position:absolute;opacity:1;transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .7s ease;will-change:transform,opacity}
+.hero-prop--cam{width:clamp(150px,20vw,320px);aspect-ratio:1/0.82;left:3%;top:14%}
+.hero-prop--phone{width:clamp(95px,12vw,190px);aspect-ratio:1/1.7;right:4%;top:22%}
+.hero-prop model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent}
+.props-out .hero-prop--cam{transform:translate(-46vw,-24%) rotate(-10deg);opacity:0}
+.props-out .hero-prop--phone{transform:translate(46vw,24%) rotate(10deg);opacity:0}
+@media (max-width:720px){
+  .hero-prop--cam{left:-3%;top:6%}
+  .hero-prop--phone{right:-2%;top:12%}
+  .props-out .hero-prop--cam{transform:translateY(-46vh) rotate(-8deg);opacity:0}
+  .props-out .hero-prop--phone{transform:translateY(46vh) rotate(8deg);opacity:0}
+}
+
 /* ============================================================
    SECTION GÉNÉRIQUE
    ============================================================ */
@@ -464,8 +479,17 @@ section{position:relative;z-index:1}
   <span class="vlabel vlabel--left">Réalisations</span>
   <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
 
+  <div class="hero-props" aria-hidden="true">
+    <div class="hero-prop hero-prop--cam">
+      <model-viewer src="assets/3d/camera.glb" auto-rotate auto-rotate-delay="0" rotation-per-second="22deg" disable-zoom interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="0deg 80deg 105%" loading="eager"></model-viewer>
+    </div>
+    <div class="hero-prop hero-prop--phone">
+      <model-viewer src="assets/3d/phone.glb" auto-rotate auto-rotate-delay="0" rotation-per-second="22deg" disable-zoom interaction-prompt="none" shadow-intensity="0.9" exposure="1.1" environment-image="neutral" camera-orbit="0deg 85deg 110%" loading="eager"></model-viewer>
+    </div>
+  </div>
+
   <div class="wrap">
-    <h1 class="hero__word">
+    <h1 class="hero__word" id="heroWord">
       <span class="hero__gnj">GNJ</span>
       <span class="hero__media">MÉDIA</span>
     </h1>
@@ -783,6 +807,18 @@ section{position:relative;z-index:1}
     reveals.forEach(function(el){ io.observe(el); });
   }
 
+  /* --- Hero : props 3D s'envolent quand le titre quitte l'écran --- */
+  var heroWord = document.getElementById("heroWord");
+  var heroProps = document.querySelector(".hero-props");
+  if (heroWord && heroProps && !reduce && "IntersectionObserver" in window){
+    var pio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        heroProps.classList.toggle("props-out", !e.isIntersecting);
+      });
+    }, {threshold:0, rootMargin:"-20% 0px 0px 0px"});
+    pio.observe(heroWord);
+  }
+
   /* --- Résultats : glow quand le chiffre entre dans le viewport (appareils sans hover) --- */
   var canHover = window.matchMedia("(hover: hover)").matches;
   if (!reduce && !canHover && "IntersectionObserver" in window){
@@ -795,5 +831,6 @@ section{position:relative;z-index:1}
   }
 })();
 </script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
 </body>
 </html>
