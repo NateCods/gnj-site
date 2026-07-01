@@ -201,9 +201,9 @@ section{position:relative;z-index:1}
 }
 .reel{display:flex;flex-direction:column;gap:1.25rem}
 .reel__cap{display:flex;flex-direction:column;gap:.35rem;text-align:center}
-.reel__num{font-family:var(--display);font-weight:600;font-size:clamp(2.7rem,5.4vw,4.05rem);line-height:1;letter-spacing:-.02em}
-.reel__sub{color:var(--muted);font-size:1.14rem}
-.reel__client{font-family:var(--mono);font-size:.79rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
+.reel__num{font-family:var(--display);font-weight:600;font-size:clamp(3.5rem,7vw,5.25rem);line-height:1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+.reel__sub{color:var(--muted);font-size:1.31rem}
+.reel__client{font-family:var(--mono);font-size:.91rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
 
 /* iPhone mockup */
 .phone{
@@ -228,6 +228,7 @@ section{position:relative;z-index:1}
 }
 
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
+.hero__cta .btn--solid{box-shadow:0 0 26px rgba(255,255,255,.35)}
 
 /* Hero — props derrière le wordmark (images PNG) */
 .hero-props{position:absolute;inset:0;z-index:1;pointer-events:none}
@@ -283,14 +284,13 @@ section{position:relative;z-index:1}
 .feed{
   position:relative;height:100%;width:100%;
   border-radius:clamp(1.05rem,2.4vw,1.65rem);
-  overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
   scrollbar-width:none;background:#0c0c0e;
 }
 .feed::-webkit-scrollbar{display:none}
 .feed .slide{
   width:100%;height:100%;object-fit:cover;display:block;
   border-radius:0;background:#0c0c0e;
-  scroll-snap-align:start;scroll-snap-stop:always;
 }
 .feed-tag{
   position:absolute;top:14px;left:14px;z-index:4;
@@ -323,7 +323,7 @@ section{position:relative;z-index:1}
 }
 .result__num:hover,
 .result__num.is-glow{
-  text-shadow:0 0 14px rgba(255,255,255,.45),0 0 36px rgba(24,119,242,.7),0 0 72px rgba(24,119,242,.45);
+  text-shadow:0 0 22px rgba(24,119,242,.45);
 }
 .result__lbl{
   font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;
@@ -337,8 +337,8 @@ section{position:relative;z-index:1}
 .avis__top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;margin-bottom:clamp(3.5rem,7vw,5.5rem)}
 .avis__rating{display:flex;flex-direction:column;align-items:center;gap:1.1rem;color:inherit;cursor:pointer;transition:opacity .25s var(--ease)}
 .avis__rating:hover{opacity:.82}
-.stars{font-size:1.8rem;letter-spacing:.18em;color:var(--gold)}
-.avis__score{font-family:var(--display);font-weight:700;font-size:clamp(4rem,14vw,9rem);line-height:.85;letter-spacing:-.03em;color:var(--gold)}
+.stars{font-size:2.25rem;letter-spacing:.18em;color:#FFC300;filter:drop-shadow(0 0 14px rgba(255,195,0,.55))}
+.avis__score{font-family:var(--display);font-weight:700;font-size:clamp(5rem,16vw,11rem);line-height:.85;letter-spacing:-.03em;color:#FFC300;filter:drop-shadow(0 0 14px rgba(255,195,0,.55))}
 .avis__src{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .cards{
   display:grid;grid-template-columns:repeat(3,1fr);
@@ -385,6 +385,8 @@ section{position:relative;z-index:1}
 .team .eyebrow{color:rgba(10,10,11,.45)}
 .team h2{font-family:var(--display);font-weight:600;font-size:clamp(2.8rem,8vw,6rem);line-height:.95;letter-spacing:-.03em;margin-top:1rem}
 .team__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,2.5rem);margin-top:clamp(3rem,6vw,5rem)}
+.team__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
+.team__cta .btn--solid{box-shadow:0 12px 34px -14px rgba(0,0,0,.28)}
 .member__photo{aspect-ratio:4/5;background:#d9d8d2 linear-gradient(135deg,#dedcd5,#cfcdc5);border-radius:14px;position:relative;overflow:hidden}
 .member__photo::after{
   content:"";position:absolute;inset:0;
@@ -564,16 +566,12 @@ section{position:relative;z-index:1}
           <span class="feed-tag">Étape 01</span>
           <div class="feed">
             <video class="slide" src="assets/video/process/reel1.mp4" autoplay muted loop playsinline preload="auto"></video>
-            <video class="slide" src="assets/video/process/reel2.mp4" autoplay muted loop playsinline preload="auto"></video>
-            <img class="slide" src="assets/img/process/reel3.jpg" alt="" loading="lazy">
           </div>
         </div>
         <div class="phone">
           <span class="phone__notch"></span>
           <span class="feed-tag">Étape 02</span>
           <div class="feed">
-            <img class="slide" src="assets/img/process/reel4.jpg" alt="" loading="lazy">
-            <video class="slide" src="assets/video/process/reel5.mp4" autoplay muted loop playsinline preload="auto"></video>
             <video class="slide" src="assets/video/process/reel6.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
         </div>
@@ -701,6 +699,10 @@ section{position:relative;z-index:1}
         <h3 class="member__name">Jérémie</h3>
         <p class="member__role">Monteur vidéo</p>
       </article>
+    </div>
+
+    <div class="team__cta reveal">
+      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Contactez l'équipe</a>
     </div>
   </div>
 </section>
