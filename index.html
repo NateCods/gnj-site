@@ -328,16 +328,15 @@ section{position:relative;z-index:1}
 .trust__track{display:flex;align-items:center;width:max-content;animation:trustScroll 45s linear infinite}
 .trust:hover .trust__track{animation-play-state:paused}
 @keyframes trustScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* Tuiles logos : fond blanc, couleurs d'origine conservées (aucun filtre invert/brightness) */
-.logo-tile{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:18px;box-shadow:0 8px 30px -12px rgba(0,0,0,.5);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
-.logo-tile img{max-height:46px;width:auto;max-width:100%;object-fit:contain;display:block}
-.logo-tile:hover{transform:translateY(-4px);box-shadow:0 18px 44px -14px rgba(0,0,0,.65)}
-.trust__tile{flex:none;width:158px;height:82px;margin-right:clamp(1rem,2.2vw,1.7rem)}
-.preuve__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(1rem,2vw,1.6rem);margin-top:clamp(2rem,4vw,3.5rem)}
-.preuve__tile{width:100%;min-height:104px}
+/* Logos clients : couleur d'origine + glow blanc (aucun filtre invert/brightness) */
+.client-logo{filter:drop-shadow(0 0 10px rgba(255,255,255,.45)) drop-shadow(0 0 26px rgba(255,255,255,.22));transition:filter .3s var(--ease),transform .3s var(--ease)}
+.client-logo:hover{filter:drop-shadow(0 0 14px rgba(255,255,255,.7)) drop-shadow(0 0 34px rgba(255,255,255,.42));transform:translateY(-3px)}
+.trust__logo{height:40px;width:auto;flex:none;object-fit:contain;margin-right:clamp(2.5rem,5vw,4.5rem)}
+.preuve__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(1.8rem,4vw,3rem);align-items:center;margin-top:clamp(2rem,4vw,3.5rem)}
+.preuve__logo{height:44px;width:auto;max-width:100%;object-fit:contain;justify-self:center}
 @media(max-width:900px){.preuve__grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:560px){.preuve__grid{grid-template-columns:repeat(2,1fr)}}
-@media (prefers-reduced-motion:reduce){.trust__track{animation:none;flex-wrap:wrap;justify-content:center;gap:clamp(1rem,2vw,1.6rem);width:100%}.trust__tile{margin-right:0}}
+@media (prefers-reduced-motion:reduce){.trust__track{animation:none;flex-wrap:wrap;justify-content:center;gap:clamp(2rem,5vw,4.5rem) clamp(2.5rem,5vw,4.5rem);width:100%}.trust__logo{margin-right:0}}
 
 /* Feed scrollable média-mixte dans le mockup */
 .feed{
@@ -724,10 +723,10 @@ section{position:relative;z-index:1}
 </section>
 
 <!-- ====================== PREUVE ====================== -->
-<section class="section preuve" aria-label="Nos clients">
+<section class="section preuve" aria-label="Ils nous font confiance">
   <div class="wrap">
     <div class="section__head reveal">
-      <span class="eyebrow">Nos clients</span>
+      <span class="eyebrow">Ils nous font confiance</span>
     </div>
     <div class="preuve__grid" id="preuveGrid"></div>
   </div>
@@ -1019,25 +1018,23 @@ section{position:relative;z-index:1}
   }
 
 
-  /* --- Logos clients : tuiles blanches (couleurs d'origine) — marquee + grille, depuis un seul array --- */
+  /* --- Logos clients : couleur d'origine + glow blanc — marquee + grille, depuis un seul array --- */
   var CLIENT_LOGOS = [];
   for (var li = 1; li <= 15; li++){ CLIENT_LOGOS.push("assets/img/logos/logo" + li + ".png"); }
-  var mkTile = function(src, cls){
-    var tile = document.createElement("div"); tile.className = "logo-tile " + cls;
+  var mkLogo = function(src, cls){
     var im = document.createElement("img");
-    im.src = src; im.alt = ""; im.loading = "lazy";
-    tile.appendChild(im);
-    return tile;
+    im.src = src; im.alt = ""; im.loading = "lazy"; im.className = "client-logo " + cls;
+    return im;
   };
   var trustTrack = document.getElementById("trustTrack");
   if (trustTrack){
     // marquee : séquence dupliquée pour un défilement infini seamless (copie unique si reduced-motion)
     var seq = reduce ? CLIENT_LOGOS : CLIENT_LOGOS.concat(CLIENT_LOGOS);
-    seq.forEach(function(src){ trustTrack.appendChild(mkTile(src, "trust__tile")); });
+    seq.forEach(function(src){ trustTrack.appendChild(mkLogo(src, "trust__logo")); });
   }
   var preuveGrid = document.getElementById("preuveGrid");
   if (preuveGrid){
-    CLIENT_LOGOS.forEach(function(src){ preuveGrid.appendChild(mkTile(src, "preuve__tile")); });
+    CLIENT_LOGOS.forEach(function(src){ preuveGrid.appendChild(mkLogo(src, "preuve__logo")); });
   }
 
 })();
