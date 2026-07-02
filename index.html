@@ -63,7 +63,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 /* Blueprint grid — couche fixe derrière tout (thème sombre) */
 body::before{
   content:"";
-  position:fixed;inset:0;
+  position:fixed;inset:-16px;
   z-index:0;
   pointer-events:none;
   background-image:
@@ -71,6 +71,7 @@ body::before{
     linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
   background-size:var(--grid) var(--grid);
   mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 35%,transparent 100%);
+  transform:translate3d(var(--par-gx,0px),var(--par-gy,0px),0);
 }
 
 /* ============================================================
@@ -208,6 +209,31 @@ section{position:relative;z-index:1}
   font-family:var(--display);font-weight:700;
   font-size:clamp(6rem,32vw,26rem);
   line-height:.8;letter-spacing:-.04em;
+  /* Shine sweep périodique : base quasi-blanche + reflet diagonal clippés au texte */
+  color:transparent;
+  background-image:linear-gradient(110deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.95) 50%,rgba(255,255,255,0) 58%),linear-gradient(#ECECEF,#ECECEF);
+  background-size:240% 100%,100% 100%;
+  background-position:220% 0,0 0;
+  background-repeat:no-repeat;
+  -webkit-background-clip:text;background-clip:text;
+  animation:gnjShine 7s linear infinite;
+}
+.hero__gnj:hover{animation-play-state:paused}
+@keyframes gnjShine{0%,76%{background-position:220% 0,0 0}96%,100%{background-position:-140% 0,0 0}}
+/* GNJ rempli de vidéo au hover : dupli du mot + vidéo en darken, contexte isolé */
+.gnj-fill{
+  position:absolute;inset:0;z-index:3;
+  background:var(--bg);isolation:isolate;
+  opacity:0;transition:opacity .5s var(--ease);
+  pointer-events:none;
+}
+.gnj-fill__txt{position:absolute;inset:0;color:#fff}
+.gnj-fill__vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:darken}
+@media (hover:hover) and (pointer:fine){
+  .hero__gnj:hover .gnj-fill{opacity:1}
+}
+@media (hover:none),(pointer:coarse){
+  .gnj-fill,.hero__spot{display:none}
 }
 .hero__media{
   position:relative;z-index:2;
@@ -258,6 +284,32 @@ section{position:relative;z-index:1}
 
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
 .hero__cta .btn--solid{box-shadow:0 0 26px rgba(255,255,255,.35)}
+
+/* Spotlight curseur : halo doux qui illumine la grille localement */
+.hero__spot{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  opacity:0;transition:opacity .5s var(--ease);
+  background:radial-gradient(420px circle at var(--sx,50%) var(--sy,40%),rgba(255,255,255,.06),transparent 70%);
+}
+.hero__spot.on{opacity:1}
+
+/* Bouton magnétique : wrapper transformé en JS (lerp) */
+.magnet{display:inline-flex;will-change:transform}
+
+/* Scroll cue : trait animé + label mono, disparaît au scroll */
+.hero__cue{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.7rem;
+  z-index:2;transition:opacity .45s var(--ease);
+}
+.hero__cue.hide{opacity:0}
+.cue__line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.7),transparent);transform-origin:top;animation:cuePulse 2.4s var(--ease) infinite}
+@keyframes cuePulse{0%,100%{transform:scaleY(.25);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+.cue__txt{font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--faint);padding-left:.34em}
+
+/* MÉDIA : les lettres s'écartent à l'arrivée (après le reveal GNJ / fin d'intro) */
+.hero__media{animation:mediaSpread .8s cubic-bezier(.22,1,.36,1) 2.3s backwards}
+@keyframes mediaSpread{from{letter-spacing:.06em;padding-left:.06em;opacity:0}}
 
 /* Hero — props derrière le wordmark (images PNG) */
 .hero-props{position:absolute;inset:0;z-index:1;pointer-events:none}
@@ -614,12 +666,13 @@ section{position:relative;z-index:1}
 <!-- ====================== HERO ====================== -->
 <section class="hero" aria-label="Accueil">
   <svg class="ghost" aria-hidden="true"><use href="#logomark"/></svg>
+  <div class="hero__spot" id="heroSpot" aria-hidden="true"></div>
   <span class="vlabel vlabel--left">Réalisations</span>
   <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
 
   <div class="wrap">
     <h1 class="hero__word" id="heroWord">
-      <span class="hero__gnj">GNJ</span>
+      <span class="hero__gnj">GNJ<span class="gnj-fill" aria-hidden="true"><span class="gnj-fill__txt">GNJ</span><video class="gnj-fill__vid" id="gnjFillVid" src="assets/video/process/reel1.mp4" muted loop playsinline preload="none"></video></span></span>
       <span class="hero__media">MÉDIA</span>
       <span class="hero-props" aria-hidden="true">
         <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
@@ -666,9 +719,13 @@ section{position:relative;z-index:1}
     </div>
 
     <div class="hero__cta">
-      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+      <div class="magnet" id="heroMagnet">
+        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+      </div>
     </div>
   </div>
+
+  <div class="hero__cue" id="heroCue" aria-hidden="true"><span class="cue__line"></span><span class="cue__txt">Scroll</span></div>
 </section>
 
 <!-- ====================== TRUST BAR ====================== -->
@@ -956,7 +1013,7 @@ section{position:relative;z-index:1}
   window.addEventListener("scroll", onScroll, {passive:true});
 
   /* --- Vidéos : forcer le play (battre le blocage autoplay) --- */
-  var vids = document.querySelectorAll("video");
+  var vids = document.querySelectorAll("video:not(.gnj-fill__vid)");
   function kick(v){
     var p = v.play();
     if (p && typeof p.catch === "function") p.catch(function(){});
@@ -1022,20 +1079,73 @@ section{position:relative;z-index:1}
     document.querySelectorAll(".result__num").forEach(function(el){ gio.observe(el); });
   }
 
-  /* --- Couche 2 : parallax hero (throttlé rAF, off <768px, off reduced-motion) --- */
-  if (!reduce && window.innerWidth >= 768){
-    var pxGhost = document.querySelector(".hero .ghost");
-    var pxProps = document.querySelector(".hero-props");
-    var pxTick = false;
-    var applyParallax = function(){
-      var y = window.scrollY;
-      if (pxGhost) pxGhost.style.transform = "translate(-50%,-50%) translateY(" + (y * 0.15) + "px)";
-      if (pxProps) pxProps.style.transform = "translateY(" + (y * 0.08) + "px)";
-      pxTick = false;
-    };
-    window.addEventListener("scroll", function(){
-      if (!pxTick){ requestAnimationFrame(applyParallax); pxTick = true; }
-    }, {passive:true});
+  /* --- Hero vivant : parallax souris + spotlight + magnet + scroll, une seule boucle rAF lerpée.
+         Desktop pointeur fin uniquement — coupé sur tactile/mobile et reduced-motion. --- */
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var heroSec = document.querySelector(".hero");
+  var gnjWord = document.querySelector(".hero__gnj");
+  var fillVid = document.getElementById("gnjFillVid");
+  if (heroSec && !reduce && finePointer && window.innerWidth >= 768){
+    var spot = document.getElementById("heroSpot");
+    var mediaWord = document.querySelector(".hero__media");
+    var propsL = document.querySelector(".hero-props");
+    var ghostL = document.querySelector(".hero .ghost");
+    var magnet = document.getElementById("heroMagnet");
+    var magBtn = magnet ? magnet.querySelector(".btn") : null;
+    var tx = 0, ty = 0, mx = 0, my = 0;          // souris normalisée -1..1 (cible / lerpé)
+    var stx = 0, sty = 0, sx = 0, sy = 0;        // spotlight px (cible / lerpé)
+    var mgtx = 0, mgty = 0, mgx = 0, mgy = 0;    // magnet px (cible / lerpé)
+    heroSec.addEventListener("mousemove", function(e){
+      var r = heroSec.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      ty = ((e.clientY - r.top) / r.height) * 2 - 1;
+      stx = e.clientX - r.left; sty = e.clientY - r.top;
+      if (spot) spot.classList.add("on");
+      if (magBtn){
+        var b = magBtn.getBoundingClientRect();
+        var dx = e.clientX - (b.left + b.width / 2);
+        var dy = e.clientY - (b.top + b.height / 2);
+        if (Math.hypot(dx, dy) < Math.max(b.width, b.height) / 2 + 80){
+          mgtx = Math.max(-8, Math.min(8, dx * .14));
+          mgty = Math.max(-8, Math.min(8, dy * .14));
+        } else { mgtx = 0; mgty = 0; }
+      }
+    });
+    heroSec.addEventListener("mouseleave", function(){
+      tx = 0; ty = 0; mgtx = 0; mgty = 0;
+      if (spot) spot.classList.remove("on");
+    });
+    (function heroLoop(){
+      mx += (tx - mx) * .08; my += (ty - my) * .08;
+      sx += (stx - sx) * .2; sy += (sty - sy) * .2;
+      mgx += (mgtx - mgx) * .12; mgy += (mgty - mgy) * .12;
+      var scY = window.scrollY;
+      document.body.style.setProperty("--par-gx", (mx * 6).toFixed(2) + "px");
+      document.body.style.setProperty("--par-gy", (my * 6).toFixed(2) + "px");
+      if (gnjWord) gnjWord.style.transform = "translate3d(" + (mx * 12).toFixed(2) + "px," + (my * 12).toFixed(2) + "px,0)";
+      if (mediaWord) mediaWord.style.transform = "translate3d(" + (mx * 12).toFixed(2) + "px," + (my * 12).toFixed(2) + "px,0)";
+      if (propsL) propsL.style.transform = "translate3d(" + (mx * 22).toFixed(2) + "px," + (scY * .08 + my * 22).toFixed(2) + "px,0) rotate(" + (mx * 1.5).toFixed(2) + "deg)";
+      if (ghostL) ghostL.style.transform = "translate(-50%,-50%) translateY(" + (scY * .15) + "px)";
+      if (spot){ spot.style.setProperty("--sx", sx.toFixed(1) + "px"); spot.style.setProperty("--sy", sy.toFixed(1) + "px"); }
+      if (magnet) magnet.style.transform = "translate3d(" + mgx.toFixed(2) + "px," + mgy.toFixed(2) + "px,0)";
+      requestAnimationFrame(heroLoop);
+    })();
+  }
+
+  /* --- GNJ : la vidéo du fill démarre au premier hover seulement (économie) --- */
+  if (gnjWord && fillVid && finePointer && !reduce){
+    gnjWord.addEventListener("mouseenter", function(){
+      var pv = fillVid.play();
+      if (pv && typeof pv.catch === "function") pv.catch(function(){});
+    }, {once:true});
+  }
+
+  /* --- Scroll cue : disparaît dès qu'on scroll --- */
+  var cue = document.getElementById("heroCue");
+  if (cue){
+    var cueSync = function(){ cue.classList.toggle("hide", window.scrollY > 40); };
+    cueSync();
+    window.addEventListener("scroll", cueSync, {passive:true});
   }
 
   /* --- Couche 2 : count-up des gros chiffres résultats (entrée viewport) --- */
