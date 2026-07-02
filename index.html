@@ -226,7 +226,7 @@ section{position:relative;z-index:1}
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:clamp(1rem,3vw,2.5rem);
-  align-items:start;
+  align-items:end;
 }
 .reel{display:flex;flex-direction:column;gap:1.25rem}
 .reel__cap{display:flex;flex-direction:column;gap:.35rem;text-align:center}
@@ -306,16 +306,38 @@ section{position:relative;z-index:1}
   grid-template-columns:1fr 1.1fr 1fr;
   gap:clamp(2rem,4vw,3.5rem);
   align-items:center;
+  position:relative;
 }
+.process__col{position:relative;z-index:1}
 .process__col h3{
   font-family:var(--display);font-weight:600;
   font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.05;letter-spacing:-.02em;
   margin-top:1rem;
 }
-.process__col .eyebrow{display:block}
 .process__col--right{text-align:right}
-.process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.process__phones .phone{aspect-ratio:9/18.5}
+/* Fil conducteur : pipeline SVG qui se dessine au scroll (contenu → pubs → résultats) */
+.process__line{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:drop-shadow(0 0 10px rgba(24,119,242,.45))}
+.process__line path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease) .25s}
+.process__line.draw path{stroke-dashoffset:0}
+/* Badges d'étape : cercle bleu Meta, chiffre mono */
+.step-badge{
+  display:inline-grid;place-items:center;
+  width:2.7rem;height:2.7rem;border-radius:50%;
+  background:var(--meta);color:#fff;
+  font-family:var(--mono);font-size:.95rem;font-weight:500;
+  box-shadow:0 0 18px rgba(24,119,242,.55),0 0 44px rgba(24,119,242,.25);
+  margin-bottom:.9rem;
+}
+.step-lbl{display:block;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--meta)}
+.process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;position:relative;z-index:1;align-items:start}
+.process__phones .phone{aspect-ratio:9/18.5;transition:transform .35s var(--ease)}
+.process__phones .phone:first-child{transform:translateY(-18px)}
+.process__phones .phone:last-child{transform:translateY(22px)}
+.process__phones .phone:first-child:hover{transform:translateY(-18px) rotate(-1.5deg) scale(1.02)}
+.process__phones .phone:last-child:hover{transform:translateY(22px) rotate(1.5deg) scale(1.02)}
+/* Stagger : gauche → phones → droite */
+.process__grid .process__phones.reveal{transition-delay:.12s}
+.process__grid .process__col--right.reveal{transition-delay:.24s}
 .process__head{max-width:none;text-align:center;margin-bottom:clamp(2.2rem,4.5vw,3.4rem)}
 .process__head h2{font-family:var(--display);font-weight:700;font-size:clamp(2.5rem,6vw,5rem);line-height:1;letter-spacing:-.03em;margin-top:0;color:#fff}
 .process__cta{display:flex;justify-content:center;margin-top:clamp(3rem,6vw,5rem)}
@@ -453,14 +475,38 @@ section{position:relative;z-index:1}
 .team__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,2.5rem);margin-top:clamp(3rem,6vw,5rem)}
 .team__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
 .team__cta .btn--solid{box-shadow:0 12px 34px -14px rgba(0,0,0,.28)}
-.member__photo{aspect-ratio:4/5;background:#d9d8d2 linear-gradient(135deg,#dedcd5,#cfcdc5);border-radius:14px;position:relative;overflow:hidden}
-.member__photo::after{
-  content:"";position:absolute;inset:0;
-  background:repeating-linear-gradient(45deg,rgba(0,0,0,.018) 0 10px,transparent 10px 20px);
+/* Flip cards 3D : face avant photo + prénom, face arrière rôle */
+.member{perspective:1200px;cursor:pointer;outline-offset:4px}
+.member:focus-visible{outline:2px solid var(--ink)}
+.flip__inner{position:relative;aspect-ratio:4/5;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.15,.2,1)}
+.member.flipped .flip__inner{transform:rotateY(180deg)}
+.flip__face{position:absolute;inset:0;border-radius:14px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip__front{background:#d9d8d2 linear-gradient(135deg,#dedcd5,#cfcdc5)}
+.flip__front img{width:100%;height:100%;object-fit:cover}
+.flip__band{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:.8rem;
+  padding:2.4rem 1.2rem 1.1rem;
+  background:linear-gradient(to top,rgba(10,10,11,.82),transparent);
 }
-.member__photo img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1}
-.member__name{font-family:var(--display);font-weight:600;font-size:1.5rem;margin-top:1.1rem}
-.member__role{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(10,10,11,.5);margin-top:.4rem;line-height:1.6}
+.flip__name{font-family:var(--display);font-weight:600;font-size:1.6rem;color:#fff;line-height:1}
+.flip__hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);white-space:nowrap}
+.flip__back{
+  background:var(--ink);color:#fff;
+  transform:rotateY(180deg);
+  display:flex;flex-direction:column;gap:1rem;
+  padding:1.6rem;text-align:left;
+}
+.flip__back h3{font-family:var(--display);font-weight:600;font-size:1.6rem}
+.flip__role{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;line-height:1.8;color:rgba(255,255,255,.75)}
+.flip__return{margin-top:auto;font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+@media (prefers-reduced-motion:reduce){
+  .flip__inner{transform-style:flat}
+  .member.flipped .flip__inner{transform:none}
+  .flip__back{transform:none;opacity:0;visibility:hidden}
+  .member.flipped .flip__back{opacity:1;visibility:visible}
+  .member.flipped .flip__front{opacity:0;visibility:hidden}
+}
 
 /* ============================================================
    CTA FINAL
@@ -497,6 +543,7 @@ section{position:relative;z-index:1}
 @media (max-width:900px){
   .process__grid{grid-template-columns:1fr;text-align:left}
   .process__col--right{text-align:left}
+  .process__line{display:none}
   .meta-mark{margin:1.4rem auto 0}
   .process__phones{max-width:440px}
   .result{grid-template-columns:1fr;gap:.6rem}
@@ -587,39 +634,39 @@ section{position:relative;z-index:1}
 
     <div class="reels">
       <figure class="reel reveal">
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/rockfish.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
         <figcaption class="reel__cap">
           <span class="reel__num">800+</span>
           <span class="reel__sub">prospects · +2,5M vues</span>
           <span class="reel__client">Rock Fish Tattoo</span>
         </figcaption>
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/rockfish.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
       </figure>
 
       <figure class="reel reveal">
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/shineup.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
         <figcaption class="reel__cap">
           <span class="reel__num">750+</span>
           <span class="reel__sub">prospects en 2 étés</span>
           <span class="reel__client">Shine Up</span>
         </figcaption>
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/shineup.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
       </figure>
 
       <figure class="reel reveal">
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
         <figcaption class="reel__cap">
           <span class="reel__num">+1 an</span>
           <span class="reel__sub">ils nous font confiance</span>
           <span class="reel__client">Jardin Paradis et Accessoires</span>
         </figcaption>
+        <div class="phone">
+          <span class="phone__notch"></span>
+          <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
       </figure>
     </div>
 
@@ -649,22 +696,33 @@ section{position:relative;z-index:1}
       <h2 class="reveal-wipe">Comment on marche</h2>
     </div>
     <div class="process__grid">
+      <svg class="process__line" viewBox="0 0 1200 420" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1877F2" stop-opacity=".2"/>
+            <stop offset="50%" stop-color="#1FB6FF"/>
+            <stop offset="100%" stop-color="#0064E1"/>
+          </linearGradient>
+        </defs>
+        <path d="M 10 230 C 180 230 240 140 440 145 S 700 300 860 265 S 1120 215 1190 225"
+          pathLength="1" fill="none" stroke="url(#flowGrad)" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+
       <div class="process__col reveal">
-        <span class="eyebrow eyebrow--meta">01 · Contenu organique</span>
+        <span class="step-badge" aria-hidden="true">01</span>
+        <span class="step-lbl">Contenu organique</span>
         <h3>On crée vos Reels qui vous font connaître.</h3>
       </div>
 
       <div class="process__phones reveal">
         <div class="phone">
           <span class="phone__notch"></span>
-          <span class="feed-tag">Étape 01</span>
           <div class="feed">
             <video class="slide" src="assets/video/process/reel1.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
         </div>
         <div class="phone">
           <span class="phone__notch"></span>
-          <span class="feed-tag">Étape 02</span>
           <div class="feed">
             <video class="slide" src="assets/video/process/reel6.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
@@ -672,7 +730,8 @@ section{position:relative;z-index:1}
       </div>
 
       <div class="process__col process__col--right reveal">
-        <span class="eyebrow eyebrow--meta">02 · Publicité Meta</span>
+        <span class="step-badge" aria-hidden="true">02</span>
+        <span class="step-lbl">Publicité Meta</span>
         <h3>On transforme le contenu en pubs qui convertissent.</h3>
         <div class="meta-mark" role="img" aria-label="Meta">
           <svg viewBox="0 0 128 72" xmlns="http://www.w3.org/2000/svg">
@@ -780,20 +839,44 @@ section{position:relative;z-index:1}
     </div>
 
     <div class="team__grid">
-      <article class="member reveal">
-        <div class="member__photo"><img src="assets/img/team/nate.jpg" alt="Nate" loading="lazy"></div>
-        <h3 class="member__name">Nate</h3>
-        <p class="member__role">Fondateur · Stratégie, gestion &amp; campagnes pub</p>
+      <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Nate — voir le rôle">
+        <div class="flip__inner">
+          <div class="flip__face flip__front">
+            <img src="assets/img/team/nate.jpg" alt="Nate" loading="lazy">
+            <div class="flip__band"><span class="flip__name">Nate</span><span class="flip__hint">+ En savoir plus</span></div>
+          </div>
+          <div class="flip__face flip__back">
+            <h3>Nate</h3>
+            <p class="flip__role">Fondateur · Stratégie, gestion &amp; campagnes pub</p>
+            <span class="flip__return">↻ Retour</span>
+          </div>
+        </div>
       </article>
-      <article class="member reveal">
-        <div class="member__photo"><img src="assets/img/team/georges.jpg" alt="Georges" loading="lazy"></div>
-        <h3 class="member__name">Georges</h3>
-        <p class="member__role">Communications · RH · Comptabilité</p>
+      <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Georges — voir le rôle">
+        <div class="flip__inner">
+          <div class="flip__face flip__front">
+            <img src="assets/img/team/georges.jpg" alt="Georges" loading="lazy">
+            <div class="flip__band"><span class="flip__name">Georges</span><span class="flip__hint">+ En savoir plus</span></div>
+          </div>
+          <div class="flip__face flip__back">
+            <h3>Georges</h3>
+            <p class="flip__role">Communications · RH · Comptabilité</p>
+            <span class="flip__return">↻ Retour</span>
+          </div>
+        </div>
       </article>
-      <article class="member reveal">
-        <div class="member__photo"><img src="assets/img/team/jeremie.jpg" alt="Jérémie" loading="lazy"></div>
-        <h3 class="member__name">Jérémie</h3>
-        <p class="member__role">Monteur vidéo</p>
+      <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Jérémie — voir le rôle">
+        <div class="flip__inner">
+          <div class="flip__face flip__front">
+            <img src="assets/img/team/jeremie.jpg" alt="Jérémie" loading="lazy">
+            <div class="flip__band"><span class="flip__name">Jérémie</span><span class="flip__hint">+ En savoir plus</span></div>
+          </div>
+          <div class="flip__face flip__back">
+            <h3>Jérémie</h3>
+            <p class="flip__role">Monteur vidéo</p>
+            <span class="flip__return">↻ Retour</span>
+          </div>
+        </div>
       </article>
     </div>
 
@@ -998,6 +1081,36 @@ section{position:relative;z-index:1}
     secs.forEach(function(s){ sio.observe(s); });
   }
 
+
+  /* --- Process : ligne pipeline qui se dessine au scroll --- */
+  var flowLine = document.querySelector(".process__line");
+  if (flowLine){
+    if (reduce || !("IntersectionObserver" in window)){
+      flowLine.classList.add("draw");
+    } else {
+      var lio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting){ flowLine.classList.add("draw"); lio.unobserve(e.target); }
+        });
+      }, {threshold:0.35});
+      lio.observe(flowLine);
+    }
+  }
+
+  /* --- Équipe : flip cards (clic/tap + clavier Enter/Espace) --- */
+  document.querySelectorAll(".member").forEach(function(card){
+    var toggle = function(){
+      card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", card.classList.contains("flipped") ? "true" : "false");
+    };
+    card.addEventListener("click", toggle);
+    card.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar"){
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
 
   /* --- Logos clients : couleur d'origine + glow blanc — marquee + grille, depuis un seul array --- */
   var CLIENT_LOGOS = [];
