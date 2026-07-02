@@ -220,20 +220,8 @@ section{position:relative;z-index:1}
 }
 .hero__gnj:hover{animation-play-state:paused}
 @keyframes gnjShine{0%,76%{background-position:220% 0,0 0}96%,100%{background-position:-140% 0,0 0}}
-/* GNJ rempli de vidéo au hover : dupli du mot + vidéo en darken, contexte isolé */
-.gnj-fill{
-  position:absolute;inset:0;z-index:3;
-  background:var(--bg);isolation:isolate;
-  opacity:0;transition:opacity .5s var(--ease);
-  pointer-events:none;
-}
-.gnj-fill__txt{position:absolute;inset:0;color:#fff}
-.gnj-fill__vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:darken}
-@media (hover:hover) and (pointer:fine){
-  .hero__gnj:hover .gnj-fill{opacity:1}
-}
 @media (hover:none),(pointer:coarse){
-  .gnj-fill,.hero__spot{display:none}
+  .hero__spot{display:none}
 }
 .hero__media{
   position:relative;z-index:2;
@@ -672,7 +660,7 @@ section{position:relative;z-index:1}
 
   <div class="wrap">
     <h1 class="hero__word" id="heroWord">
-      <span class="hero__gnj">GNJ<span class="gnj-fill" aria-hidden="true"><span class="gnj-fill__txt">GNJ</span><video class="gnj-fill__vid" id="gnjFillVid" src="assets/video/process/reel1.mp4" muted loop playsinline preload="none"></video></span></span>
+      <span class="hero__gnj">GNJ</span>
       <span class="hero__media">MÉDIA</span>
       <span class="hero-props" aria-hidden="true">
         <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
@@ -1013,7 +1001,7 @@ section{position:relative;z-index:1}
   window.addEventListener("scroll", onScroll, {passive:true});
 
   /* --- Vidéos : forcer le play (battre le blocage autoplay) --- */
-  var vids = document.querySelectorAll("video:not(.gnj-fill__vid)");
+  var vids = document.querySelectorAll("video");
   function kick(v){
     var p = v.play();
     if (p && typeof p.catch === "function") p.catch(function(){});
@@ -1084,7 +1072,6 @@ section{position:relative;z-index:1}
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var heroSec = document.querySelector(".hero");
   var gnjWord = document.querySelector(".hero__gnj");
-  var fillVid = document.getElementById("gnjFillVid");
   if (heroSec && !reduce && finePointer && window.innerWidth >= 768){
     var spot = document.getElementById("heroSpot");
     var mediaWord = document.querySelector(".hero__media");
@@ -1130,14 +1117,6 @@ section{position:relative;z-index:1}
       if (magnet) magnet.style.transform = "translate3d(" + mgx.toFixed(2) + "px," + mgy.toFixed(2) + "px,0)";
       requestAnimationFrame(heroLoop);
     })();
-  }
-
-  /* --- GNJ : la vidéo du fill démarre au premier hover seulement (économie) --- */
-  if (gnjWord && fillVid && finePointer && !reduce){
-    gnjWord.addEventListener("mouseenter", function(){
-      var pv = fillVid.play();
-      if (pv && typeof pv.catch === "function") pv.catch(function(){});
-    }, {once:true});
   }
 
   /* --- Scroll cue : disparaît dès qu'on scroll --- */
