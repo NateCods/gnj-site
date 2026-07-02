@@ -316,18 +316,21 @@ section{position:relative;z-index:1}
 .process__col--right{text-align:right}
 .process__phones{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .process__phones .phone{aspect-ratio:9/18.5}
-.process__head h2{font-family:var(--display);font-weight:600;font-size:clamp(2.4rem,6vw,4.5rem);line-height:1;letter-spacing:-.03em;margin-top:1rem}
+.process__head{max-width:none;text-align:center;margin-bottom:clamp(2.2rem,4.5vw,3.4rem)}
+.process__head h2{font-family:var(--display);font-weight:700;font-size:clamp(2.5rem,6vw,5rem);line-height:1;letter-spacing:-.03em;margin-top:0;color:#fff}
 .process__cta{display:flex;justify-content:center;margin-top:clamp(3rem,6vw,5rem)}
 
 /* ============================================================
    LOGOS CLIENTS — trust bar (marquee, défilement continu)
    ============================================================ */
-.trust{background:#FAFAF8;padding:clamp(2.5rem,5vw,3.5rem) 0;overflow:hidden;position:relative;z-index:1}
-/* Fondus haut/bas : la bande blanche se fond dans le noir des sections autour */
-.trust::before,.trust::after{content:"";position:absolute;left:0;right:0;height:70px;z-index:2;pointer-events:none}
+.trust{background:#FAFAF8;padding:clamp(80px,9vw,140px) 0;overflow:hidden;position:relative;z-index:1}
+/* Fondus haut/bas : dégradés hauts (~140px) → transition très graduelle noir↔blanc.
+   Le padding suit la hauteur du fondu pour que le label retombe pile sur le blanc. */
+.trust::before,.trust::after{content:"";position:absolute;left:0;right:0;height:clamp(80px,9vw,140px);z-index:2;pointer-events:none}
 .trust::before{top:0;background:linear-gradient(to bottom,var(--bg),transparent)}
 .trust::after{bottom:0;background:linear-gradient(to top,var(--bg),transparent)}
-.trust__label{text-align:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(10,10,11,.6);margin-bottom:clamp(1.4rem,3vw,2.1rem)}
+.trust .wrap{z-index:3}
+.trust__label{text-align:center;font-family:var(--mono);font-size:.98rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(10,10,11,.72);margin-bottom:clamp(1.6rem,3.5vw,2.4rem)}
 .trust__viewport{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .trust__track{display:inline-flex;flex-wrap:nowrap;white-space:nowrap;align-items:center;width:max-content;animation:trustScroll 45s linear infinite}
 @keyframes trustScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -429,6 +432,9 @@ section{position:relative;z-index:1}
 .avis__more{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
 .link-mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:inline-flex;gap:.5em;transition:color .25s,gap .25s}
 .link-mono:hover{color:#fff;gap:.85em}
+/* Bouton « Voir tous les avis » : plus grand & plus présent */
+.avis__more .link-mono{font-size:1rem;letter-spacing:.14em;padding:.95em 1.9em;border:1px solid rgba(255,255,255,.22);border-radius:999px;transition:color .25s,gap .25s,border-color .25s,background .25s}
+.avis__more .link-mono:hover{border-color:#fff;background:rgba(255,255,255,.05)}
 
 /* ============================================================
    ÉQUIPE (crème)
@@ -461,19 +467,19 @@ section{position:relative;z-index:1}
 /* ============================================================
    CTA FINAL
    ============================================================ */
-.booking{padding:clamp(4rem,8vw,7.5rem) 0;overflow:hidden}
+.booking{padding:clamp(3rem,6vw,5.5rem) 0;overflow:hidden}
 .booking .ghost{width:min(90vw,900px);height:auto;top:50%;right:-12%;transform:translateY(-50%);opacity:.03}
 .cta-final{max-width:760px;margin-inline:auto;text-align:center;position:relative;z-index:1}
-.cta-final__eyebrow{display:block;margin-bottom:1rem}
-.cta-final__title{display:inline-block;font-family:var(--display);font-weight:700;font-size:clamp(4rem,10vw,9rem);line-height:.92;letter-spacing:-.03em;color:#fff}
-.cta-points{list-style:none;max-width:560px;margin:clamp(1.4rem,3.5vw,2.2rem) auto 0;display:flex;flex-direction:column;gap:.7rem;text-align:left}
+.cta-final__eyebrow{display:block;margin-bottom:.9rem;font-size:.95rem;letter-spacing:.2em;color:var(--muted)}
+.cta-final__title{display:inline-block;font-family:var(--display);font-weight:700;font-size:clamp(4rem,10vw,9rem);line-height:.9;letter-spacing:-.03em;color:#fff}
+.cta-points{list-style:none;max-width:560px;margin:clamp(1.1rem,3vw,1.7rem) auto 0;display:flex;flex-direction:column;gap:.6rem;text-align:left}
 .cta-point{display:flex;align-items:baseline;gap:1rem;padding:.85rem 1.15rem;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
 .cta-point__num{font-family:var(--mono);font-size:.82rem;letter-spacing:.14em;color:var(--meta);flex:none}
 .cta-point__txt{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,2.6vw,1.45rem);line-height:1.25;letter-spacing:-.01em}
 .cta-points .cta-point.reveal:nth-child(2){transition-delay:.12s}
 .cta-points .cta-point.reveal:nth-child(3){transition-delay:.24s}
-.cta-special{max-width:560px;margin:clamp(1rem,2.5vw,1.5rem) auto 0;padding:1.1rem 1.4rem;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.05);font-family:var(--sans);font-size:clamp(.98rem,2.4vw,1.18rem);line-height:1.5;color:#fff}
-.cta-final__btn{margin-top:clamp(1.6rem,3.5vw,2.4rem)}
+.cta-special{max-width:560px;margin:clamp(.8rem,2vw,1.2rem) auto 0;padding:1rem 1.3rem;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.05);font-family:var(--sans);font-size:clamp(.98rem,2.4vw,1.18rem);line-height:1.5;color:#fff}
+.cta-final__btn{margin-top:clamp(1.3rem,3vw,2rem)}
 .btn--xl{font-size:1.18rem;padding:1.32em 2.5em;box-shadow:0 0 30px rgba(255,255,255,.4)}
 .btn--xl:hover{box-shadow:0 16px 50px -10px rgba(255,255,255,.55),0 0 34px rgba(255,255,255,.4)}
 
@@ -642,8 +648,7 @@ section{position:relative;z-index:1}
 
   <div class="wrap">
     <div class="section__head process__head reveal">
-      <span class="eyebrow eyebrow--meta">Process</span>
-      <h2 class="reveal-wipe">Comment on marche</h2>
+      <h2 class="reveal-wipe">Notre processus</h2>
     </div>
     <div class="process__grid">
       <div class="process__col reveal">
