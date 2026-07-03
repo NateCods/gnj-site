@@ -525,7 +525,21 @@ section{position:relative;z-index:1}
   background:linear-gradient(to top,rgba(10,10,11,.82),transparent);
 }
 .flip__name{font-family:var(--display);font-weight:600;font-size:1.6rem;color:#fff;line-height:1}
-.flip__hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);white-space:nowrap}
+/* Badge indicateur de flip : rond glassy coin bas-droit, oscille pour inviter au clic */
+.flip__badge{
+  position:absolute;right:12px;bottom:12px;z-index:2;
+  width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(10,10,11,.75);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:1.15rem;line-height:1;
+  opacity:.85;
+  transition:opacity .3s var(--ease),scale .3s var(--ease);
+  animation:badgeNudge 4s ease-in-out infinite;
+}
+@media (hover:hover){.member:hover .flip__badge{opacity:1;scale:1.1}}
+@keyframes badgeNudge{0%,86%,100%{rotate:0deg}93%{rotate:20deg}}
 .flip__back{
   background:var(--ink);color:#fff;
   transform:rotateY(180deg);
@@ -534,7 +548,6 @@ section{position:relative;z-index:1}
 }
 .flip__back h3{font-family:var(--display);font-weight:600;font-size:1.6rem}
 .flip__role{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;line-height:1.8;color:rgba(255,255,255,.75)}
-.flip__return{margin-top:auto;font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 @media (prefers-reduced-motion:reduce){
   .flip__inner{transform-style:flat}
   .member.flipped .flip__inner{transform:none}
@@ -883,12 +896,12 @@ section{position:relative;z-index:1}
         <div class="flip__inner">
           <div class="flip__face flip__front">
             <img src="assets/img/team/nate.jpg" alt="Nate" loading="lazy">
-            <div class="flip__band"><span class="flip__name">Nate</span><span class="flip__hint">+ En savoir plus</span></div>
+            <div class="flip__band"><span class="flip__name">Nate</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
           <div class="flip__face flip__back">
             <h3>Nate</h3>
             <p class="flip__role">Fondateur · Stratégie, gestion &amp; campagnes pub</p>
-            <span class="flip__return">↻ Retour</span>
+            <span class="flip__badge" aria-hidden="true">↩</span>
           </div>
         </div>
       </article>
@@ -896,12 +909,12 @@ section{position:relative;z-index:1}
         <div class="flip__inner">
           <div class="flip__face flip__front">
             <img src="assets/img/team/georges.jpg" alt="Georges" loading="lazy">
-            <div class="flip__band"><span class="flip__name">Georges</span><span class="flip__hint">+ En savoir plus</span></div>
+            <div class="flip__band"><span class="flip__name">Georges</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
           <div class="flip__face flip__back">
             <h3>Georges</h3>
             <p class="flip__role">Communications · RH · Comptabilité</p>
-            <span class="flip__return">↻ Retour</span>
+            <span class="flip__badge" aria-hidden="true">↩</span>
           </div>
         </div>
       </article>
@@ -909,12 +922,12 @@ section{position:relative;z-index:1}
         <div class="flip__inner">
           <div class="flip__face flip__front">
             <img src="assets/img/team/jeremie.jpg" alt="Jérémie" loading="lazy">
-            <div class="flip__band"><span class="flip__name">Jérémie</span><span class="flip__hint">+ En savoir plus</span></div>
+            <div class="flip__band"><span class="flip__name">Jérémie</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
           <div class="flip__face flip__back">
             <h3>Jérémie</h3>
             <p class="flip__role">Monteur vidéo</p>
-            <span class="flip__return">↻ Retour</span>
+            <span class="flip__badge" aria-hidden="true">↩</span>
           </div>
         </div>
       </article>
