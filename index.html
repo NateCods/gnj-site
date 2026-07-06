@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo-gnj.svg">
 
 <style>
 /* ============================================================
@@ -158,13 +159,12 @@ section{position:relative;z-index:1}
 .team__grid .member.reveal:nth-child(3){transition-delay:.2s}
 
 /* Logomark */
-.logo{width:26px;height:26px;color:#fff;flex:none}
+.logo{height:32px;width:auto;flex:none}
 .ghost{
   position:absolute;
   pointer-events:none;
   z-index:0;
-  color:#fff;
-  opacity:.025;
+  opacity:.05;
 }
 
 /* ============================================================
@@ -186,7 +186,7 @@ section{position:relative;z-index:1}
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
 }
 .brand{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:600;letter-spacing:.02em;font-size:1.05rem}
-.brand .logo{width:22px;height:22px}
+.brand .logo{height:32px}
 
 /* ============================================================
    HERO
@@ -200,7 +200,7 @@ section{position:relative;z-index:1}
 .hero .ghost{
   width:min(140vw,1600px);height:auto;
   top:48%;left:50%;transform:translate(-50%,-50%);
-  opacity:.03;
+  opacity:.05;
 }
 .hero__word{text-align:center;position:relative;z-index:1}
 .hero__gnj{
@@ -560,7 +560,7 @@ section{position:relative;z-index:1}
    CTA FINAL
    ============================================================ */
 .booking{padding:clamp(4rem,8vh,7rem) 0;overflow:hidden;min-height:auto}
-.booking .ghost{width:min(90vw,900px);height:auto;top:50%;right:-12%;transform:translateY(-50%);opacity:.03}
+.booking .ghost{width:min(90vw,900px);height:auto;top:50%;right:-12%;transform:translateY(-50%);opacity:.05}
 .cta-final{max-width:760px;margin-inline:auto;text-align:center;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:clamp(1.2rem,2.5vw,2rem)}
 .cta-final__eyebrow{display:block;margin:0;font-size:.95rem;letter-spacing:.2em;color:var(--muted)}
 .cta-final__title{display:inline-block;font-family:var(--display);font-weight:700;font-size:clamp(3.5rem,8vw,7rem);line-height:.9;letter-spacing:-.03em;color:#fff;text-wrap:balance}
@@ -638,24 +638,11 @@ section{position:relative;z-index:1}
   </div>
 </div>
 
-<!-- Logomark réutilisable : 5 barres d'égaliseur -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="logomark" viewBox="0 0 40 40">
-    <g fill="currentColor">
-      <rect x="2"  y="14" width="5" height="12" rx="1.5"/>
-      <rect x="10" y="8"  width="5" height="24" rx="1.5"/>
-      <rect x="18" y="2"  width="5" height="36" rx="1.5"/>
-      <rect x="26" y="10" width="5" height="20" rx="1.5"/>
-      <rect x="34" y="16" width="5" height="8"  rx="1.5"/>
-    </g>
-  </symbol>
-</svg>
-
 <!-- ====================== NAV ====================== -->
 <header class="nav" id="nav">
   <div class="nav__in">
     <a class="brand" href="#top" aria-label="GNJ MÉDIA, accueil">
-      <svg class="logo"><use href="#logomark"/></svg>
+      <img class="logo" src="assets/img/logo-gnj.svg" alt="GNJ Média">
       <span>GNJ MÉDIA</span>
     </a>
     <a class="btn btn--outline" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous</a>
@@ -666,7 +653,7 @@ section{position:relative;z-index:1}
 
 <!-- ====================== HERO ====================== -->
 <section class="hero" aria-label="Accueil">
-  <svg class="ghost" aria-hidden="true"><use href="#logomark"/></svg>
+  <img class="ghost" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
   <div class="hero__spot" id="heroSpot" aria-hidden="true"></div>
   <span class="vlabel vlabel--left">Réalisations</span>
   <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
@@ -941,7 +928,7 @@ section{position:relative;z-index:1}
 
 <!-- ====================== CTA FINAL ====================== -->
 <section class="booking" id="rdv" aria-label="Prendre un appel">
-  <svg class="ghost" aria-hidden="true"><use href="#logomark"/></svg>
+  <img class="ghost" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
   <div class="wrap">
     <div class="cta-final">
       <h2 class="cta-final__title reveal">On peut vous<br>aider si&nbsp;:</h2>
@@ -964,7 +951,7 @@ section{position:relative;z-index:1}
 <footer class="footer">
   <div class="wrap footer__in">
     <a class="brand" href="#top">
-      <svg class="logo"><use href="#logomark"/></svg>
+      <img class="logo" src="assets/img/logo-gnj.svg" alt="GNJ Média">
       <span>GNJ MÉDIA</span>
     </a>
     <nav class="footer__links" aria-label="Pied de page">
