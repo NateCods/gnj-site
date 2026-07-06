@@ -335,10 +335,10 @@ section{position:relative;z-index:1}
 .props-out .hero-prop--cam{opacity:1;transform:translate(calc(-50% - 30vw),-50%) rotate(-5deg) scale(1)}
 .props-out .hero-prop--phone{opacity:1;transform:translate(calc(-50% + 30vw),-50%) rotate(4deg) scale(1)}
 @media (max-width:600px){
-  .hero-prop--cam{width:18vw}
-  .hero-prop--phone{width:15vw}
-  .props-out .hero-prop--cam{transform:translate(calc(-50% - 44vw),calc(-50% + 4vw)) rotate(-5deg) scale(1)}
-  .props-out .hero-prop--phone{transform:translate(calc(-50% + 43vw),calc(-50% - 2vw)) rotate(4deg) scale(1)}
+  .hero-prop--cam{width:15vw}
+  .hero-prop--phone{width:13vw}
+  .props-out .hero-prop--cam{transform:translate(calc(-50% - 41vw),calc(-50% + 4vw)) rotate(-5deg) scale(1)}
+  .props-out .hero-prop--phone{transform:translate(calc(-50% + 41vw),calc(-50% - 2vw)) rotate(4deg) scale(1)}
 }
 @media (prefers-reduced-motion:reduce){
   .hero-prop{transition:none}
@@ -623,12 +623,13 @@ section{position:relative;z-index:1}
 @media (max-width:600px){
   .vlabel{display:none}
   /* 3 phones côte à côte, stats alignées au-dessus de chacun */
-  .reels{grid-template-columns:repeat(3,1fr);gap:2vw}
+  /* Boxes stats identiques : colonnes 1fr + stretch, la cap remplit la hauteur */
+  .reels{grid-template-columns:repeat(3,1fr);gap:2vw;align-items:stretch}
   .reel{gap:.8rem}
-  .reel__cap{gap:.2rem;padding:.55rem .45rem;border-radius:10px}
+  .reel__cap{flex:1;gap:.2rem;padding:.55rem .45rem;border-radius:10px}
   .reel__num{font-size:1.6rem}
-  .reel__sub{font-size:.72rem;line-height:1.3}
-  .reel__client{font-size:.55rem;letter-spacing:.14em}
+  .reel__sub{font-size:.68rem;line-height:1.3}
+  .reel__client{font-size:.5rem;letter-spacing:.1em}
   .hero .ghost{width:85vw;opacity:.07;top:25%}
   .team__grid{grid-template-columns:1fr;max-width:360px}
   .nav__in{padding:14px var(--pad)}
