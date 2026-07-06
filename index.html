@@ -243,7 +243,27 @@ section{position:relative;z-index:1}
   align-items:end;
 }
 .reel{display:flex;flex-direction:column;gap:1.25rem}
-.reel__cap{display:flex;flex-direction:column;gap:.35rem;text-align:center}
+/* Stats en mini-cards glass : liseré lumineux en haut, glow conservé sur le chiffre */
+.reel__cap{
+  display:flex;flex-direction:column;gap:.35rem;text-align:center;
+  position:relative;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:.9rem 1.1rem;
+  transition:opacity .9s var(--ease),transform .5s var(--ease),border-color .35s var(--ease);
+}
+.reel__cap::before{
+  content:"";position:absolute;top:-1px;left:14px;right:14px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+}
+@media (hover:hover){
+  .reel__cap:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+}
+.reels .reel:nth-child(2) .reel__cap.reveal{transition-delay:.08s}
+.reels .reel:nth-child(3) .reel__cap.reveal{transition-delay:.16s}
 .reel__num{font-family:var(--display);font-weight:600;font-size:clamp(3.5rem,7vw,5.25rem);line-height:1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
 .reel__sub{color:var(--muted);font-size:1.31rem}
 .reel__client{font-family:var(--mono);font-size:.91rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:.2rem}
@@ -315,10 +335,10 @@ section{position:relative;z-index:1}
 .props-out .hero-prop--cam{opacity:1;transform:translate(calc(-50% - 30vw),-50%) rotate(-5deg) scale(1)}
 .props-out .hero-prop--phone{opacity:1;transform:translate(calc(-50% + 30vw),-50%) rotate(4deg) scale(1)}
 @media (max-width:600px){
-  .hero-prop--cam{width:26vw}
-  .hero-prop--phone{width:22vw}
-  .props-out .hero-prop--cam{transform:translate(calc(-50% - 40vw),calc(-50% + 10vw)) rotate(-5deg) scale(1)}
-  .props-out .hero-prop--phone{transform:translate(calc(-50% + 40vw),calc(-50% + 10vw)) rotate(4deg) scale(1)}
+  .hero-prop--cam{width:18vw}
+  .hero-prop--phone{width:15vw}
+  .props-out .hero-prop--cam{transform:translate(calc(-50% - 44vw),calc(-50% + 4vw)) rotate(-5deg) scale(1)}
+  .props-out .hero-prop--phone{transform:translate(calc(-50% + 43vw),calc(-50% - 2vw)) rotate(4deg) scale(1)}
 }
 @media (prefers-reduced-motion:reduce){
   .hero-prop{transition:none}
@@ -605,7 +625,7 @@ section{position:relative;z-index:1}
   /* 3 phones côte à côte, stats alignées au-dessus de chacun */
   .reels{grid-template-columns:repeat(3,1fr);gap:2vw}
   .reel{gap:.8rem}
-  .reel__cap{gap:.25rem}
+  .reel__cap{gap:.2rem;padding:.55rem .45rem;border-radius:10px}
   .reel__num{font-size:1.6rem}
   .reel__sub{font-size:.72rem;line-height:1.3}
   .reel__client{font-size:.55rem;letter-spacing:.14em}
@@ -678,7 +698,7 @@ section{position:relative;z-index:1}
 
     <div class="reels">
       <figure class="reel reveal">
-        <figcaption class="reel__cap">
+        <figcaption class="reel__cap reveal">
           <span class="reel__num">800+</span>
           <span class="reel__sub">prospects · +2,5M vues</span>
           <span class="reel__client">Rock Fish Tattoo</span>
@@ -690,7 +710,7 @@ section{position:relative;z-index:1}
       </figure>
 
       <figure class="reel reveal">
-        <figcaption class="reel__cap">
+        <figcaption class="reel__cap reveal">
           <span class="reel__num">750+</span>
           <span class="reel__sub">prospects en 2 étés</span>
           <span class="reel__client">Shine Up</span>
@@ -702,7 +722,7 @@ section{position:relative;z-index:1}
       </figure>
 
       <figure class="reel reveal">
-        <figcaption class="reel__cap">
+        <figcaption class="reel__cap reveal">
           <span class="reel__num">+1 an</span>
           <span class="reel__sub">ils nous font confiance</span>
           <span class="reel__client">Jardin Paradis et Accessoires</span>
