@@ -625,32 +625,67 @@ section{position:relative;z-index:1}
   font-size:clamp(2.5rem,6vw,5rem);line-height:1;letter-spacing:-.03em;
   color:#fff;margin-top:1rem;
 }
+.cases-section{overflow:hidden}
 .cases{display:flex;flex-direction:column;gap:clamp(4rem,9vw,7.5rem)}
 .case{
+  --accent:#fff;--accent-rgb:255,255,255;
   display:grid;grid-template-columns:1fr 1fr;
   gap:clamp(2rem,5vw,4.5rem);align-items:center;
 }
 /* Alterné : case 2 = vidéo à gauche (l'ordre DOM reste texte→média pour le mobile) */
 .case--reverse .case__media{order:-1}
+/* Accents de marque confinés à chaque bloc */
+.case--store{--accent:#1877F2;--accent-rgb:24,119,242}
+.case--rock{--accent:#D32F2F;--accent-rgb:211,47,47}
+/* Store Mobile = flagship : ~20% plus de présence visuelle */
+.case--store{padding:clamp(1.5rem,4vw,3rem) 0}
 
 .case__badge{
   display:block;
   font-family:var(--display);font-weight:700;
   font-size:clamp(3.6rem,9vw,7rem);line-height:.85;letter-spacing:-.03em;color:#fff;
-  text-shadow:0 0 34px rgba(255,255,255,.55),0 0 80px rgba(255,255,255,.28);
+  text-shadow:0 0 34px rgba(var(--accent-rgb),.55),0 0 80px rgba(var(--accent-rgb),.28);
 }
-.case__badge-lbl{
-  display:block;margin-top:.6rem;
-  font-family:var(--mono);font-size:.74rem;font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
-}
+.case--store .case__badge{font-size:clamp(4.4rem,11vw,8.4rem)}
 .case__title{
   font-family:var(--display);font-weight:600;
   font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.04;letter-spacing:-.02em;
-  margin:1.6rem 0 .9rem;
+  margin:1.5rem 0 0;
 }
+.case--store .case__title{font-size:clamp(2rem,3.6vw,3rem);margin-top:1.9rem}
+/* Ligne de marque sous le titre — scaleX animé au reveal */
+.case__rule{
+  display:block;height:3px;width:clamp(84px,9vw,132px);
+  margin:1rem 0 .9rem;border-radius:3px;
+  background:var(--accent);box-shadow:0 0 14px rgba(var(--accent-rgb),.7);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .8s var(--ease) .25s;
+}
+.case--store .case__rule{height:4px;width:clamp(104px,11vw,168px)}
+.case__text.in .case__rule{transform:scaleX(1)}
+/* Texte accrocheur (accent) sous le titre */
+.case__tag{
+  display:block;
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.15rem,2.4vw,1.55rem);letter-spacing:-.01em;color:var(--accent);
+  text-shadow:0 0 22px rgba(var(--accent-rgb),.35);
+  margin-bottom:1.1rem;
+}
+.case--store .case__tag{font-size:clamp(1.35rem,2.8vw,1.9rem)}
 .case__desc{color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.6;max-width:46ch}
+.case--store .case__desc{font-size:clamp(1.05rem,1.4vw,1.18rem)}
 .case__link{margin-top:1.4rem}
+.case--store .case__link{color:var(--accent)}
+.case--store .case__link:hover{color:#57a4ff}
+
+/* Média : logos de marque ghostés en angle derrière le rectangle vidéo */
+.case__media{position:relative}
+.case__media > .vframe--wide,
+.case__media > .case__phone{position:relative;z-index:1}
+.case__ghost{position:absolute;z-index:0;pointer-events:none;opacity:.08;width:44%;height:auto}
+.case__ghost--client{left:-7%;bottom:-12%;transform:rotate(-8deg)}
+.case__ghost--gnj{right:-7%;bottom:-12%;width:38%;transform:rotate(8deg)}
+.case--store .case__ghost--client{width:48%}
 
 /* Cadre vidéo témoignage : placeholder stylé + bouton play glassmorphism */
 .vframe{position:relative;width:100%;height:100%;overflow:hidden;background:#151517}
@@ -658,6 +693,15 @@ section{position:relative;z-index:1}
 .vframe--wide video{width:100%;height:100%;object-fit:cover;border-radius:16px;background:#151517}
 .vframe--phone{border-radius:clamp(1.05rem,2.4vw,1.65rem)}
 .case__phone{max-width:300px;margin-inline:auto}
+/* Liserés accent par bloc (confinés) */
+.case--store .vframe--wide{
+  border-color:rgba(var(--accent-rgb),.5);
+  box-shadow:0 0 30px -6px rgba(var(--accent-rgb),.35),0 22px 60px -26px rgba(0,0,0,.75);
+}
+.case--rock .case__phone .phone{
+  border-color:rgba(var(--accent-rgb),.5);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 26px -4px rgba(var(--accent-rgb),.45),inset 0 0 0 1px rgba(255,255,255,.04);
+}
 
 .vplay{
   position:absolute;inset:0;z-index:3;width:100%;
@@ -689,8 +733,13 @@ section{position:relative;z-index:1}
 @media (max-width:900px){
   /* Colonne : badge → texte → vidéo (l'ordre DOM texte→média reprend le dessus) */
   .case{grid-template-columns:1fr;gap:clamp(1.6rem,6vw,2.6rem)}
+  .case--store{padding:clamp(1rem,3vw,2rem) 0}
   .case--reverse .case__media{order:0}
   .case__desc{max-width:none}
+  /* Logos ghostés ~50% plus petits, restent visibles sans déborder */
+  .case__ghost--client{width:28%}
+  .case__ghost--gnj{width:24%}
+  .case--store .case__ghost--client{width:30%}
 }
 
 /* ============================================================
@@ -794,7 +843,7 @@ section{position:relative;z-index:1}
 </section>
 
 <!-- ====================== RÉSULTATS CLIENTS (case studies vidéo) ====================== -->
-<section class="section" aria-label="Résultats clients">
+<section class="section cases-section" aria-label="Résultats clients">
   <span class="vlabel vlabel--left">Études de cas</span>
   <span class="vlabel vlabel--right">Des résultats concrets, pas des promesses</span>
 
@@ -806,16 +855,19 @@ section{position:relative;z-index:1}
 
     <div class="cases">
 
-      <!-- Case study 1 — Store Mobile Québec (texte à gauche · vidéo à droite) -->
-      <article class="case">
+      <!-- Case study 1 — Store Mobile Québec · FLAGSHIP · accent bleu (texte à gauche · vidéo à droite) -->
+      <article class="case case--store">
         <div class="case__text reveal">
           <span class="case__badge">jusqu'à x20</span>
-          <span class="case__badge-lbl">Retour sur investissement</span>
           <h3 class="case__title">Store Mobile Québec</h3>
+          <span class="case__rule" aria-hidden="true"></span>
+          <span class="case__tag">20x ROI avec nous</span>
           <p class="case__desc">Partenaire depuis le début. Contenu, publicités Meta, systèmes d'acquisition — tout ce qu'on bâtit travaille ensemble. Résultat&nbsp;: un retour allant jusqu'à x20 sur l'investissement.</p>
           <a class="case__link link-mono" href="https://storemobilequebec.ca" target="_blank" rel="noopener">Voir leur site →</a>
         </div>
         <div class="case__media reveal">
+          <img class="case__ghost case__ghost--client" src="assets/img/logos/logo15.png" alt="" aria-hidden="true">
+          <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
           <div class="vframe vframe--wide">
             <video data-temoignage preload="none" playsinline src="assets/video/temoignages/storemobile.mp4"></video>
             <button type="button" class="vplay" aria-label="Lire le témoignage vidéo de Store Mobile Québec">
@@ -826,15 +878,19 @@ section{position:relative;z-index:1}
         </div>
       </article>
 
-      <!-- Case study 2 — Rock Fish Tattoo (vidéo à gauche · texte à droite) -->
-      <article class="case case--reverse">
+      <!-- Case study 2 — Rock Fish Tattoo · accent rouge (vidéo à gauche · texte à droite) -->
+      <article class="case case--reverse case--rock">
         <div class="case__text reveal">
           <span class="case__badge">x2</span>
-          <span class="case__badge-lbl">Chiffre d'affaires doublé</span>
           <h3 class="case__title">Rock Fish Tattoo</h3>
+          <span class="case__rule" aria-hidden="true"></span>
+          <span class="case__tag">Chiffre d'affaires doublé</span>
           <p class="case__desc">Client fidèle depuis plus d'un an. 800+ prospects générés, +2,5M de vues. Son chiffre d'affaires a doublé — pis c'est lui qui le dit dans la vidéo.</p>
         </div>
         <div class="case__media reveal">
+          <!-- logo Rock Fish absent du repo : wiré sur assets/img/logos/rockfish.png, masqué proprement tant qu'il n'existe pas -->
+          <img class="case__ghost case__ghost--client" src="assets/img/logos/rockfish.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+          <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
           <div class="case__phone">
             <div class="phone">
               <span class="phone__notch"></span>
