@@ -618,6 +618,82 @@ section{position:relative;z-index:1}
 .footer__copy{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);width:100%;margin-top:1rem}
 
 /* ============================================================
+   RÉSULTATS CLIENTS — case studies vidéo (témoignages)
+   ============================================================ */
+.section__title{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.5rem,6vw,5rem);line-height:1;letter-spacing:-.03em;
+  color:#fff;margin-top:1rem;
+}
+.cases{display:flex;flex-direction:column;gap:clamp(4rem,9vw,7.5rem)}
+.case{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,5vw,4.5rem);align-items:center;
+}
+/* Alterné : case 2 = vidéo à gauche (l'ordre DOM reste texte→média pour le mobile) */
+.case--reverse .case__media{order:-1}
+
+.case__badge{
+  display:block;
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(3.6rem,9vw,7rem);line-height:.85;letter-spacing:-.03em;color:#fff;
+  text-shadow:0 0 34px rgba(255,255,255,.55),0 0 80px rgba(255,255,255,.28);
+}
+.case__badge-lbl{
+  display:block;margin-top:.6rem;
+  font-family:var(--mono);font-size:.74rem;font-weight:500;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+}
+.case__title{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.04;letter-spacing:-.02em;
+  margin:1.6rem 0 .9rem;
+}
+.case__desc{color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.6;max-width:46ch}
+.case__link{margin-top:1.4rem}
+
+/* Cadre vidéo témoignage : placeholder stylé + bouton play glassmorphism */
+.vframe{position:relative;width:100%;height:100%;overflow:hidden;background:#151517}
+.vframe--wide{aspect-ratio:16/9;border:1px solid rgba(255,255,255,.12);border-radius:16px}
+.vframe--wide video{width:100%;height:100%;object-fit:cover;border-radius:16px;background:#151517}
+.vframe--phone{border-radius:clamp(1.05rem,2.4vw,1.65rem)}
+.case__phone{max-width:300px;margin-inline:auto}
+
+.vplay{
+  position:absolute;inset:0;z-index:3;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.05rem;
+  cursor:pointer;border:0;border-radius:inherit;
+  background:radial-gradient(ellipse at center,rgba(10,10,11,.12),rgba(10,10,11,.5));
+  transition:background .3s var(--ease);
+}
+.vplay:hover{background:radial-gradient(ellipse at center,rgba(10,10,11,.04),rgba(10,10,11,.42))}
+.is-playing .vplay{display:none}
+.vplay__btn{
+  width:clamp(58px,7vw,74px);height:clamp(58px,7vw,74px);border-radius:50%;
+  display:grid;place-items:center;color:#fff;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.05);
+  transition:transform .3s var(--ease),background .3s var(--ease);
+}
+.vplay__btn svg{margin-left:3px}
+.vplay:hover .vplay__btn{transform:scale(1.08);background:rgba(255,255,255,.2)}
+.vplay__lbl{
+  font-family:var(--mono);font-size:.62rem;font-weight:500;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+}
+.case__media.reveal{transition-delay:.12s}
+.cases .case:nth-child(2) .case__text.reveal{transition-delay:.06s}
+
+@media (max-width:900px){
+  /* Colonne : badge → texte → vidéo (l'ordre DOM texte→média reprend le dessus) */
+  .case{grid-template-columns:1fr;gap:clamp(1.6rem,6vw,2.6rem)}
+  .case--reverse .case__media{order:0}
+  .case__desc{max-width:none}
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width:900px){
@@ -707,6 +783,88 @@ section{position:relative;z-index:1}
       </span>
     </h1>
 
+    <div class="hero__cta">
+      <div class="magnet" id="heroMagnet">
+        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__cue" id="heroCue" aria-hidden="true"><span class="cue__line"></span><span class="cue__txt">Scroll</span></div>
+</section>
+
+<!-- ====================== RÉSULTATS CLIENTS (case studies vidéo) ====================== -->
+<section class="section" aria-label="Résultats clients">
+  <span class="vlabel vlabel--left">Études de cas</span>
+  <span class="vlabel vlabel--right">Des résultats concrets, pas des promesses</span>
+
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">Résultats clients</span>
+      <h2 class="section__title">Des résultats.<br>Pas des promesses.</h2>
+    </div>
+
+    <div class="cases">
+
+      <!-- Case study 1 — Store Mobile Québec (texte à gauche · vidéo à droite) -->
+      <article class="case">
+        <div class="case__text reveal">
+          <span class="case__badge">jusqu'à x20</span>
+          <span class="case__badge-lbl">Retour sur investissement</span>
+          <h3 class="case__title">Store Mobile Québec</h3>
+          <p class="case__desc">Partenaire depuis le début. Contenu, publicités Meta, systèmes d'acquisition — tout ce qu'on bâtit travaille ensemble. Résultat&nbsp;: un retour allant jusqu'à x20 sur l'investissement.</p>
+          <a class="case__link link-mono" href="https://storemobilequebec.ca" target="_blank" rel="noopener">Voir leur site →</a>
+        </div>
+        <div class="case__media reveal">
+          <div class="vframe vframe--wide">
+            <video data-temoignage preload="none" playsinline src="assets/video/temoignages/storemobile.mp4"></video>
+            <button type="button" class="vplay" aria-label="Lire le témoignage vidéo de Store Mobile Québec">
+              <span class="vplay__btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+              <span class="vplay__lbl">Témoignage vidéo · À venir</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case study 2 — Rock Fish Tattoo (vidéo à gauche · texte à droite) -->
+      <article class="case case--reverse">
+        <div class="case__text reveal">
+          <span class="case__badge">x2</span>
+          <span class="case__badge-lbl">Chiffre d'affaires doublé</span>
+          <h3 class="case__title">Rock Fish Tattoo</h3>
+          <p class="case__desc">Client fidèle depuis plus d'un an. 800+ prospects générés, +2,5M de vues. Son chiffre d'affaires a doublé — pis c'est lui qui le dit dans la vidéo.</p>
+        </div>
+        <div class="case__media reveal">
+          <div class="case__phone">
+            <div class="phone">
+              <span class="phone__notch"></span>
+              <div class="vframe vframe--phone">
+                <video data-temoignage preload="none" playsinline src="assets/video/temoignages/rockfish.mp4"></video>
+                <button type="button" class="vplay" aria-label="Lire le témoignage vidéo de Rock Fish Tattoo">
+                  <span class="vplay__btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+                  <span class="vplay__lbl">Témoignage vidéo · À venir</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====================== DU CONTENU QUI PERFORME (reels) ====================== -->
+<section class="section" aria-label="Du contenu qui performe">
+  <span class="vlabel vlabel--left">Réalisations</span>
+  <span class="vlabel vlabel--right">Du short-form qui génère des leads</span>
+
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">Contenu organique</span>
+      <h2 class="section__title">Du contenu qui performe.</h2>
+    </div>
+
     <div class="reels">
       <figure class="reel reveal">
         <figcaption class="reel__cap reveal">
@@ -744,15 +902,7 @@ section{position:relative;z-index:1}
         </div>
       </figure>
     </div>
-
-    <div class="hero__cta">
-      <div class="magnet" id="heroMagnet">
-        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
-      </div>
-    </div>
   </div>
-
-  <div class="hero__cue" id="heroCue" aria-hidden="true"><span class="cue__line"></span><span class="cue__txt">Scroll</span></div>
 </section>
 
 <!-- ====================== TRUST BAR ====================== -->
@@ -1023,8 +1173,8 @@ section{position:relative;z-index:1}
   onScroll();
   window.addEventListener("scroll", onScroll, {passive:true});
 
-  /* --- Vidéos : forcer le play (battre le blocage autoplay) --- */
-  var vids = document.querySelectorAll("video");
+  /* --- Vidéos : forcer le play (battre le blocage autoplay) — hors témoignages (son, clic requis) --- */
+  var vids = document.querySelectorAll("video:not([data-temoignage])");
   function kick(v){
     var p = v.play();
     if (p && typeof p.catch === "function") p.catch(function(){});
@@ -1048,6 +1198,29 @@ section{position:relative;z-index:1}
     feed.addEventListener("scroll", function(){
       feed.querySelectorAll("video").forEach(kick);
     }, {passive:true});
+  });
+
+  /* --- Case studies : témoignages (avec son, pas d'autoplay, une seule vidéo à la fois) --- */
+  var temoins = document.querySelectorAll("video[data-temoignage]");
+  var playingTemoin = null;
+  temoins.forEach(function(v){
+    var frame = v.closest(".vframe");
+    var overlay = frame ? frame.querySelector(".vplay") : null;
+    var launch = function(){
+      if (playingTemoin && playingTemoin !== v) playingTemoin.pause();
+      v.muted = false;                          // témoignage parlé : on veut le son
+      var p = v.play();
+      if (p && typeof p.catch === "function") p.catch(function(){});
+    };
+    if (overlay) overlay.addEventListener("click", launch);
+    // L'overlay ne se cache (et les contrôles n'apparaissent) qu'au vrai démarrage :
+    // tant que le fichier n'existe pas, le clic ne casse rien.
+    v.addEventListener("play", function(){
+      if (playingTemoin && playingTemoin !== v) playingTemoin.pause();
+      playingTemoin = v;
+      v.controls = true;
+      if (frame) frame.classList.add("is-playing");
+    });
   });
 
   /* --- Reveal au scroll --- */
