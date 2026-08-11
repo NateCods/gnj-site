@@ -656,6 +656,28 @@ section{position:relative;z-index:1}
   0%,100%{text-shadow:0 0 24px rgba(255,30,60,.8),0 0 60px rgba(255,45,45,.5)}
   50%{text-shadow:0 0 36px rgba(255,30,60,.95),0 0 84px rgba(255,45,45,.65)}
 }
+/* Rock Fish : encadrés d'infos de part et d'autre du cellulaire */
+.case--rock .case__media{align-items:center;gap:clamp(.9rem,3vw,2.4rem)}
+.case__aside{display:flex;flex-direction:column;gap:clamp(1.1rem,2.6vw,1.9rem);flex:1 1 0;min-width:0;max-width:230px}
+.case__aside--left{text-align:right;align-items:flex-end}
+.case__aside--right{text-align:left;align-items:flex-start}
+.case__stat-item{display:flex;flex-direction:column;gap:.3rem}
+.case__stat-num{
+  font-family:var(--display);font-weight:700;line-height:1;letter-spacing:-.01em;
+  font-size:clamp(1.4rem,2.3vw,2.05rem);
+  color:#E23B3B;text-shadow:0 0 20px rgba(226,59,59,.28);
+}
+.case__stat-lbl{
+  font-family:var(--mono);font-size:.66rem;line-height:1.35;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+}
+@media (max-width:760px){
+  .case--rock .case__media{flex-direction:column;gap:clamp(1.4rem,5vw,2rem)}
+  .case--rock .case__phone{order:-1}
+  .case--rock .case__aside{max-width:none;width:100%;flex-direction:row;justify-content:center;
+    align-items:flex-start;gap:clamp(1.4rem,7vw,3rem)}
+  .case--rock .case__aside .case__stat-item{align-items:center;text-align:center}
+}
 /* Contenu au-dessus du logo flou */
 .case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
@@ -906,6 +928,10 @@ section{position:relative;z-index:1}
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
+          <div class="case__aside case__aside--left">
+            <div class="case__stat-item"><span class="case__stat-num">800</span><span class="case__stat-lbl">leads générés</span></div>
+            <div class="case__stat-item"><span class="case__stat-num">CPL bas</span><span class="case__stat-lbl">coût par lead réduit</span></div>
+          </div>
           <div class="case__phone">
             <div class="phone">
               <span class="phone__notch"></span>
@@ -917,6 +943,10 @@ section{position:relative;z-index:1}
                 </button>
               </div>
             </div>
+          </div>
+          <div class="case__aside case__aside--right">
+            <div class="case__stat-item"><span class="case__stat-num">Pubs Meta</span><span class="case__stat-lbl">qui convertissent</span></div>
+            <div class="case__stat-item"><span class="case__stat-num">1 an+</span><span class="case__stat-lbl">de contenu clé en main</span></div>
           </div>
         </div>
       </article>
