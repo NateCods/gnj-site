@@ -644,6 +644,18 @@ section{position:relative;z-index:1}
 .case--rock .case__bg{mix-blend-mode:screen;opacity:.5;filter:blur(8px)}
 /* Titre Rock Fish en rouge */
 .case--rock .case__title{color:#E23B3B;text-shadow:0 0 22px rgba(226,59,59,.22)}
+/* "2x" Rock Fish — rouge néon flash pulsant (miroir du "20x" bleu de Store Mobile) */
+.case--rock .case__stat{
+  background:linear-gradient(90deg,#FF1E3C,#FF5E5E);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  text-shadow:0 0 24px rgba(255,30,60,.8),0 0 60px rgba(255,45,45,.5);
+  animation:statGlowRed 3.5s ease-in-out infinite;
+}
+@keyframes statGlowRed{
+  0%,100%{text-shadow:0 0 24px rgba(255,30,60,.8),0 0 60px rgba(255,45,45,.5)}
+  50%{text-shadow:0 0 36px rgba(255,30,60,.95),0 0 84px rgba(255,45,45,.65)}
+}
 /* Contenu au-dessus du logo flou */
 .case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
@@ -890,7 +902,7 @@ section{position:relative;z-index:1}
         <img class="case__bg" src="assets/img/logos/rockfish.png" alt="" aria-hidden="true">
         <div class="case__text reveal">
           <h3 class="case__title">Rock Fish Tattoo</h3>
-          <span class="case__tag">Chiffre d'affaires doublé</span>
+          <span class="case__tag"><span class="case__stat">2x</span> son chiffre d'affaires</span>
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
