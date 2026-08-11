@@ -630,9 +630,18 @@ section{position:relative;z-index:1}
 /* Layout vertical centré (titre → gros stat → vidéo → lien) */
 .case{
   --accent:#fff;--accent-rgb:255,255,255;
+  position:relative;overflow:hidden;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   gap:clamp(1.6rem,3.5vw,2.6rem);
 }
+/* Gros logo client flou, centré derrière tout le contenu du bloc */
+.case__bg{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:66%;height:auto;z-index:0;
+  filter:blur(14px);opacity:.08;pointer-events:none;user-select:none;
+}
+/* Contenu au-dessus du logo flou */
+.case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
 .case--store{--accent:#1877F2;--accent-rgb:24,119,242}
 .case--rock{--accent:#D32F2F;--accent-rgb:211,47,47}
@@ -686,9 +695,7 @@ section{position:relative;z-index:1}
 .case__media > .case__phone{position:relative;z-index:1}
 .case__media > .vframe--wide{width:100%}
 .case__ghost{position:absolute;z-index:0;pointer-events:none;opacity:.08;width:40%;height:auto}
-.case__ghost--client{left:-4%;bottom:-12%;transform:rotate(-8deg)}
 .case__ghost--gnj{right:-4%;bottom:-12%;width:34%;transform:rotate(8deg)}
-.case--store .case__ghost--client{width:44%}
 
 /* Cadre vidéo témoignage : placeholder stylé + bouton play glassmorphism */
 .vframe{position:relative;width:100%;height:100%;overflow:hidden;background:#151517}
@@ -735,10 +742,10 @@ section{position:relative;z-index:1}
 
 @media (max-width:900px){
   .cases{gap:clamp(3.5rem,10vw,6rem)}
-  /* Logos ghostés ~50% plus petits, restent visibles sans déborder */
-  .case__ghost--client{width:26%}
+  /* Logo flou centré : réduit mais présent, clippé par overflow:hidden du bloc */
+  .case__bg{width:85vw}
+  /* Logo GNJ ghosté ~50% plus petit */
   .case__ghost--gnj{width:22%}
-  .case--store .case__ghost--client{width:30%}
 }
 
 /* ============================================================
@@ -855,13 +862,13 @@ section{position:relative;z-index:1}
 
       <!-- Case study 1 — Store Mobile Québec · accent bleu · vidéo pleine largeur 16:9 -->
       <article class="case case--store">
+        <img class="case__bg" src="assets/img/logos/logo15.png" alt="" aria-hidden="true">
         <div class="case__text reveal">
           <h3 class="case__title">Store Mobile Québec</h3>
           <span class="case__tag"><span class="case__stat">20x</span> ROI avec nous</span>
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
-          <img class="case__ghost case__ghost--client" src="assets/img/logos/logo15.png" alt="" aria-hidden="true">
           <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
           <div class="vframe vframe--wide">
             <video data-temoignage preload="none" playsinline src="assets/video/temoignages/storemobile.mp4"></video>
@@ -876,14 +883,14 @@ section{position:relative;z-index:1}
 
       <!-- Case study 2 — Rock Fish Tattoo · accent rouge · vidéo verticale 9:16 centrée -->
       <article class="case case--rock">
+        <!-- logo Rock Fish absent du repo : wiré sur rockfish.png, masqué (onerror) tant qu'il n'existe pas -->
+        <img class="case__bg" src="assets/img/logos/rockfish.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
         <div class="case__text reveal">
           <h3 class="case__title">Rock Fish Tattoo</h3>
           <span class="case__tag">Chiffre d'affaires doublé</span>
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
-          <!-- logo Rock Fish absent du repo : wiré sur assets/img/logos/rockfish.png, masqué proprement tant qu'il n'existe pas -->
-          <img class="case__ghost case__ghost--client" src="assets/img/logos/rockfish.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
           <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
           <div class="case__phone">
             <div class="phone">
