@@ -661,22 +661,22 @@ section{position:relative;z-index:1}
 .case__aside{display:flex;flex-direction:column;gap:clamp(1.9rem,4.5vw,3.2rem);flex:1 1 0;min-width:0;max-width:280px}
 .case__aside--left{text-align:right;align-items:flex-end}
 .case__aside--right{text-align:left;align-items:flex-start}
-/* label (titre) blanc AU-DESSUS, chiffre rouge EN DESSOUS (column-reverse) */
-.case__stat-item{display:flex;flex-direction:column-reverse;gap:.55rem}
+/* label (titre) blanc AU-DESSUS, chiffre blanc EN DESSOUS (column-reverse) — texte 2× */
+.case__stat-item{display:flex;flex-direction:column-reverse;gap:.7rem}
 .case__stat-num{
   font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.01em;
-  font-size:clamp(1.8rem,3vw,2.7rem);
-  color:#E23B3B;text-shadow:0 0 22px rgba(226,59,59,.3);
+  font-size:clamp(3.6rem,6vw,5.4rem);
+  color:#fff;text-shadow:0 0 26px rgba(255,255,255,.18);
 }
 .case__stat-lbl{
-  font-family:var(--mono);font-size:.78rem;line-height:1.4;
-  letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  font-family:var(--mono);font-size:1.56rem;line-height:1.35;
+  letter-spacing:.14em;text-transform:uppercase;color:#fff;
 }
 @media (max-width:760px){
   .case--rock .case__media{flex-direction:column;gap:clamp(1.4rem,5vw,2rem)}
   .case--rock .case__phone{order:-1}
-  .case--rock .case__aside{max-width:none;width:100%;flex-direction:row;justify-content:center;
-    align-items:flex-start;gap:clamp(1.4rem,7vw,3rem)}
+  .case--rock .case__aside{max-width:none;width:100%;flex-direction:column;justify-content:center;
+    align-items:center;gap:clamp(1.8rem,6vw,2.6rem)}
   .case--rock .case__aside .case__stat-item{align-items:center;text-align:center}
 }
 /* Contenu au-dessus du logo flou */
