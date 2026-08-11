@@ -643,18 +643,14 @@ section{position:relative;z-index:1}
 /* Logo Rock Fish sombre : blend screen révèle le glow rose sur le fond near-black */
 .case--rock .case__bg{mix-blend-mode:screen;opacity:.5;filter:blur(8px)}
 /* Titre Rock Fish en rouge */
-.case--rock .case__title{color:#E23B3B;text-shadow:0 0 22px rgba(226,59,59,.22)}
-/* "2x" Rock Fish — rouge néon flash pulsant (miroir du "20x" bleu de Store Mobile) */
+.case--rock .case__title{color:#8EC5FF;text-shadow:0 0 22px rgba(142,197,255,.18)}
+/* "2x" Rock Fish — bleu néon flash pulsant (identique au "20x" de Store Mobile) */
 .case--rock .case__stat{
-  background:linear-gradient(90deg,#FF1E3C,#FF5E5E);
+  background:linear-gradient(90deg,#1E90FF,#00A2FF);
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;
-  text-shadow:0 0 24px rgba(255,30,60,.8),0 0 60px rgba(255,45,45,.5);
-  animation:statGlowRed 3.5s ease-in-out infinite;
-}
-@keyframes statGlowRed{
-  0%,100%{text-shadow:0 0 24px rgba(255,30,60,.8),0 0 60px rgba(255,45,45,.5)}
-  50%{text-shadow:0 0 36px rgba(255,30,60,.95),0 0 84px rgba(255,45,45,.65)}
+  text-shadow:0 0 24px rgba(30,144,255,.75),0 0 60px rgba(0,162,255,.45);
+  animation:statGlow 3.5s ease-in-out infinite;
 }
 /* Rock Fish : encadrés d'infos de part et d'autre du cellulaire */
 .case--rock .case__media{align-items:center;gap:clamp(1.3rem,4vw,3.2rem)}
@@ -666,15 +662,15 @@ section{position:relative;z-index:1}
 .case__stat-num{
   font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.015em;
   font-size:clamp(3rem,4.4vw,4.4rem);
-  background:linear-gradient(180deg,#FF5666 0%,#E11734 58%,#C20F28 100%);
+  background:linear-gradient(180deg,#8EC5FF 0%,#1E90FF 58%,#0A84FF 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-  text-shadow:0 0 18px rgba(226,23,52,.4),0 0 46px rgba(194,15,40,.24);
+  text-shadow:0 0 18px rgba(30,144,255,.4),0 0 46px rgba(10,132,255,.24);
   animation:statGlowPro 6s ease-in-out infinite;
 }
-/* Glow rouge premium : respire lentement, halo en couches (pas de pulse "jouet") */
+/* Glow bleu premium : respire lentement, halo en couches */
 @keyframes statGlowPro{
-  0%,100%{text-shadow:0 0 16px rgba(226,23,52,.34),0 0 42px rgba(194,15,40,.2)}
-  50%{text-shadow:0 0 26px rgba(255,70,92,.5),0 0 64px rgba(226,23,52,.32)}
+  0%,100%{text-shadow:0 0 16px rgba(30,144,255,.34),0 0 42px rgba(10,132,255,.2)}
+  50%{text-shadow:0 0 26px rgba(90,180,255,.5),0 0 64px rgba(30,144,255,.32)}
 }
 .case__stat-lbl{
   font-family:var(--mono);font-size:1rem;line-height:1.35;
@@ -685,12 +681,12 @@ section{position:relative;z-index:1}
 .case__steps-title{font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,2vw,1.8rem);line-height:1.1;color:#fff}
 .steps{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:1.7rem}
 .steps::before{content:"";position:absolute;left:17px;top:17px;bottom:17px;width:2px;
-  background:linear-gradient(#E23B3B,rgba(226,59,59,.2));z-index:0}
+  background:linear-gradient(#1E90FF,rgba(30,144,255,.2));z-index:0}
 .step{position:relative;display:flex;gap:1rem;align-items:flex-start}
 .step__num{
   flex:0 0 auto;width:34px;height:34px;border-radius:50%;position:relative;z-index:1;
   display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:.9rem;color:#fff;
-  background:#E23B3B;box-shadow:0 0 16px rgba(226,59,59,.55);
+  background:#1E90FF;box-shadow:0 0 16px rgba(30,144,255,.6);
 }
 .step__txt{font-family:var(--mono);font-size:1rem;line-height:1.45;letter-spacing:.02em;color:#fff;padding-top:.4rem}
 /* Un peu plus d'animation : la ligne se dessine + les étapes arrivent en cascade au reveal */
@@ -715,7 +711,7 @@ section{position:relative;z-index:1}
 .case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
 .case--store{--accent:#1877F2;--accent-rgb:24,119,242}
-.case--rock{--accent:#D32F2F;--accent-rgb:211,47,47}
+.case--rock{--accent:#1877F2;--accent-rgb:24,119,242}
 
 /* En-tête centré : titre → gros stat → ligne animée */
 .case__title{
