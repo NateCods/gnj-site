@@ -660,6 +660,21 @@ section{position:relative;z-index:1}
 }
 .case__text.in .case__rule{transform:scaleX(1)}
 
+/* Store Mobile — titre bleu pâle · stat "20x" bleu flash pulsant · ligne bleu flash */
+.case--store .case__title{color:#8EC5FF;text-shadow:0 0 20px rgba(142,197,255,.14)}
+.case--store .case__stat{
+  background:linear-gradient(90deg,#1E90FF,#00A2FF);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  text-shadow:0 0 24px rgba(30,144,255,.75),0 0 60px rgba(0,162,255,.45);
+  animation:statGlow 3.5s ease-in-out infinite;
+}
+.case--store .case__rule{background:#1E90FF;box-shadow:0 0 16px rgba(30,144,255,.75)}
+@keyframes statGlow{
+  0%,100%{text-shadow:0 0 24px rgba(30,144,255,.75),0 0 60px rgba(0,162,255,.45)}
+  50%{text-shadow:0 0 34px rgba(30,144,255,.92),0 0 80px rgba(0,162,255,.6)}
+}
+
 /* Lien discret sous la vidéo */
 .case__link{margin:0}
 .case--store .case__link{color:var(--accent)}
@@ -842,7 +857,7 @@ section{position:relative;z-index:1}
       <article class="case case--store">
         <div class="case__text reveal">
           <h3 class="case__title">Store Mobile Québec</h3>
-          <span class="case__tag">20x ROI avec nous</span>
+          <span class="case__tag"><span class="case__stat">20x</span> ROI avec nous</span>
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
