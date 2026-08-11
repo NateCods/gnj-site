@@ -664,10 +664,17 @@ section{position:relative;z-index:1}
 /* label (titre) blanc AU-DESSUS, chiffre blanc EN DESSOUS (column-reverse) — texte 2× */
 .case__stat-item{display:flex;flex-direction:column-reverse;gap:.7rem}
 .case__stat-num{
-  font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.01em;
+  font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.015em;
   font-size:clamp(3.6rem,6vw,5.4rem);
-  color:#FF2E43;text-shadow:0 0 28px rgba(255,46,67,.45);
-  animation:statGlowRed 4s ease-in-out infinite;
+  background:linear-gradient(180deg,#FF5666 0%,#E11734 58%,#C20F28 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  text-shadow:0 0 18px rgba(226,23,52,.4),0 0 46px rgba(194,15,40,.24);
+  animation:statGlowPro 6s ease-in-out infinite;
+}
+/* Glow rouge premium : respire lentement, halo en couches (pas de pulse "jouet") */
+@keyframes statGlowPro{
+  0%,100%{text-shadow:0 0 16px rgba(226,23,52,.34),0 0 42px rgba(194,15,40,.2)}
+  50%{text-shadow:0 0 26px rgba(255,70,92,.5),0 0 64px rgba(226,23,52,.32)}
 }
 .case__stat-lbl{
   font-family:var(--mono);font-size:1.56rem;line-height:1.35;
