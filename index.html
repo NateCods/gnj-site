@@ -300,25 +300,32 @@ section{position:relative;z-index:1}
   background:#0c0c0e;
 }
 
-/* ===== Hero 2 colonnes : logo + CTA à gauche, reels/stats à droite (tient en une page) ===== */
-.hero{padding:clamp(96px,12vh,132px) 0 clamp(56px,8vh,80px)}
-.hero__grid{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
-  align-items:center;gap:clamp(1.8rem,4.5vw,4rem);
+/* ===== Hero centré : gros logo → petit texte → 3 reels, tout en une page ===== */
+.hero{height:100svh;min-height:600px;padding:clamp(80px,9vh,112px) 0 clamp(20px,3.5vh,38px);justify-content:center}
+.hero .hero-props{display:none}
+.hero__word{margin:0}
+.hero__gnj{font-size:clamp(3rem,calc(6.5vw + 4vh),12rem)}
+.hero__tag{
+  text-align:center;margin:clamp(.5rem,1.4vh,1.1rem) 0 0;
+  font-family:var(--mono);font-size:clamp(.66rem,1.3vw,.92rem);
+  letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
 }
-.hero__lead{display:flex;flex-direction:column;align-items:center;text-align:center}
-.hero__grid .hero__gnj{font-size:clamp(3rem,8vw,7rem)}
-.hero__grid .hero-props{display:none}
-.hero__lead .hero__cta{margin-top:clamp(1.3rem,3vw,2.2rem)}
-.hero__reels{margin-top:0}
-.hero__reels .reel{gap:.7rem}
-.hero__reels .reel__cap{padding:.55rem .7rem;gap:.12rem;border-radius:12px}
-.hero__reels .reel__num{font-size:clamp(1.45rem,2.5vw,2.2rem);text-shadow:0 0 14px rgba(255,255,255,.3)}
-.hero__reels .reel__sub{font-size:.8rem}
-.hero__reels .reel__client{font-size:.58rem;letter-spacing:.16em}
-@media (max-width:900px){
-  .hero__grid{grid-template-columns:1fr;gap:clamp(1.8rem,6vw,2.8rem)}
-  .hero__reels{max-width:520px;margin-inline:auto}
+.hero__reels{
+  margin-top:clamp(1rem,3vh,2.4rem);
+  display:flex;justify-content:center;align-items:flex-end;flex-wrap:nowrap;
+  gap:clamp(.7rem,2vw,1.8rem);
+}
+.hero__reels .reel{gap:clamp(.4rem,1vh,.7rem);width:auto}
+.hero__reels .reel__cap{padding:.5rem .7rem;gap:.08rem;border-radius:12px}
+.hero__reels .reel__num{font-size:clamp(1.3rem,2.3vw,2.1rem);text-shadow:0 0 14px rgba(255,255,255,.3)}
+.hero__reels .reel__sub{font-size:clamp(.64rem,1vw,.8rem)}
+.hero__reels .reel__client{font-size:.55rem;letter-spacing:.14em}
+.hero__reels .phone{height:min(40vh,440px);width:auto;aspect-ratio:9/19.2}
+.hero .hero__cta{margin-top:clamp(.9rem,2vh,1.6rem)}
+@media (max-width:640px){
+  .hero__reels{gap:2.4vw}
+  .hero__reels .phone{height:min(32vh,320px)}
+  .hero__reels .reel__num{font-size:1.25rem}
 }
 
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
@@ -917,24 +924,17 @@ section{position:relative;z-index:1}
   <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
 
   <div class="wrap">
-    <div class="hero__grid">
-      <div class="hero__lead">
-        <h1 class="hero__word" id="heroWord">
-          <span class="hero__gnj">GNJ</span>
-          <span class="hero__media">MÉDIA</span>
-          <span class="hero-props" aria-hidden="true">
-            <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
-            <span class="hero-prop hero-prop--phone"><img src="assets/img/props/logometa.png" alt=""></span>
-          </span>
-        </h1>
-        <div class="hero__cta">
-          <div class="magnet" id="heroMagnet">
-            <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
-          </div>
-        </div>
-      </div>
+    <h1 class="hero__word" id="heroWord">
+      <span class="hero__gnj">GNJ</span>
+      <span class="hero__media">MÉDIA</span>
+      <span class="hero-props" aria-hidden="true">
+        <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
+        <span class="hero-prop hero-prop--phone"><img src="assets/img/props/logometa.png" alt=""></span>
+      </span>
+    </h1>
+    <p class="hero__tag">Des résultats concrets, pas des promesses</p>
 
-      <div class="hero__reels reels reveal" aria-label="Du contenu qui performe">
+    <div class="hero__reels reels reveal" aria-label="Du contenu qui performe">
         <figure class="reel reveal">
           <figcaption class="reel__cap reveal">
             <span class="reel__num">800+</span>
@@ -970,6 +970,11 @@ section{position:relative;z-index:1}
             <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
         </figure>
+    </div>
+
+    <div class="hero__cta">
+      <div class="magnet" id="heroMagnet">
+        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
       </div>
     </div>
   </div>
