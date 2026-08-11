@@ -300,6 +300,27 @@ section{position:relative;z-index:1}
   background:#0c0c0e;
 }
 
+/* ===== Hero 2 colonnes : logo + CTA à gauche, reels/stats à droite (tient en une page) ===== */
+.hero{padding:clamp(96px,12vh,132px) 0 clamp(56px,8vh,80px)}
+.hero__grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+  align-items:center;gap:clamp(1.8rem,4.5vw,4rem);
+}
+.hero__lead{display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero__grid .hero__gnj{font-size:clamp(3rem,8vw,7rem)}
+.hero__grid .hero-props{display:none}
+.hero__lead .hero__cta{margin-top:clamp(1.3rem,3vw,2.2rem)}
+.hero__reels{margin-top:0}
+.hero__reels .reel{gap:.7rem}
+.hero__reels .reel__cap{padding:.55rem .7rem;gap:.12rem;border-radius:12px}
+.hero__reels .reel__num{font-size:clamp(1.45rem,2.5vw,2.2rem);text-shadow:0 0 14px rgba(255,255,255,.3)}
+.hero__reels .reel__sub{font-size:.8rem}
+.hero__reels .reel__client{font-size:.58rem;letter-spacing:.16em}
+@media (max-width:900px){
+  .hero__grid{grid-template-columns:1fr;gap:clamp(1.8rem,6vw,2.8rem)}
+  .hero__reels{max-width:520px;margin-inline:auto}
+}
+
 .hero__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,6vw,4.5rem)}
 .hero__cta .btn--solid{box-shadow:0 0 26px rgba(255,255,255,.35)}
 
@@ -896,18 +917,59 @@ section{position:relative;z-index:1}
   <span class="vlabel vlabel--right">Studio vidéo &amp; publicité Meta — On transforme les vues en clients</span>
 
   <div class="wrap">
-    <h1 class="hero__word" id="heroWord">
-      <span class="hero__gnj">GNJ</span>
-      <span class="hero__media">MÉDIA</span>
-      <span class="hero-props" aria-hidden="true">
-        <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
-        <span class="hero-prop hero-prop--phone"><img src="assets/img/props/logometa.png" alt=""></span>
-      </span>
-    </h1>
+    <div class="hero__grid">
+      <div class="hero__lead">
+        <h1 class="hero__word" id="heroWord">
+          <span class="hero__gnj">GNJ</span>
+          <span class="hero__media">MÉDIA</span>
+          <span class="hero-props" aria-hidden="true">
+            <span class="hero-prop hero-prop--cam"><img src="assets/img/props/camera.png" alt=""></span>
+            <span class="hero-prop hero-prop--phone"><img src="assets/img/props/logometa.png" alt=""></span>
+          </span>
+        </h1>
+        <div class="hero__cta">
+          <div class="magnet" id="heroMagnet">
+            <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="hero__cta">
-      <div class="magnet" id="heroMagnet">
-        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+      <div class="hero__reels reels reveal" aria-label="Du contenu qui performe">
+        <figure class="reel reveal">
+          <figcaption class="reel__cap reveal">
+            <span class="reel__num">800+</span>
+            <span class="reel__sub">prospects · +2,5M vues</span>
+            <span class="reel__client">Rock Fish Tattoo</span>
+          </figcaption>
+          <div class="phone">
+            <span class="phone__notch"></span>
+            <video src="assets/video/rockfish.mp4" autoplay muted loop playsinline preload="auto"></video>
+          </div>
+        </figure>
+
+        <figure class="reel reveal">
+          <figcaption class="reel__cap reveal">
+            <span class="reel__num">750+</span>
+            <span class="reel__sub">prospects en 2 étés</span>
+            <span class="reel__client">Shine Up</span>
+          </figcaption>
+          <div class="phone">
+            <span class="phone__notch"></span>
+            <video src="assets/video/shineup.mp4" autoplay muted loop playsinline preload="auto"></video>
+          </div>
+        </figure>
+
+        <figure class="reel reveal">
+          <figcaption class="reel__cap reveal">
+            <span class="reel__num">+1 an</span>
+            <span class="reel__sub">qu'ils nous font confiance</span>
+            <span class="reel__client">Jardin Paradis et Accessoires</span>
+          </figcaption>
+          <div class="phone">
+            <span class="phone__notch"></span>
+            <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
+          </div>
+        </figure>
       </div>
     </div>
   </div>
@@ -984,57 +1046,6 @@ section{position:relative;z-index:1}
         </div>
       </article>
 
-    </div>
-  </div>
-</section>
-
-<!-- ====================== DU CONTENU QUI PERFORME (reels) ====================== -->
-<section class="section" aria-label="Du contenu qui performe">
-  <span class="vlabel vlabel--left">Réalisations</span>
-  <span class="vlabel vlabel--right">Du short-form qui génère des leads</span>
-
-  <div class="wrap">
-    <div class="section__head reveal">
-      <span class="eyebrow">Contenu organique</span>
-      <h2 class="section__title">Du contenu qui performe.</h2>
-    </div>
-
-    <div class="reels">
-      <figure class="reel reveal">
-        <figcaption class="reel__cap reveal">
-          <span class="reel__num">800+</span>
-          <span class="reel__sub">prospects · +2,5M vues</span>
-          <span class="reel__client">Rock Fish Tattoo</span>
-        </figcaption>
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/rockfish.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
-      </figure>
-
-      <figure class="reel reveal">
-        <figcaption class="reel__cap reveal">
-          <span class="reel__num">750+</span>
-          <span class="reel__sub">prospects en 2 étés</span>
-          <span class="reel__client">Shine Up</span>
-        </figcaption>
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/shineup.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
-      </figure>
-
-      <figure class="reel reveal">
-        <figcaption class="reel__cap reveal">
-          <span class="reel__num">+1 an</span>
-          <span class="reel__sub">qu'ils nous font confiance</span>
-          <span class="reel__client">Jardin Paradis et Accessoires</span>
-        </figcaption>
-        <div class="phone">
-          <span class="phone__notch"></span>
-          <video src="assets/video/jardin.mp4" autoplay muted loop playsinline preload="auto"></video>
-        </div>
-      </figure>
     </div>
   </div>
 </section>
