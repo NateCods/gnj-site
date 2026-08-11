@@ -641,7 +641,9 @@ section{position:relative;z-index:1}
   filter:blur(14px);opacity:.08;pointer-events:none;user-select:none;
 }
 /* Logo Rock Fish sombre : blend screen révèle le glow rose sur le fond near-black */
-.case--rock .case__bg{mix-blend-mode:screen;opacity:.5}
+.case--rock .case__bg{mix-blend-mode:screen;opacity:.5;filter:blur(8px)}
+/* Titre Rock Fish en rouge */
+.case--rock .case__title{color:#E23B3B;text-shadow:0 0 22px rgba(226,59,59,.22)}
 /* Contenu au-dessus du logo flou */
 .case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
@@ -892,7 +894,6 @@ section{position:relative;z-index:1}
           <span class="case__rule" aria-hidden="true"></span>
         </div>
         <div class="case__media reveal">
-          <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" aria-hidden="true">
           <div class="case__phone">
             <div class="phone">
               <span class="phone__notch"></span>
