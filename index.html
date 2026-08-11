@@ -665,7 +665,7 @@ section{position:relative;z-index:1}
 .case__stat-item{display:flex;flex-direction:column-reverse;gap:.7rem}
 .case__stat-num{
   font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.015em;
-  font-size:clamp(3.6rem,6vw,5.4rem);
+  font-size:clamp(2.3rem,3.4vw,3.3rem);
   background:linear-gradient(180deg,#FF5666 0%,#E11734 58%,#C20F28 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   text-shadow:0 0 18px rgba(226,23,52,.4),0 0 46px rgba(194,15,40,.24);
@@ -677,22 +677,22 @@ section{position:relative;z-index:1}
   50%{text-shadow:0 0 26px rgba(255,70,92,.5),0 0 64px rgba(226,23,52,.32)}
 }
 .case__stat-lbl{
-  font-family:var(--mono);font-size:1.56rem;line-height:1.35;
+  font-family:var(--mono);font-size:1rem;line-height:1.35;
   letter-spacing:.14em;text-transform:uppercase;color:#fff;
 }
 /* Gauche : "Ce qu'on a fait" — étapes reliées par une ligne verticale (plus gros) */
-.case__steps{gap:1.9rem;max-width:380px;text-align:left;align-items:flex-start}
-.case__steps-title{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,2.6vw,2.3rem);line-height:1.1;color:#fff}
-.steps{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:2.1rem}
-.steps::before{content:"";position:absolute;left:20px;top:20px;bottom:20px;width:2px;
+.case__steps{gap:1.6rem;max-width:380px;text-align:left;align-items:flex-start}
+.case__steps-title{font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,2vw,1.8rem);line-height:1.1;color:#fff}
+.steps{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:1.7rem}
+.steps::before{content:"";position:absolute;left:17px;top:17px;bottom:17px;width:2px;
   background:linear-gradient(#E23B3B,rgba(226,59,59,.2));z-index:0}
-.step{position:relative;display:flex;gap:1.15rem;align-items:flex-start}
+.step{position:relative;display:flex;gap:1rem;align-items:flex-start}
 .step__num{
-  flex:0 0 auto;width:40px;height:40px;border-radius:50%;position:relative;z-index:1;
-  display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:1.05rem;color:#fff;
-  background:#E23B3B;box-shadow:0 0 18px rgba(226,59,59,.6);
+  flex:0 0 auto;width:34px;height:34px;border-radius:50%;position:relative;z-index:1;
+  display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:.9rem;color:#fff;
+  background:#E23B3B;box-shadow:0 0 16px rgba(226,59,59,.55);
 }
-.step__txt{font-family:var(--mono);font-size:1.15rem;line-height:1.45;letter-spacing:.02em;color:#fff;padding-top:.5rem}
+.step__txt{font-family:var(--mono);font-size:1rem;line-height:1.45;letter-spacing:.02em;color:#fff;padding-top:.4rem}
 /* Un peu plus d'animation : la ligne se dessine + les étapes arrivent en cascade au reveal */
 @media (prefers-reduced-motion:no-preference){
   .case__media .steps::before{transform:scaleY(0);transform-origin:top;transition:transform .9s var(--ease) .15s}
@@ -773,7 +773,7 @@ section{position:relative;z-index:1}
 .vframe--wide{aspect-ratio:16/9;border:1px solid rgba(255,255,255,.12);border-radius:16px}
 .vframe--wide video{width:100%;height:100%;object-fit:cover;border-radius:16px;background:#151517}
 .vframe--phone{border-radius:clamp(1.05rem,2.4vw,1.65rem)}
-.case__phone{max-width:min(420px,85vw);margin-inline:auto}
+.case__phone{max-width:min(300px,80vw);margin-inline:auto}
 /* Liserés accent par bloc (confinés) */
 .case--store .vframe--wide{
   border-color:rgba(var(--accent-rgb),.5);
