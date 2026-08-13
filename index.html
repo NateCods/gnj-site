@@ -347,7 +347,7 @@ section{position:relative;z-index:1}
   -webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
   filter:drop-shadow(0 0 3px rgba(var(--rc,255,255,255),.4)) drop-shadow(0 0 8px rgba(var(--rc,255,255,255),.2));
-  animation:beamSpin 3.4s linear infinite;
+  animation:beamSpin 6.8s linear infinite;
 }
 .hero__reels .phone{width:100%;height:auto;aspect-ratio:9/19.2;align-self:stretch}
 .hero .hero__cta{margin-top:clamp(.9rem,2vh,1.6rem)}
@@ -486,8 +486,15 @@ section{position:relative;z-index:1}
 .process__head{max-width:none;text-align:center;margin-bottom:clamp(2.2rem,4.5vw,3.4rem)}
 .process__head h2{font-family:var(--display);font-weight:700;font-size:clamp(2.5rem,6vw,5rem);line-height:1;letter-spacing:-.03em;margin-top:0;color:#fff}
 .process__cta{display:flex;justify-content:center;margin-top:clamp(3rem,6vw,5rem)}
-/* Stats en blocs (cartes glass) au-dessus de "Comment on marche" */
+/* Stats en blocs (cartes glass) au-dessus de "Ce qu'on fait" */
 .statbar__eyebrow{display:block;text-align:center;margin-bottom:clamp(1rem,2.2vw,1.6rem);font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.2em}
+/* Version mobile de la statbar affichée au-dessus des avis Google */
+.statbar--mob,.statbar__eyebrow--mob{display:none}
+@media (max-width:600px){
+  .statbar--desk,.statbar__eyebrow--desk{display:none}
+  .statbar--mob{display:grid}
+  .statbar__eyebrow--mob{display:block}
+}
 .statbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.7rem,1.8vw,1.3rem);max-width:920px;margin:0 auto clamp(2.6rem,5vw,4.2rem)}
 .statbar__item{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:.45rem;text-align:center;
@@ -645,15 +652,25 @@ section{position:relative;z-index:1}
 .team__cta .btn--solid{box-shadow:0 0 30px -6px rgba(24,119,242,.5)}
 /* Flip cards 3D : face avant photo + prénom, face arrière rôle */
 .member{perspective:1200px;cursor:pointer;outline-offset:4px}
-.member:focus-visible{outline:2px solid #1877F2}
+.member:focus-visible{outline:2px solid rgba(255,255,255,.7)}
 .flip__inner{position:relative;aspect-ratio:4/5;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.15,.2,1)}
 .member.flipped .flip__inner{transform:rotateY(180deg)}
 /* contour bleu pro sur les fiches (les 2 faces du flip) */
 .flip__face{position:absolute;inset:0;border-radius:14px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  border:1.5px solid rgba(24,119,242,.55);
-  box-shadow:0 0 0 1px rgba(24,119,242,.12),0 18px 48px -24px rgba(0,0,0,.85),0 0 26px -8px rgba(24,119,242,.4)}
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 18px 48px -24px rgba(0,0,0,.85)}
 .flip__front{background:#d9d8d2 linear-gradient(135deg,#dedcd5,#cfcdc5)}
 .flip__front img{width:100%;height:100%;object-fit:cover}
+/* Rôle en haut de la fiche (mobile : pas de flip) */
+.flip__toprole{display:none}
+@media (max-width:600px){
+  .flip__toprole{display:block;position:absolute;top:0;left:0;right:0;z-index:3;padding:.7rem 1rem;text-align:center;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;line-height:1.4;text-transform:uppercase;color:#fff;
+    background:linear-gradient(to bottom,rgba(10,10,11,.88),rgba(10,10,11,.35),transparent)}
+  .member{cursor:default}
+  .member.flipped .flip__inner{transform:none}
+  .flip__badge{display:none}
+}
 .flip__band{
   position:absolute;left:0;right:0;bottom:0;
   display:flex;align-items:flex-end;justify-content:space-between;gap:.8rem;
@@ -909,6 +926,11 @@ section{position:relative;z-index:1}
 /* Logos ghostés en angle, en miroir, derrière le rectangle vidéo (z-index:0 < vframe z-index:1) */
 .case__ghost--gnj{right:-9%;bottom:-15%;width:38%;transform:rotate(8deg);filter:blur(2px)}
 .case__ghost--store{left:-9%;bottom:-15%;width:38%;transform:rotate(-8deg);filter:blur(2px)}
+/* Mobile : les logos sortent par le HAUT du rectangle vidéo (à moitié sortis) */
+@media (max-width:600px){
+  .case--store .case__ghost--store{left:-4%;top:-15%;bottom:auto;width:30%;transform:rotate(-8deg)}
+  .case--store .case__ghost--gnj{right:-4%;top:-15%;bottom:auto;width:30%;transform:rotate(8deg)}
+}
 
 /* Cadre vidéo témoignage : placeholder stylé + bouton play glassmorphism */
 .vframe{position:relative;width:100%;height:100%;overflow:hidden;background:#151517}
@@ -919,12 +941,12 @@ section{position:relative;z-index:1}
 /* Liserés accent par bloc (confinés) */
 .case--store .vframe--wide{
   max-width:860px;
-  border-color:rgba(var(--accent-rgb),.5);
-  box-shadow:0 0 30px -6px rgba(var(--accent-rgb),.35),0 22px 60px -26px rgba(0,0,0,.75);
+  border-color:rgba(255,195,0,.55);
+  box-shadow:0 0 30px -6px rgba(255,195,0,.4),0 22px 60px -26px rgba(0,0,0,.75);
 }
 .case--rock .case__phone .phone{
-  border-color:rgba(var(--accent-rgb),.5);
-  box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 26px -4px rgba(var(--accent-rgb),.45),inset 0 0 0 1px rgba(255,255,255,.04);
+  border-color:rgba(255,195,0,.55);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 26px -4px rgba(255,195,0,.5),inset 0 0 0 1px rgba(255,255,255,.04);
 }
 
 .vplay{
@@ -941,44 +963,47 @@ section{position:relative;z-index:1}
   position:relative;
   width:clamp(58px,7vw,74px);height:clamp(58px,7vw,74px);border-radius:50%;
   display:grid;place-items:center;color:#fff;
-  background:rgba(24,119,242,.24);
+  background:rgba(255,195,0,.2);
   backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);
-  border:1px solid rgba(30,144,255,.8);
-  box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 22px 2px rgba(30,144,255,.5);
+  border:1px solid rgba(255,195,0,.85);
+  box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 22px 2px rgba(255,195,0,.5);
   transition:transform .3s var(--ease),background .3s var(--ease);
   animation:vplayPulse 1.8s ease-in-out infinite;
 }
 .vplay__btn::after{
   content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
-  border:2px solid rgba(30,144,255,.6);
+  border:2px solid rgba(255,195,0,.6);
   animation:vplayRing 1.8s ease-out infinite;
 }
 @keyframes vplayPulse{
-  0%,100%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 18px 2px rgba(30,144,255,.4)}
-  50%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 34px 7px rgba(30,144,255,.82)}
+  0%,100%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 18px 2px rgba(255,195,0,.4)}
+  50%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06),0 0 34px 7px rgba(255,195,0,.82)}
 }
 @keyframes vplayRing{
   0%{transform:scale(1);opacity:.7}
   100%{transform:scale(1.75);opacity:0}
 }
 .vplay__btn svg{margin-left:3px;position:relative;z-index:1}
-.vplay:hover .vplay__btn{transform:scale(1.1);background:rgba(24,119,242,.36)}
+.vplay:hover .vplay__btn{transform:scale(1.1);background:rgba(255,195,0,.32)}
 .vplay__lbl{
   font-family:var(--mono);font-size:.62rem;font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:rgba(142,197,255,.92);
-  text-shadow:0 0 10px rgba(30,144,255,.4);
+  letter-spacing:.24em;text-transform:uppercase;color:rgba(255,220,130,.95);
+  text-shadow:0 0 10px rgba(255,195,0,.45);
 }
+/* Preview floue avant lecture (au lieu du fond noir) */
+.vframe--wide video,.vframe--phone video{filter:blur(9px) brightness(.72);transform:scale(1.06);transition:filter .5s var(--ease),transform .5s var(--ease)}
+.vframe.is-playing video{filter:none;transform:none}
 /* Lumière bleue qui fait le tour du cadre témoignage (écran Rock Fish + rectangle Store Mobile) */
 @property --beam{syntax:"<angle>";initial-value:0deg;inherits:false}
 .case--store .vframe--wide::before,
 .case--rock .vframe--phone::before{
   content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;padding:2px;
-  background:conic-gradient(from var(--beam),transparent 0deg,transparent 292deg,rgba(30,144,255,.22) 310deg,#1E90FF 336deg,#9ad3ff 350deg,#1E90FF 360deg);
+  background:conic-gradient(from var(--beam),transparent 0deg,transparent 292deg,rgba(255,195,0,.22) 310deg,#FFC300 336deg,#FFE79A 350deg,#FFC300 360deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   mask-composite:exclude;
-  filter:drop-shadow(0 0 5px rgba(30,144,255,.9)) drop-shadow(0 0 12px rgba(30,144,255,.5));
+  filter:drop-shadow(0 0 5px rgba(255,195,0,.9)) drop-shadow(0 0 12px rgba(255,195,0,.5));
   animation:beamSpin 3s linear infinite;
 }
 @keyframes beamSpin{to{--beam:360deg}}
@@ -1234,19 +1259,19 @@ section{position:relative;z-index:1}
 </section>
 
 <!-- ====================== PROCESS ====================== -->
-<section class="section" aria-label="Comment on marche">
-  <span class="vlabel vlabel--left">Comment on marche</span>
+<section class="section" aria-label="Ce qu'on fait">
+  <span class="vlabel vlabel--left">Ce qu'on fait</span>
   <span class="vlabel vlabel--right">Du short-form qui génère des leads</span>
 
   <div class="wrap">
-    <p class="eyebrow statbar__eyebrow reveal">Nos résultats</p>
-    <div id="stats" class="statbar reveal" aria-label="Nos résultats en chiffres">
+    <p class="eyebrow statbar__eyebrow statbar__eyebrow--desk reveal">Nos résultats</p>
+    <div id="stats" class="statbar statbar--desk reveal" aria-label="Nos résultats en chiffres">
       <div class="statbar__item"><span class="statbar__num">30M+</span><span class="statbar__lbl">Vues accumulées</span></div>
       <div class="statbar__item"><span class="statbar__num">2500+</span><span class="statbar__lbl">Leads générés</span></div>
       <div class="statbar__item"><span class="statbar__num">0,95&nbsp;$</span><span class="statbar__lbl">Coût par lead record</span></div>
     </div>
     <div class="section__head process__head reveal">
-      <h2 class="reveal-wipe">Comment on marche</h2>
+      <h2 class="reveal-wipe">Ce qu'on fait</h2>
     </div>
     <div class="process__grid">
       <svg class="process__line" viewBox="0 0 1200 420" preserveAspectRatio="none" aria-hidden="true">
@@ -1315,6 +1340,12 @@ section{position:relative;z-index:1}
 <!-- ====================== AVIS ====================== -->
 <section class="section" aria-label="Avis clients">
   <div class="wrap">
+    <p class="eyebrow statbar__eyebrow statbar__eyebrow--mob reveal">Nos résultats</p>
+    <div class="statbar statbar--mob reveal" aria-label="Nos résultats en chiffres">
+      <div class="statbar__item"><span class="statbar__num">30M+</span><span class="statbar__lbl">Vues accumulées</span></div>
+      <div class="statbar__item"><span class="statbar__num">2500+</span><span class="statbar__lbl">Leads générés</span></div>
+      <div class="statbar__item"><span class="statbar__num">0,95&nbsp;$</span><span class="statbar__lbl">Coût par lead record</span></div>
+    </div>
     <div class="avis__top reveal">
       <a class="avis__rating" href="https://share.google/SYOcRHtg5JeV8JL8f" target="_blank" rel="noopener">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -1364,6 +1395,7 @@ section{position:relative;z-index:1}
       <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Nate — voir le rôle">
         <div class="flip__inner">
           <div class="flip__face flip__front">
+            <span class="flip__toprole">Fondateur</span>
             <img src="assets/img/team/nate.jpg" alt="Nate" loading="lazy">
             <div class="flip__band"><span class="flip__name">Nate</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
@@ -1383,6 +1415,7 @@ section{position:relative;z-index:1}
       <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="George — voir le rôle">
         <div class="flip__inner">
           <div class="flip__face flip__front">
+            <span class="flip__toprole">Communication &amp; automatisation</span>
             <img src="assets/img/team/georges.jpg" alt="George" loading="lazy">
             <div class="flip__band"><span class="flip__name">George</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
@@ -1402,6 +1435,7 @@ section{position:relative;z-index:1}
       <article class="member reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Jérémie — voir le rôle">
         <div class="flip__inner">
           <div class="flip__face flip__front">
+            <span class="flip__toprole">Monteur</span>
             <img src="assets/img/team/jeremie.jpg" alt="Jérémie" loading="lazy">
             <div class="flip__band"><span class="flip__name">Jérémie</span></div><span class="flip__badge" aria-hidden="true">↻</span>
           </div>
