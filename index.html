@@ -55,7 +55,7 @@
    RESET
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{
   background:var(--bg);
   color:var(--text);
@@ -336,9 +336,11 @@ section{position:relative;z-index:1}
 .hero__reels .phone{height:min(30vh,330px);width:auto;aspect-ratio:9/19.2}
 .hero .hero__cta{margin-top:clamp(.9rem,2vh,1.6rem)}
 @media (max-width:640px){
-  .hero__reels{gap:2.4vw}
-  .hero__reels .phone{height:min(32vh,320px)}
-  .hero__reels .reel__num{font-size:1.25rem}
+  .hero__reels{gap:2vw}
+  .hero__reels .reel{flex:1 1 0;min-width:0}
+  .hero__reels .phone{width:100%;height:auto;max-width:none}
+  .hero__reels .reel__num{font-size:1.2rem}
+  .hero__reels .reel__cap{min-height:0}
 }
 /* Hover flashy bleu sur les 3 stats clients du hero */
 @media (hover:hover){
@@ -471,7 +473,7 @@ section{position:relative;z-index:1}
 .process__cta{display:flex;justify-content:center;margin-top:clamp(3rem,6vw,5rem)}
 /* Stats en blocs (cartes glass) au-dessus de "Comment on marche" */
 .statbar__eyebrow{display:block;text-align:center;margin-bottom:clamp(1rem,2.2vw,1.6rem);font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.2em}
-.statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.7rem,1.8vw,1.3rem);max-width:920px;margin:0 auto clamp(2.6rem,5vw,4.2rem)}
+.statbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.7rem,1.8vw,1.3rem);max-width:920px;margin:0 auto clamp(2.6rem,5vw,4.2rem)}
 .statbar__item{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:.45rem;text-align:center;
   padding:clamp(1.1rem,2.6vw,1.8rem) clamp(.8rem,2vw,1.4rem);
@@ -486,6 +488,12 @@ section{position:relative;z-index:1}
 @media (hover:hover){
   .statbar__item:hover{border-color:rgba(30,144,255,.45);transform:translateY(-3px);box-shadow:0 16px 44px -20px rgba(24,119,242,.55)}
   .statbar__item:hover .statbar__num{text-shadow:0 0 22px rgba(24,119,242,.6)}
+}
+@media (max-width:560px){
+  .statbar{gap:.45rem}
+  .statbar__item{padding:.85rem .4rem;gap:.3rem}
+  .statbar__num{font-size:clamp(1.15rem,5.5vw,1.7rem)}
+  .statbar__lbl{font-size:.55rem;letter-spacing:.05em;line-height:1.25}
 }
 
 /* ============================================================
@@ -1003,6 +1011,18 @@ section{position:relative;z-index:1}
   body{font-size:16px}
 }
 
+/* Mobile : tout rentre dans l'écran (aucun débordement) */
+@media (max-width:600px){
+  .nav__in{padding:12px var(--pad);gap:.6rem}
+  .nav .btn--outline{font-size:.66rem;padding:.66em .9em;letter-spacing:.05em}
+  .brand{font-size:.9rem;gap:.4rem}
+  .brand .logo,.nav .logo{height:26px}
+  .hero__tag{letter-spacing:.12em}
+  .hero__reels{gap:1.6vw;max-width:100%}
+  .hero__reels .reel__cap{padding:.4rem .3rem}
+  .hero__reels .reel__sub{font-size:.6rem}
+  .hero__reels .reel__client{font-size:.5rem;letter-spacing:.08em}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{animation:none !important;transition:none !important}
