@@ -730,6 +730,8 @@ section{position:relative;z-index:1}
 }
 @media (hover:hover){.member:hover .flip__badge{opacity:1;scale:1.1}}
 @keyframes badgeNudge{0%,86%,100%{rotate:0deg}93%{rotate:20deg}}
+/* Mobile (≤600px) : pas de flip → on masque l'indicateur ↻ (placé APRÈS la déf de base pour gagner la cascade) */
+@media (max-width:600px){.flip__badge{display:none}}
 .flip__back{
   background:var(--ink);color:#fff;
   transform:rotateY(180deg);
