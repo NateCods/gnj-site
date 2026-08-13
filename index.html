@@ -334,19 +334,19 @@ section{position:relative;z-index:1}
 .hero__reels .reel__sub{font-size:clamp(.72rem,1.15vw,.95rem)}
 .hero__reels .reel__client{font-size:.72rem;letter-spacing:.1em;font-weight:600;color:rgb(var(--rc,255,255,255))}
 /* Thème couleur par client : rouge Rock Fish · bleu Shine Up · vert Jardin */
-.reel--rock{--rc:255,64,64}
-.reel--shine{--rc:38,150,255}
-.reel--jardin{--rc:46,200,120}
-.hero__reels .reel__cap{background:rgba(var(--rc,255,255,255),.1);border-color:rgba(var(--rc,255,255,255),.4);box-shadow:0 12px 30px -12px rgba(var(--rc,255,255,255),.55)}
-.hero__reels .reel__cap::before{background:linear-gradient(90deg,transparent,rgba(var(--rc,255,255,255),.9),transparent)}
-.hero__reels .phone{border-color:rgba(var(--rc,255,255,255),.55);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 22px -6px rgba(var(--rc,255,255,255),.6),inset 0 0 0 1px rgba(255,255,255,.04)}
+.reel--rock{--rc:255,168,168}
+.reel--shine{--rc:170,205,255}
+.reel--jardin{--rc:170,225,190}
+.hero__reels .reel__cap{background:rgba(var(--rc,255,255,255),.035);border-color:rgba(var(--rc,255,255,255),.16);box-shadow:0 12px 30px -16px rgba(var(--rc,255,255,255),.2)}
+.hero__reels .reel__cap::before{background:linear-gradient(90deg,transparent,rgba(var(--rc,255,255,255),.35),transparent)}
+.hero__reels .phone{border-color:rgba(var(--rc,255,255,255),.22);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 16px -9px rgba(var(--rc,255,255,255),.28),inset 0 0 0 1px rgba(255,255,255,.04)}
 .hero__reels .phone::before{
-  content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;padding:2px;
-  background:conic-gradient(from var(--beam),transparent 0deg,transparent 288deg,rgba(var(--rc,255,255,255),.25) 308deg,rgb(var(--rc,255,255,255)) 338deg,#fff 351deg,rgb(var(--rc,255,255,255)) 360deg);
+  content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;padding:1.5px;
+  background:conic-gradient(from var(--beam),transparent 0deg,transparent 300deg,rgba(var(--rc,255,255,255),.12) 320deg,rgba(var(--rc,255,255,255),.5) 344deg,rgba(255,255,255,.6) 353deg,rgba(var(--rc,255,255,255),.5) 360deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
-  filter:drop-shadow(0 0 5px rgba(var(--rc,255,255,255),.9)) drop-shadow(0 0 12px rgba(var(--rc,255,255,255),.5));
+  filter:drop-shadow(0 0 3px rgba(var(--rc,255,255,255),.4)) drop-shadow(0 0 8px rgba(var(--rc,255,255,255),.2));
   animation:beamSpin 3.4s linear infinite;
 }
 .hero__reels .phone{height:min(30vh,330px);width:auto;aspect-ratio:9/19.2}
