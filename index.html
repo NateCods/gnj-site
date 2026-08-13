@@ -328,8 +328,8 @@ section{position:relative;z-index:1}
   display:flex;justify-content:center;align-items:flex-end;flex-wrap:nowrap;
   gap:clamp(.7rem,2vw,1.8rem);
 }
-.hero__reels .reel{gap:clamp(.4rem,1vh,.7rem);width:auto}
-.hero__reels .reel__cap{padding:.5rem .7rem;gap:.08rem;border-radius:12px;justify-content:flex-start;min-height:clamp(3.4rem,7vh,4.6rem)}
+.hero__reels .reel{gap:clamp(.4rem,1vh,.7rem);width:clamp(96px,14vw,158px)}
+.hero__reels .reel__cap{padding:.55rem .6rem;gap:.2rem;border-radius:12px;justify-content:space-between;height:clamp(5rem,10.5vh,6.6rem);width:100%}
 .hero__reels .reel__num{font-size:clamp(1.5rem,2.7vw,2.5rem);text-shadow:0 0 14px rgba(255,255,255,.3)}
 .hero__reels .reel__sub{font-size:clamp(.72rem,1.15vw,.95rem)}
 .hero__reels .reel__client{font-size:.72rem;letter-spacing:.1em;font-weight:600;color:rgb(var(--rc,255,255,255))}
@@ -349,7 +349,7 @@ section{position:relative;z-index:1}
   filter:drop-shadow(0 0 3px rgba(var(--rc,255,255,255),.4)) drop-shadow(0 0 8px rgba(var(--rc,255,255,255),.2));
   animation:beamSpin 3.4s linear infinite;
 }
-.hero__reels .phone{height:min(30vh,330px);width:auto;aspect-ratio:9/19.2}
+.hero__reels .phone{width:100%;height:auto;aspect-ratio:9/19.2;align-self:stretch}
 .hero .hero__cta{margin-top:clamp(.9rem,2vh,1.6rem)}
 @media (max-width:640px){
   .hero__reels{gap:2vw}
