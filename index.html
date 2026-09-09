@@ -182,9 +182,13 @@ section{position:relative;z-index:1}
    ============================================================ */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:50;
-  transition:background .35s var(--ease),backdrop-filter .35s var(--ease),border-color .35s var(--ease);
+  transition:background .35s var(--ease),backdrop-filter .35s var(--ease),border-color .35s var(--ease),opacity .2s var(--ease);
   border-bottom:1px solid transparent;
 }
+/* Popup Calendly ouvert : nav masquée pour ne pas couvrir le widget (mobile) */
+body.calendly-open .nav{opacity:0;pointer-events:none}
+/* Filet de sécurité : l'overlay Calendly passe au-dessus de tout élément du site */
+.calendly-overlay{z-index:10000 !important}
 .nav.scrolled{
   background:rgba(10,10,11,.72);
   backdrop-filter:blur(18px) saturate(1.3);
@@ -1185,7 +1189,7 @@ body.vmodal-open{overflow:hidden}
       <img class="logo" src="assets/img/logo-gnj.svg" alt="GNJ Média">
       <span>GNJ MÉDIA</span>
     </a>
-    <a class="btn btn--outline" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous</a>
+    <a class="btn btn--outline" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous</a>
   </div>
 </header>
 
@@ -1251,7 +1255,7 @@ body.vmodal-open{overflow:hidden}
 
     <div class="hero__cta">
       <div class="magnet" id="heroMagnet">
-        <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+        <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous →</a>
       </div>
     </div>
   </div>
@@ -1403,7 +1407,7 @@ body.vmodal-open{overflow:hidden}
     </div>
 
     <div class="process__cta reveal">
-      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous →</a>
+      <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous →</a>
     </div>
   </div>
 </section>
@@ -1530,7 +1534,7 @@ body.vmodal-open{overflow:hidden}
     </div>
 
     <div class="team__cta reveal">
-      <a class="btn btn--solid" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Contactez l'équipe</a>
+      <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Contactez l'équipe</a>
     </div>
   </div>
 </section>
@@ -1573,7 +1577,7 @@ body.vmodal-open{overflow:hidden}
       </ol>
       <p class="cta-special reveal">★ On travaille avec du monde qui veut travailler autant que nous.</p>
       <div class="cta-final__btn reveal">
-        <a class="btn btn--solid btn--xl" href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre un appel →</a>
+        <a class="btn btn--solid btn--xl" href="#rdv" onclick="return openCalendly();">Prendre un appel →</a>
       </div>
     </div>
   </div>
@@ -1589,7 +1593,7 @@ body.vmodal-open{overflow:hidden}
       <span>GNJ MÉDIA</span>
     </a>
     <nav class="footer__links" aria-label="Pied de page">
-      <a href="#rdv" onclick="Calendly.initPopupWidget({url:'https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta'});return false;">Prendre rendez-vous</a>
+      <a href="#rdv" onclick="return openCalendly();">Prendre rendez-vous</a>
       <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
     </nav>
     <nav class="footer__social" aria-label="Réseaux sociaux GNJ Média">
@@ -1640,6 +1644,30 @@ body.vmodal-open{overflow:hidden}
   }
   onScroll();
   window.addEventListener("scroll", onScroll, {passive:true});
+
+  /* --- Calendly : nav masquée pendant que le popup est ouvert (fix mobile) --- */
+  var calendlyObserver = null;
+  function closeCalendlyState(){ document.body.classList.remove("calendly-open"); }
+  function watchCalendlyClose(){
+    // Filet de sécurité : si l'overlay disparaît du DOM sans message (X, clic hors popup)
+    if (calendlyObserver) return;
+    calendlyObserver = new MutationObserver(function(){
+      if (document.body.classList.contains("calendly-open") && !document.querySelector(".calendly-overlay")){
+        closeCalendlyState();
+      }
+    });
+    calendlyObserver.observe(document.body, {childList:true});
+  }
+  window.addEventListener("message", function(e){
+    if (e.data && e.data.event === "calendly.popup_closed") closeCalendlyState();
+  });
+  window.openCalendly = function(){
+    if (!window.Calendly) return true; // widget pas chargé : laisse suivre le lien #rdv
+    document.body.classList.add("calendly-open");
+    Calendly.initPopupWidget({url:"https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta"});
+    watchCalendlyClose();
+    return false;
+  };
 
   /* --- Vidéos : forcer le play (battre le blocage autoplay) — hors témoignages (son, clic requis) --- */
   var vids = document.querySelectorAll("video:not([data-temoignage])");
