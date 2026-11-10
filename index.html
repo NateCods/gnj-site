@@ -984,11 +984,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   text-shadow:0 0 24px rgba(30,144,255,.75),0 0 60px rgba(0,162,255,.45);
   animation:statGlow 3.5s ease-in-out infinite;
 }
-/* Rock Fish : encadrés d'infos de part et d'autre du cellulaire */
-.case--rock .case__media{align-items:center;gap:clamp(.5rem,1.6vw,1.1rem)}
-/* Rock Fish : stats collées à gauche, tout proches du cellulaire du témoignage */
-.case--rock .case__aside{text-align:left;align-items:flex-start}
-.case__aside{display:flex;flex-direction:column;gap:clamp(1.9rem,4.5vw,3.2rem);flex:1 1 0;min-width:0;max-width:380px}
+.case__aside{display:flex;gap:clamp(1.6rem,4vw,3rem);flex-wrap:wrap}
 /* label (titre) blanc AU-DESSUS, chiffre blanc EN DESSOUS (column-reverse) — texte 2× */
 .case__stat-item{display:flex;flex-direction:column-reverse;gap:.7rem}
 .case__stat-num{
@@ -1004,24 +1000,12 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   0%,100%{text-shadow:0 0 16px rgba(30,144,255,.34),0 0 42px rgba(10,132,255,.2)}
   50%{text-shadow:0 0 26px rgba(90,180,255,.5),0 0 64px rgba(30,144,255,.32)}
 }
-/* Desktop only : chiffres du case study (800+, 1 an+) plus gros */
-@media (min-width:901px){
-  .case__stat-num{font-size:clamp(6rem,8vw,9rem)}
-  .case__stat-lbl{font-size:clamp(1.3rem,1.6vw,1.8rem)}
-}
 .case__stat-lbl{
   font-family:var(--mono);font-size:1rem;line-height:1.35;
   letter-spacing:.14em;text-transform:uppercase;color:#fff;
 }
-@media (max-width:760px){
-  .case--rock .case__media{flex-direction:column;gap:clamp(1.6rem,5vw,2.2rem)}
-  .case--rock .case__phone{order:-1}
-  .case--rock .case__aside{max-width:none;width:100%;flex-direction:column;justify-content:center;
-    align-items:center;gap:clamp(1.8rem,6vw,2.6rem)}
-  .case--rock .case__aside .case__stat-item{align-items:center;text-align:center}
-}
 /* Contenu au-dessus du logo flou */
-.case > .case__text,.case > .case__media,.case > .case__link{position:relative;z-index:1}
+.case > .case__text,.case > .case__media{position:relative;z-index:1}
 /* Accents de marque confinés à chaque bloc */
 .case--store{--accent:#1877F2;--accent-rgb:24,119,242}
 .case--rock{--accent:#1877F2;--accent-rgb:24,119,242}
@@ -1200,6 +1184,48 @@ body.vmodal-open{overflow:hidden}
 .case__media.reveal{transition-delay:.12s}
 .cases .case:nth-child(2) .case__text.reveal{transition-delay:.06s}
 
+/* ===== Case studies côte à côte (≥769px) · zigzag : Store = vidéo|texte, Rock Fish = texte|vidéo ===== */
+.case__pitch{max-width:42ch;font-size:clamp(1.02rem,.5vw + .85rem,1.2rem);line-height:1.55;color:rgba(255,255,255,.78)}
+.case--store .case__title{color:#8EC5FF}
+/* Rock Fish : accent rouge #D32F2F (titre, 2x, ligne, cadre, lumière, chiffres) */
+.case--rock{--accent:#D32F2F;--accent-rgb:211,47,47}
+.case--rock .case__title{color:#fff;text-shadow:0 0 16px rgba(211,47,47,.55),0 0 34px rgba(211,47,47,.3)}
+.case--rock .case__stat{background:linear-gradient(90deg,#FF6B6B,#D32F2F);-webkit-background-clip:text;background-clip:text;text-shadow:0 0 24px rgba(211,47,47,.75),0 0 60px rgba(211,47,47,.4);animation:statGlowRed 3.5s ease-in-out infinite}
+@keyframes statGlowRed{0%,100%{text-shadow:0 0 24px rgba(211,47,47,.7),0 0 60px rgba(211,47,47,.38)}50%{text-shadow:0 0 34px rgba(255,90,90,.9),0 0 80px rgba(211,47,47,.55)}}
+.case--rock .case__rule{background:#D32F2F;box-shadow:0 0 16px rgba(211,47,47,.75)}
+.case--rock .case__stat-num{background-image:linear-gradient(180deg,#FFB3B3 0%,#FF5A5A 55%,#D32F2F 100%);text-shadow:0 0 18px rgba(211,47,47,.4),0 0 46px rgba(211,47,47,.24);animation:none}
+.case--rock .case__phone .phone{border-color:rgba(211,47,47,.55);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 26px -4px rgba(211,47,47,.5),inset 0 0 0 1px rgba(255,255,255,.04)}
+.case--rock .vframe--phone::before{background:conic-gradient(from var(--beam),transparent 0deg,transparent 292deg,rgba(211,47,47,.25) 310deg,#D32F2F 336deg,#FFB3B3 350deg,#D32F2F 360deg);filter:drop-shadow(0 0 5px rgba(211,47,47,.9)) drop-shadow(0 0 12px rgba(211,47,47,.5))}
+.case--rock .vplay__btn{background:rgba(211,47,47,.24);border-color:rgba(255,90,90,.8);animation-name:vplayPulseRed}
+.case--rock .vplay__btn::after{border-color:rgba(255,90,90,.6)}
+.case--rock .vplay__lbl{color:rgba(255,179,179,.95);text-shadow:0 0 10px rgba(211,47,47,.45)}
+@keyframes vplayPulseRed{0%,100%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),0 0 18px 2px rgba(211,47,47,.4)}50%{box-shadow:0 10px 44px -10px rgba(0,0,0,.7),0 0 34px 7px rgba(211,47,47,.8)}}
+.case__stat-num{font-size:clamp(2.6rem,4.2vw,4rem)}
+.case__stat-lbl{font-size:clamp(.85rem,1vw,1rem)}
+@media (min-width:769px){
+  .case--split{display:grid;align-items:center;text-align:left;gap:clamp(2.5rem,5vw,5rem)}
+  .case--store{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+  .case--rock{grid-template-columns:minmax(0,1fr) auto}
+  .case--split .case__text{display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem}
+  .case--split .case__tag{font-size:clamp(2.4rem,4.4vw,4.4rem);margin:0}
+  .case--split .case__rule{margin:.2rem 0 0;transform-origin:left}
+  .case--split .case__media{justify-content:center}
+  .case--store .vframe--wide{max-width:none}
+  /* Vidéo verticale : hauteur raisonnable (≈ 70vh max) */
+  .case--rock .case__phone{width:min(340px,calc(70vh * 9 / 19.2));max-width:none;margin:0}
+  .case--store .case__bg{left:30%;width:55%}
+  .case--rock .case__bg{left:72%;width:45%}
+}
+/* ≤768px : empilé — vidéo en haut, texte dessous, centré */
+@media (max-width:768px){
+  .case--rock .case__media{order:-1}
+  .case__text{display:flex;flex-direction:column;align-items:center;gap:.9rem}
+  .case__tag{font-size:clamp(2.2rem,10vw,3.4rem)}
+  .case__pitch{margin-inline:auto}
+  .case__aside{justify-content:center;text-align:center}
+  .case__aside .case__stat-item{align-items:center}
+  .case__stat-num{font-size:clamp(2.4rem,11vw,3.2rem)}
+}
 @media (max-width:900px){
   .cases{gap:clamp(3.5rem,10vw,6rem)}
   /* Logo flou centré : réduit mais présent, clippé par overflow:hidden du bloc */
@@ -1405,13 +1431,8 @@ body.vmodal-open{overflow:hidden}
     <div class="cases">
 
       <!-- Case study 1 — Store Mobile Québec · accent bleu · vidéo pleine largeur 16:9 -->
-      <article class="case case--store">
-        <img class="case__bg" src="assets/img/logos/logo15.png" alt="" loading="lazy" decoding="async" aria-hidden="true">
-        <div class="case__text reveal">
-          <h3 class="case__title">Store Mobile Québec</h3>
-          <span class="case__tag"><span class="case__stat">20x</span> ROI avec nous</span>
-          <span class="case__rule" aria-hidden="true"></span>
-        </div>
+      <article class="case case--store case--split">
+        <img class="case__bg" src="assets/img/logos/logo15.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <div class="case__media reveal">
           <img class="case__ghost case__ghost--store" src="assets/img/logos/logo15.png" alt="" loading="lazy" decoding="async" aria-hidden="true">
           <img class="case__ghost case__ghost--gnj" src="assets/img/logo-gnj.svg" alt="" loading="lazy" decoding="async" aria-hidden="true">
@@ -1423,16 +1444,26 @@ body.vmodal-open{overflow:hidden}
             </button>
           </div>
         </div>
-        <a class="case__link link-mono reveal" href="https://storemobilequebec.ca" target="_blank" rel="noopener">Voir leur site →</a>
+        <div class="case__text reveal">
+          <h3 class="case__title">Store Mobile Québec</h3>
+          <p class="case__tag"><span class="case__stat">20x</span> ROI avec nous</p>
+          <span class="case__rule" aria-hidden="true"></span>
+          <p class="case__pitch">Contenu vidéo pis publicité Meta gérés de A à Z. Le témoignage parle de lui-même.</p>
+          <a class="case__link link-mono" href="https://storemobilequebec.ca" target="_blank" rel="noopener">Voir leur site →</a>
+        </div>
       </article>
 
       <!-- Case study 2 — Rock Fish Tattoo · accent rouge · vidéo verticale 9:16 centrée -->
-      <article class="case case--rock">
-        <img class="case__bg" src="assets/img/logos/rockfish.png" alt="" loading="lazy" decoding="async" aria-hidden="true">
+      <article class="case case--rock case--split">
+        <img class="case__bg" src="assets/img/logos/rockfish.png" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.remove()">
         <div class="case__text reveal">
           <h3 class="case__title">Rock Fish Tattoo</h3>
-          <span class="case__tag"><span class="case__stat">2x</span> son chiffre d'affaires</span>
+          <p class="case__tag"><span class="case__stat">2x</span> Chiffre d'affaires doublé</p>
           <span class="case__rule" aria-hidden="true"></span>
+          <div class="case__aside">
+            <div class="case__stat-item"><span class="case__stat-num">800+</span><span class="case__stat-lbl">leads générés</span></div>
+            <div class="case__stat-item"><span class="case__stat-num">1 an+</span><span class="case__stat-lbl">de contenu clé en main</span></div>
+          </div>
         </div>
         <div class="case__media reveal">
           <div class="case__phone">
@@ -1446,10 +1477,6 @@ body.vmodal-open{overflow:hidden}
                 </button>
               </div>
             </div>
-          </div>
-          <div class="case__aside case__aside--right">
-            <div class="case__stat-item"><span class="case__stat-num">800+</span><span class="case__stat-lbl">leads générés</span></div>
-            <div class="case__stat-item"><span class="case__stat-num">1 an+</span><span class="case__stat-lbl">de contenu clé en main</span></div>
           </div>
         </div>
       </article>
