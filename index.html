@@ -70,6 +70,7 @@ img,svg,video{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 ::selection{background:var(--meta);color:#fff}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 :where(a,button,[tabindex]):focus-visible{outline:2px solid #fff;outline-offset:3px}
 
 /* Blueprint grid — couche fixe derrière tout (thème sombre) */
@@ -87,26 +88,68 @@ body::before{
 }
 
 /* ============================================================
-   INTRO D'OUVERTURE
+   INTRO D'OUVERTURE — cinématique, 1,8 s, une fois par session
+   Timeline : 0–.5 grille + zoom-out caméra · .08–.5 logo trait par trait ·
+   .62 impact (burst bleu + flash + micro-shake) · .62–1.15 wordmark qui se resserre ·
+   .95–1.3 balayage lumineux · 1.4–1.8 sortie (fondu) → hero.
+   Transform/opacity seulement. Classe posée dans <head> (pas de flash si déjà vue).
    ============================================================ */
-.intro{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:introLift .5s cubic-bezier(.76,0,.24,1) .8s forwards}
-.intro__grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:var(--grid) var(--grid);mask-image:radial-gradient(ellipse 85% 70% at 50% 50%,#000 30%,transparent 100%);opacity:0;animation:introGrid .8s var(--ease) .05s forwards}
+.intro{display:none}
+.intro-lock,.intro-lock body{overflow:hidden}
+.intro-play{--intro-end:1.45s}
+.intro-play .intro,.intro-reduce .intro{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:grid;place-items:center;overflow:hidden;pointer-events:none;
+}
+.intro-play .intro{animation:introOut .4s cubic-bezier(.7,0,.3,1) 1.4s forwards}
+.intro__grid{position:absolute;inset:-2%;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:var(--grid) var(--grid);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 100%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 100%)}
+.intro__burst{position:absolute;left:50%;top:50%;width:120vmax;height:120vmax;margin:-60vmax 0 0 -60vmax;border-radius:50%;background:radial-gradient(circle,rgba(24,119,242,.85) 0%,rgba(24,119,242,.35) 22%,rgba(24,119,242,0) 55%);opacity:0}
+.intro__flash{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(190,220,255,.55),rgba(24,119,242,.18) 45%,transparent 75%);opacity:0}
 .intro__stage{position:relative;text-align:center}
-.intro__eq{width:clamp(64px,9vw,104px);height:auto;color:#fff;fill:currentColor;margin:0 auto 1.5rem;display:block;filter:drop-shadow(0 0 18px rgba(255,255,255,.25))}
-.intro__eq .eqbar{transform-origin:50% 38px;transform:scaleY(.15);animation:eqbar .6s var(--ease) forwards}
-.intro__eq .eqbar:nth-child(1){--h:.34;animation-delay:.06s}
-.intro__eq .eqbar:nth-child(2){--h:.67;animation-delay:.13s}
-.intro__eq .eqbar:nth-child(3){--h:1;animation-delay:0s}
-.intro__eq .eqbar:nth-child(4){--h:.56;animation-delay:.13s}
-.intro__eq .eqbar:nth-child(5){--h:.22;animation-delay:.06s}
-.intro__line{display:block;overflow:hidden}
-.intro__gnj{display:block;font-family:var(--display);font-weight:700;font-size:clamp(3rem,13vw,9rem);line-height:.92;letter-spacing:-.04em;transform:translateY(110%);animation:introRise .55s cubic-bezier(.76,0,.24,1) .15s forwards}
-.intro__media{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(.7rem,3vw,1.3rem);letter-spacing:.55em;padding-left:.55em;text-transform:uppercase;color:var(--muted);transform:translateY(110%);animation:introRise .55s cubic-bezier(.76,0,.24,1) .25s forwards}
-@keyframes introGrid{to{opacity:1}}
-@keyframes eqbar{0%{transform:scaleY(.15)}35%{transform:scaleY(1)}55%{transform:scaleY(.35)}78%{transform:scaleY(.92)}100%{transform:scaleY(var(--h))}}
-@keyframes introRise{to{transform:translateY(0)}}
-@keyframes introLift{to{transform:translateY(-105%)}}
-@media (prefers-reduced-motion:reduce){.intro{display:none}}
+.intro__shake{display:flex;flex-direction:column;align-items:center}
+.intro__mark{position:relative;width:clamp(64px,9vw,104px);margin:0 auto clamp(1rem,2.4vw,1.5rem)}
+.intro__logo{width:100%;height:auto;display:block;fill:#fff;overflow:visible}
+.intro__logo--glow{position:absolute;inset:0;fill:var(--meta);filter:blur(10px);opacity:0}
+.ibar{transform-box:fill-box;transform-origin:50% 100%}
+.intro__word{position:relative;overflow:hidden;padding:0 .2em}
+.intro__gnj,.intro__media{display:block;white-space:nowrap}
+.intro__gnj{font-family:var(--display);font-weight:700;font-size:clamp(3rem,13vw,9rem);line-height:.95;letter-spacing:-.04em}
+.intro__media{font-family:var(--mono);font-weight:500;font-size:clamp(.7rem,3vw,1.3rem);letter-spacing:.55em;padding-left:.55em;text-transform:uppercase;color:var(--muted);margin-top:.5em}
+.il{display:inline-block}
+.intro__sweep{position:absolute;top:-20%;bottom:-20%;left:0;width:35%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55) 45%,rgba(140,200,255,.7) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(-160%) skewX(-18deg);opacity:0}
+
+.intro-play .intro__grid{animation:iGrid .55s cubic-bezier(.2,.8,.2,1) both}
+.intro-play .intro__stage{animation:iCam 1.4s cubic-bezier(.16,1,.3,1) both,iStageOut .4s cubic-bezier(.7,0,.3,1) 1.4s forwards;will-change:transform,opacity}
+.intro-play .intro__shake{animation:iShake .24s linear .62s both}
+.intro-play .ibar{animation:iBar .34s cubic-bezier(.3,1.5,.5,1) both;will-change:transform}
+.intro-play .ibar:nth-child(1){animation-delay:.08s}
+.intro-play .ibar:nth-child(2){animation-delay:.15s}
+.intro-play .ibar:nth-child(3){animation-delay:.22s}
+.intro-play .ibar:nth-child(4){animation-delay:.29s}
+.intro-play .ibar:nth-child(5){animation-delay:.36s}
+.intro-play .intro__logo--glow{animation:iGlow .7s ease-out .58s both}
+.intro-play .intro__burst{animation:iBurst .75s cubic-bezier(.2,.7,.2,1) .6s both;will-change:transform,opacity}
+.intro-play .intro__flash{animation:iFlash .38s ease-out .6s both}
+.intro-play .il{animation:iTrack .55s cubic-bezier(.16,1,.3,1) .62s both;will-change:transform,opacity}
+.intro-play .intro__media .il{animation-delay:.7s}
+.intro-play .intro__sweep{animation:iSweep .4s cubic-bezier(.4,0,.2,1) .95s both}
+
+@keyframes iGrid{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:none}}
+@keyframes iCam{from{transform:scale(1.14)}to{transform:scale(1)}}
+@keyframes iStageOut{to{transform:scale(.94);opacity:0}}
+@keyframes iShake{0%,100%{transform:none}20%{transform:translate(-4px,3px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,-1px)}}
+@keyframes iBar{from{transform:scaleY(0) translateY(-30%);opacity:0}to{transform:none;opacity:1}}
+@keyframes iGlow{0%{opacity:0}25%{opacity:1}100%{opacity:.25}}
+@keyframes iBurst{0%{opacity:0;transform:scale(.15)}25%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+@keyframes iFlash{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes iTrack{from{opacity:0;transform:translateX(calc(var(--x,0) * 1em)) scale(1.18)}to{opacity:1;transform:none}}
+@keyframes iSweep{0%{opacity:1;transform:translateX(-160%) skewX(-18deg)}100%{opacity:1;transform:translateX(400%) skewX(-18deg)}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+/* Hero : léger zoom-out d'arrivée pendant le fondu de sortie */
+.intro-play .hero > .wrap{animation:heroIn .7s cubic-bezier(.16,1,.3,1) 1.35s backwards}
+@keyframes heroIn{from{opacity:0;transform:scale(1.035)}}
+/* Reduced motion : simple fondu rapide (passe outre le reset global) */
+.intro-reduce .intro{animation:introOut .35s ease .15s forwards !important}
 
 /* ============================================================
    PRIMITIVES
@@ -349,12 +392,19 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.14);border-radius:16px;
   transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+  width:100%;height:100%;cursor:pointer;color:inherit;font:inherit;
   animation:pillarIn .5s var(--ease) backwards;
 }
+.hero__pillars > li{display:flex}
 .pillar::before{content:"";position:absolute;top:-1px;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
-.pillar:nth-child(1){animation-delay:.7s}
-.pillar:nth-child(2){animation-delay:1s}
-.pillar:nth-child(3){animation-delay:1.3s}
+.hero__pillars > li:nth-child(1) .pillar{animation-delay:var(--intro-end,0s)}
+.hero__pillars > li:nth-child(2) .pillar{animation-delay:calc(var(--intro-end,0s) + .3s)}
+.hero__pillars > li:nth-child(3) .pillar{animation-delay:calc(var(--intro-end,0s) + .6s)}
+/* Indice « cliquable » : micro-label qui glisse au hover/focus (toujours visible, discret, au tactile) */
+.pillar__cta{font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--meta);opacity:0;transform:translateY(4px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.pillar:hover .pillar__cta,.pillar:focus-visible .pillar__cta{opacity:1;transform:none}
+@media (hover:none){.pillar__cta{opacity:.75;transform:none}}
+.pillar:focus-visible{border-color:rgba(24,119,242,.8)}
 @keyframes pillarIn{from{opacity:0;transform:translateY(14px)}}
 .pillar__num{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.2em;color:var(--meta)}
 .pillar__body{display:flex;flex-direction:column;gap:.35rem}
@@ -367,7 +417,9 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   .hero__pillars{grid-template-columns:1fr;max-width:440px;gap:.55rem}
   .pillar{flex-direction:row;align-items:center;text-align:left;gap:.9rem;padding:.8rem 1rem}
   .pillar__num{flex:none}
-  .pillar__body{gap:.2rem;min-width:0}
+  .pillar__body{gap:.2rem;min-width:0;flex:1}
+  .pillar__cta{flex:none;font-size:1rem;letter-spacing:0}
+  .pillar__cta-txt{display:none}
   .pillar__name{font-size:1.3rem}
   .pillar__desc{font-size:.88rem}
 }
@@ -459,7 +511,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .cue__txt{font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--faint);padding-left:.34em}
 
 /* MÉDIA : les lettres s'écartent à l'arrivée (après le reveal GNJ / fin d'intro) */
-.hero__media{animation:mediaSpread .8s cubic-bezier(.22,1,.36,1) 1.1s backwards}
+.hero__media{animation:mediaSpread .8s cubic-bezier(.22,1,.36,1) var(--intro-end,0s) backwards}
 @keyframes mediaSpread{from{letter-spacing:.06em;padding-left:.06em;opacity:0}}
 
 /* Hero — props derrière le wordmark (images PNG) */
@@ -1164,21 +1216,31 @@ body.vmodal-open{overflow:hidden}
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" media="print" onload="this.media='all'">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+/* Intro : une fois par session — classe posée avant le rendu pour éviter tout flash */
+(function(){
+  var seen = false;
+  try { seen = sessionStorage.getItem("gnj-intro") === "1"; } catch(e){}
+  if (!seen) document.documentElement.classList.add("intro-lock", matchMedia("(prefers-reduced-motion: reduce)").matches ? "intro-reduce" : "intro-play");
+})();
+</script>
 </head>
 <body>
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro__grid"></div>
+  <div class="intro__burst"></div>
+  <div class="intro__flash"></div>
   <div class="intro__stage">
-    <svg class="intro__eq" viewBox="0 0 41 40" aria-hidden="true">
-      <rect class="eqbar" x="2"  y="2" width="5" height="36" rx="1.5"/>
-      <rect class="eqbar" x="10" y="2" width="5" height="36" rx="1.5"/>
-      <rect class="eqbar" x="18" y="2" width="5" height="36" rx="1.5"/>
-      <rect class="eqbar" x="26" y="2" width="5" height="36" rx="1.5"/>
-      <rect class="eqbar" x="34" y="2" width="5" height="36" rx="1.5"/>
-    </svg>
-    <div class="intro__word">
-      <span class="intro__line"><span class="intro__gnj">GNJ</span></span>
-      <span class="intro__line"><span class="intro__media">MÉDIA</span></span>
+    <div class="intro__shake">
+      <div class="intro__mark">
+        <svg class="intro__logo intro__logo--glow" viewBox="0 0 41 40"><rect x="2" y="25.5" width="5" height="12.5" rx="1.5"/><rect x="10" y="14" width="5" height="24" rx="1.5"/><rect x="18" y="2" width="5" height="36" rx="1.5"/><rect x="26" y="18" width="5" height="20" rx="1.5"/><rect x="34" y="30" width="5" height="8" rx="1.5"/></svg>
+        <svg class="intro__logo" viewBox="0 0 41 40"><rect class="ibar" x="2" y="25.5" width="5" height="12.5" rx="1.5"/><rect class="ibar" x="10" y="14" width="5" height="24" rx="1.5"/><rect class="ibar" x="18" y="2" width="5" height="36" rx="1.5"/><rect class="ibar" x="26" y="18" width="5" height="20" rx="1.5"/><rect class="ibar" x="34" y="30" width="5" height="8" rx="1.5"/></svg>
+      </div>
+      <div class="intro__word">
+        <span class="intro__gnj"><span class="il" style="--x:-0.9">G</span><span class="il" style="--x:0">N</span><span class="il" style="--x:0.9">J</span></span>
+        <span class="intro__media"><span class="il" style="--x:-3">M</span><span class="il" style="--x:-1.5">É</span><span class="il" style="--x:0">D</span><span class="il" style="--x:1.5">I</span><span class="il" style="--x:3">A</span></span>
+        <span class="intro__sweep"></span>
+      </div>
     </div>
   </div>
 </div>
@@ -1190,7 +1252,7 @@ body.vmodal-open{overflow:hidden}
       <img class="logo" src="assets/img/logo-gnj.svg" alt="">
       <span>GNJ MÉDIA</span>
     </a>
-    <a class="btn btn--outline" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous</a>
+    <a class="btn btn--outline" href="#rdv" data-calendly="nav">Prendre rendez-vous</a>
   </div>
 </header>
 
@@ -1215,14 +1277,14 @@ body.vmodal-open{overflow:hidden}
       </span>
     </div>
     <h1 class="hero__title">On transforme les vues en clients. <span class="hero__title-hl">Pis on le prouve.</span></h1>
-    <ul class="hero__pillars" aria-label="Nos 3 piliers">
-      <li class="pillar"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span></li>
-      <li class="pillar"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span></li>
-      <li class="pillar"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span></li>
+    <ul class="hero__pillars" aria-label="Nos 3 piliers — cliquez pour réserver un appel">
+      <li><button type="button" class="pillar" data-calendly="developpement-web" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
+      <li><button type="button" class="pillar" data-calendly="publicite-meta" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
+      <li><button type="button" class="pillar" data-calendly="visibilite-contenu" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
     </ul>
     <div class="hero__cta">
       <div class="magnet" id="heroMagnet">
-        <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous →</a>
+        <a class="btn btn--solid" href="#rdv" data-calendly="hero-cta" data-calendly-campaign="hero">Prendre rendez-vous →</a>
       </div>
     </div>
 
@@ -1413,7 +1475,7 @@ body.vmodal-open{overflow:hidden}
     </div>
 
     <div class="process__cta reveal">
-      <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous →</a>
+      <a class="btn btn--solid" href="#rdv" data-calendly="section-process">Prendre rendez-vous →</a>
     </div>
   </div>
 </section>
@@ -1470,7 +1532,7 @@ body.vmodal-open{overflow:hidden}
     </ul>
 
     <div class="dev__cta reveal">
-      <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Parler de votre projet →</a>
+      <a class="btn btn--solid" href="#rdv" data-calendly="section-dev">Parler de votre projet →</a>
     </div>
   </div>
 </section>
@@ -1597,7 +1659,7 @@ body.vmodal-open{overflow:hidden}
     </div>
 
     <div class="team__cta reveal">
-      <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Contactez l'équipe</a>
+      <a class="btn btn--solid" href="#rdv" data-calendly="section-equipe">Contactez l'équipe</a>
     </div>
   </div>
 </section>
@@ -1640,7 +1702,7 @@ body.vmodal-open{overflow:hidden}
       </ol>
       <p class="cta-special reveal">★ On travaille avec du monde qui veut travailler autant que nous.</p>
       <div class="cta-final__btn reveal">
-        <a class="btn btn--solid btn--xl" href="#rdv" onclick="return openCalendly();">Prendre un appel →</a>
+        <a class="btn btn--solid btn--xl" href="#rdv" data-calendly="cta-final">Prendre un appel →</a>
       </div>
     </div>
   </div>
@@ -1657,7 +1719,7 @@ body.vmodal-open{overflow:hidden}
     </a>
     <nav class="footer__links" aria-label="Pied de page">
       <a href="#developpement">Développement web</a>
-      <a href="#rdv" onclick="return openCalendly();">Prendre rendez-vous</a>
+      <a href="#rdv" data-calendly="footer">Prendre rendez-vous</a>
       <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
     </nav>
     <nav class="footer__social" aria-label="Réseaux sociaux GNJ Média">
@@ -1678,24 +1740,23 @@ body.vmodal-open{overflow:hidden}
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* --- Intro d'ouverture : bloque le scroll, révèle les props à la fin (skip si reduced-motion) --- */
+  /* --- Intro d'ouverture : une fois par session (classe posée dans <head>), scroll bloqué pendant ~1,8 s --- */
   var intro = document.getElementById("intro");
+  var root = document.documentElement;
+  var introOn = root.classList.contains("intro-play") || root.classList.contains("intro-reduce");
+  var introDone = false;
   function endIntro(){
-    document.documentElement.style.overflow = "";
-    document.body.style.overflow = "";
-    if (intro){ intro.remove(); }
+    if (introDone) return; introDone = true;
+    root.classList.remove("intro-lock");   // garde intro-play : les délais des piliers en dépendent
+    if (intro) intro.remove();
     var hp = document.querySelector(".hero-props");
     if (hp && !reduce) hp.classList.add("props-out");
   }
-  if (intro){
-    if (reduce){ endIntro(); }
-    else {
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
-      intro.addEventListener("animationend", function(e){ if (e.animationName === "introLift") endIntro(); });
-      setTimeout(endIntro, 1500); // filet de sécurité : texte du hero visible ≤ 1,5 s
-    }
-  }
+  if (intro && introOn){
+    try { sessionStorage.setItem("gnj-intro", "1"); } catch(e){}
+    intro.addEventListener("animationend", function(e){ if (e.target === intro && e.animationName === "introOut") endIntro(); });
+    setTimeout(endIntro, 2000); // filet de sécurité : jamais plus de 2 s
+  } else if (intro){ intro.remove(); }
 
   /* --- Année footer --- */
   var y = document.getElementById("year");
@@ -1726,13 +1787,25 @@ body.vmodal-open{overflow:hidden}
   window.addEventListener("message", function(e){
     if (e.data && e.data.event === "calendly.popup_closed") closeCalendlyState();
   });
-  window.openCalendly = function(){
+  var CALENDLY_URL = "https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta";
+  // Ouvre le popup avec des UTM (Calendly les enregistre sur chaque booking). Retourne false si ouvert.
+  window.openCalendly = function(content, campaign){
     if (!window.Calendly) return true; // widget pas chargé : laisse suivre le lien #rdv
+    var url = CALENDLY_URL + "?utm_source=site&utm_campaign=" + encodeURIComponent(campaign || "site") +
+              (content ? "&utm_content=" + encodeURIComponent(content) : "");
     document.body.classList.add("calendly-open");
-    Calendly.initPopupWidget({url:"https://calendly.com/contact-gnjmedia/appel-decouverte-publicite-meta"});
+    Calendly.initPopupWidget({url:url});
     watchCalendlyClose();
     return false;
   };
+  // Tous les CTA : [data-calendly="utm_content"] (+ data-calendly-campaign optionnel)
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-calendly]");
+    if (!t) return;
+    var opened = !window.openCalendly(t.getAttribute("data-calendly"), t.getAttribute("data-calendly-campaign"));
+    if (opened) e.preventDefault();
+    else if (t.tagName === "BUTTON"){ var rdv = document.getElementById("rdv"); if (rdv) rdv.scrollIntoView(); }
+  });
 
   /* --- Vidéos muettes (hero + process) : jouent seulement à l'écran — hors témoignages (son, clic requis).
          Reduced-motion : pas d'autoplay, contrôles natifs pour lancer au besoin. --- */
