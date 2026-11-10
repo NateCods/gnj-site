@@ -32,8 +32,9 @@
   --bg:#0A0A0B;
   --bg-soft:#101012;
   --text:#FFFFFF;
-  --muted:rgba(255,255,255,.55);
-  --faint:rgba(255,255,255,.38);
+  --muted:rgba(255,255,255,.8);
+  --faint:rgba(255,255,255,.66);
+  --bg-2:#0E0E12;
   --line:rgba(255,255,255,.10);
   --cream:#F4F3EF;
   --ink:#0A0A0B;
@@ -407,7 +408,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .pillar__num{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.2em;color:var(--meta)}
 .pillar__body{display:flex;flex-direction:column;gap:.35rem}
 .pillar__name{font-family:var(--display);font-weight:600;font-size:clamp(1.45rem,calc(1.3vw + 1.2vh),2.3rem);line-height:1.05;letter-spacing:-.02em;color:#fff;text-wrap:balance}
-.pillar__desc{font-size:clamp(.88rem,.35vw + .75rem,1rem);line-height:1.4;color:rgba(255,255,255,.75)}
+.pillar__desc{font-size:clamp(.88rem,.35vw + .75rem,1rem);line-height:1.5;color:rgba(255,255,255,.84)}
 @media (hover:hover){
   .pillar:hover{transform:translateY(-3px);border-color:rgba(24,119,242,.6);box-shadow:0 16px 40px -20px rgba(24,119,242,.6)}
 }
@@ -419,7 +420,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   .pillar__cta{flex:none;font-size:1rem;letter-spacing:0}
   .pillar__cta-txt{display:none}
   .pillar__name{font-size:1.3rem}
-  .pillar__desc{font-size:.88rem}
+  .pillar__desc{font-size:.95rem}
 }
 .hero__reels{
   margin-top:clamp(1.8rem,4.5vh,3.4rem);
@@ -662,7 +663,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 }
 .statbar__item::before{content:"";position:absolute;top:-1px;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
 .statbar__num{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,2.5vw,2.4rem);line-height:1;letter-spacing:-.02em;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums;transition:text-shadow .3s var(--ease)}
-.statbar__lbl{font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+.statbar__lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);line-height:1.3}
 @media (hover:hover){
   .statbar__item:hover{border-color:rgba(255,178,0,.7);transform:translateY(-3px);box-shadow:0 16px 44px -20px rgba(255,178,0,.5)}
   .statbar__item:hover .statbar__num{text-shadow:0 0 22px rgba(255,178,0,.6)}
@@ -723,7 +724,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
    ============================================================ */
 .dev__head{max-width:none;text-align:center}
 .dev__head .section__title{text-wrap:balance}
-.dev__pitch{max-width:56ch;margin:clamp(1rem,2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.55;color:rgba(255,255,255,.78)}
+.dev__pitch{max-width:56ch;margin:clamp(1rem,2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:rgba(255,255,255,.86)}
 .dev__grid{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2.4vw,1.8rem)}
 .dev-card{
   position:relative;display:flex;flex-direction:column;gap:.9rem;
@@ -743,7 +744,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .dev-card__ico svg{width:50%;height:auto}
 .dev-card__num{position:absolute;top:clamp(1.6rem,3vw,2.3rem);right:clamp(1.6rem,3vw,2.3rem);font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;color:var(--faint)}
 .dev-card__title{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.2vw,1.9rem);line-height:1.05;letter-spacing:-.02em;margin-top:.4rem}
-.dev-card__txt{font-size:1rem;line-height:1.55;color:rgba(255,255,255,.75)}
+.dev-card__txt{font-size:clamp(1rem,.3vw + .95rem,1.1rem);line-height:1.6;color:rgba(255,255,255,.84)}
 @media (hover:hover){
   .dev-card:hover{transform:translateY(-4px);border-color:rgba(24,119,242,.6);background:rgba(255,255,255,.06);box-shadow:0 18px 46px -22px rgba(24,119,242,.6)}
   .dev-card:hover .dev-card__ico{transform:scale(1.06);background:rgba(24,119,242,.28)}
@@ -791,7 +792,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .card:nth-child(3n+2){transform:rotate(.8deg)}
 .card:nth-child(3n+3){transform:rotate(-.6deg)}
 .card__stars{color:var(--gold);font-size:.95rem;letter-spacing:.12em}
-.card__txt{font-size:.98rem;line-height:1.55;color:rgba(255,255,255,.85)}
+.card__txt{font-size:clamp(1rem,.3vw + .95rem,1.08rem);line-height:1.6;color:rgba(255,255,255,.88)}
 .card__who{display:flex;align-items:center;gap:.65rem;margin-top:auto}
 .card__name{font-weight:600;font-size:.95rem}
 .gbadge{
@@ -1185,7 +1186,7 @@ body.vmodal-open{overflow:hidden}
 .cases .case:nth-child(2) .case__text.reveal{transition-delay:.06s}
 
 /* ===== Case studies côte à côte (≥769px) · zigzag : Store = vidéo|texte, Rock Fish = texte|vidéo ===== */
-.case__pitch{max-width:42ch;font-size:clamp(1.02rem,.5vw + .85rem,1.2rem);line-height:1.55;color:rgba(255,255,255,.78)}
+.case__pitch{max-width:42ch;font-size:clamp(1.02rem,.5vw + .85rem,1.2rem);line-height:1.6;color:rgba(255,255,255,.86)}
 .case--store .case__title{color:#8EC5FF}
 /* Rock Fish : accent rouge #D32F2F (titre, 2x, ligne, cadre, lumière, chiffres) */
 .case--rock{--accent:#D32F2F;--accent-rgb:211,47,47}
@@ -1282,6 +1283,84 @@ body.vmodal-open{overflow:hidden}
   .hero__reels .reel__sub{font-size:.6rem}
   .hero__reels .reel__client{font-size:.5rem;letter-spacing:.08em}
 }
+/* ============================================================
+   PASSE VISUELLE — néon + profondeur + lisibilité (palette inchangée)
+   Plans : grille/ghosts (fond) < lumières ambiantes (mid) < cartes élevées (contenu)
+   ============================================================ */
+:root{
+  --elev:inset 0 1px 0 rgba(255,255,255,.07),0 2px 6px -2px rgba(0,0,0,.6),0 18px 40px -18px rgba(0,0,0,.85),0 40px 80px -40px rgba(0,0,0,.9);
+  --elev-blue:var(--elev),0 0 44px -20px rgba(24,119,242,.45);
+  --elev-blue-hi:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(24,119,242,.28),0 22px 50px -20px rgba(0,0,0,.9),0 0 46px -8px rgba(24,119,242,.6);
+}
+/* Fond : grille un cran plus présente, mais toujours derrière */
+body::before{background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px)}
+p{line-height:1.6}
+
+/* Sections : dégradé #0A0A0B → #0E0E12 + lumière ambiante bleue en coin (alternée) — semi-transparent, la grille reste visible */
+.section,.booking{background:
+  radial-gradient(ellipse 55% 45% at 0% 0%,rgba(24,119,242,.10),transparent 70%),
+  linear-gradient(180deg,rgba(14,14,18,0) 0%,rgba(14,14,18,.85) 45%,rgba(14,14,18,0) 100%)}
+.section.process,.section.dev,.booking{background:
+  radial-gradient(ellipse 55% 45% at 100% 0%,rgba(24,119,242,.12),transparent 70%),
+  radial-gradient(ellipse 45% 40% at 0% 100%,rgba(24,119,242,.07),transparent 70%),
+  linear-gradient(180deg,rgba(14,14,18,0) 0%,rgba(14,14,18,.9) 50%,rgba(14,14,18,0) 100%)}
+section[aria-label="Avis clients"]{background:
+  radial-gradient(ellipse 50% 35% at 50% 18%,rgba(255,178,0,.07),transparent 70%),
+  linear-gradient(180deg,rgba(14,14,18,0),rgba(14,14,18,.85) 50%,rgba(14,14,18,0))}
+.hero{background:radial-gradient(ellipse 60% 45% at 50% 0%,rgba(24,119,242,.14),transparent 70%),radial-gradient(ellipse 40% 40% at 100% 100%,rgba(24,119,242,.06),transparent 70%)}
+.team{background:radial-gradient(ellipse 60% 45% at 50% 0%,rgba(24,119,242,.10),transparent 70%),linear-gradient(180deg,#0A0A0B,var(--bg-2) 50%,#0A0A0B)}
+.footer{background:linear-gradient(180deg,var(--bg-2),#0A0A0B);position:relative;z-index:1}
+/* Rock Fish : lumière rouge ambiante confinée à son bloc */
+.case--rock{background:radial-gradient(ellipse 50% 60% at 85% 50%,rgba(211,47,47,.10),transparent 70%)}
+.case--store{background:radial-gradient(ellipse 50% 60% at 20% 50%,rgba(24,119,242,.08),transparent 70%)}
+
+/* Titres de section : halo bleu subtil */
+.section__title,.cta-final__title{text-shadow:0 0 1px rgba(255,255,255,.25),0 0 28px rgba(24,119,242,.38),0 0 70px rgba(24,119,242,.18)}
+.hero__title{text-shadow:0 0 30px rgba(24,119,242,.3)}
+.eyebrow--meta,.step-lbl{text-shadow:0 0 14px rgba(24,119,242,.55)}
+
+/* Glass renforcé + élévation : toutes les cartes/panneaux bleus */
+.pillar,.dev-card,.cta-point,.kpi{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);box-shadow:var(--elev-blue)}
+.panel{border-color:rgba(255,255,255,.2);box-shadow:var(--elev-blue),0 0 70px -24px rgba(24,119,242,.5)}
+.cta-point{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+@media (hover:hover){
+  .pillar:hover,.dev-card:hover,.cta-point:hover{border-color:rgba(24,119,242,.7);box-shadow:var(--elev-blue-hi)}
+  .panel:hover{border-color:rgba(24,119,242,.6);box-shadow:var(--elev-blue-hi),0 0 90px -20px rgba(24,119,242,.6)}
+  .kpi:hover{border-color:rgba(24,119,242,.5)}
+}
+.cta-point__ico{box-shadow:0 0 22px -6px rgba(24,119,242,.6);border-color:rgba(24,119,242,.5);background:rgba(24,119,242,.12)}
+/* Or des avis : même élévation, lueur dorée (confinée à la section) */
+.card{background:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 18px 40px -18px rgba(0,0,0,.85),0 0 40px -20px rgba(255,178,0,.5)}
+.card:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(255,178,0,.3),0 22px 50px -20px rgba(0,0,0,.9),0 0 44px -8px rgba(255,178,0,.55)}
+.statbar__item{background:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 18px 40px -18px rgba(0,0,0,.85)}
+/* Équipe : cartes qui décollent du fond */
+.flip__face{box-shadow:0 2px 6px -2px rgba(0,0,0,.6),0 26px 56px -24px rgba(0,0,0,.95),0 0 40px -18px rgba(24,119,242,.45)}
+@media (hover:hover){.member:hover .flip__face{box-shadow:0 0 0 1px rgba(24,119,242,.35),0 30px 60px -24px rgba(0,0,0,.95),0 0 50px -10px rgba(24,119,242,.55)}}
+/* Vidéos/cellulaires : ombre portée + lueur */
+.phone{box-shadow:0 40px 80px -30px rgba(0,0,0,.95),0 0 40px -16px rgba(24,119,242,.4),inset 0 0 0 1px rgba(255,255,255,.05)}
+
+/* CTA : halo renforcé (blanc + bleu) */
+.btn--solid{box-shadow:0 0 28px rgba(255,255,255,.38),0 0 60px -12px rgba(24,119,242,.6)}
+.btn--solid:hover{box-shadow:0 14px 40px -12px rgba(255,255,255,.6),0 0 34px rgba(255,255,255,.45),0 0 80px -10px rgba(24,119,242,.75)}
+.btn--outline{border-color:rgba(255,255,255,.34)}
+.btn--outline:hover{box-shadow:0 0 26px -6px rgba(24,119,242,.6);border-color:rgba(142,197,255,.9)}
+.btn--gold:hover{box-shadow:0 0 26px -6px rgba(255,178,0,.55)}
+
+/* Néon sur les chiffres clés et les chips */
+.kpi__v{animation:neonBlue 4s ease-in-out infinite}
+.grad-num{filter:drop-shadow(0 0 18px rgba(30,144,255,.5))}
+@keyframes neonBlue{0%,100%{text-shadow:0 0 14px rgba(24,119,242,.35)}50%{text-shadow:0 0 24px rgba(24,119,242,.7),0 0 48px rgba(24,119,242,.3)}}
+.chip--live{box-shadow:0 0 16px -4px rgba(255,59,92,.55)}
+.chip--ok,.chip--float.chip--f2{box-shadow:0 0 18px -4px rgba(30,144,255,.6)}
+.chip--up{box-shadow:0 0 16px -6px rgba(124,240,176,.5)}
+.step-badge{box-shadow:0 0 0 6px var(--bg),0 0 22px rgba(24,119,242,.75),0 0 54px rgba(24,119,242,.35)}
+/* Rail : plus lumineux */
+.flow::before{box-shadow:0 0 12px rgba(24,119,242,.55)}
+.flow::after{background:linear-gradient(transparent,#BFE0FF,transparent);filter:drop-shadow(0 0 6px #3B9BFF)}
+
+/* Plans de fond : ghosts un peu plus visibles mais flous/derrière */
+.hero .ghost{opacity:.065}
+.booking .ghost{opacity:.07}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none !important;transition:none !important}
