@@ -326,9 +326,9 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 @keyframes gnjTrace{to{stroke-dashoffset:-1040}}
 /* Message principal : lisible en 2 secondes, domine le wordmark */
 .hero__title{
-  max-width:22ch;margin:clamp(1.1rem,2.6vh,2rem) auto 0;text-align:center;
+  max-width:24ch;margin:clamp(1rem,2.4vh,1.8rem) auto 0;text-align:center;
   font-family:var(--display);font-weight:700;
-  font-size:clamp(2.35rem,calc(3.6vw + 2.4vh),6rem);line-height:.98;letter-spacing:-.03em;
+  font-size:clamp(1.9rem,calc(2.2vw + 1.8vh),3.6rem);line-height:1.02;letter-spacing:-.025em;
   color:#fff;text-wrap:balance;
 }
 .hero__title-hl{
@@ -337,10 +337,39 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   filter:drop-shadow(0 0 22px rgba(30,144,255,.45));
 }
-.hero__sub{
-  max-width:52ch;margin:clamp(.9rem,2vh,1.4rem) auto 0;text-align:center;
-  font-size:clamp(1rem,.6vw + .8rem,1.25rem);line-height:1.5;color:rgba(255,255,255,.78);
-  text-wrap:balance;
+/* 3 piliers : pills glass, reveal en cascade (0,3 s) calé sur la fin de l'intro */
+.hero__pillars{
+  list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(.7rem,1.4vw,1.1rem);max-width:1160px;margin:clamp(1.2rem,2.8vh,2rem) auto 0;
+}
+.pillar{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:.55rem;text-align:center;
+  padding:clamp(1rem,2vh,1.4rem) 1rem;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.14);border-radius:16px;
+  transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+  animation:pillarIn .5s var(--ease) backwards;
+}
+.pillar::before{content:"";position:absolute;top:-1px;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
+.pillar:nth-child(1){animation-delay:.7s}
+.pillar:nth-child(2){animation-delay:1s}
+.pillar:nth-child(3){animation-delay:1.3s}
+@keyframes pillarIn{from{opacity:0;transform:translateY(14px)}}
+.pillar__num{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.2em;color:var(--meta)}
+.pillar__body{display:flex;flex-direction:column;gap:.35rem}
+.pillar__name{font-family:var(--display);font-weight:600;font-size:clamp(1.45rem,calc(1.3vw + 1.2vh),2.3rem);line-height:1.05;letter-spacing:-.02em;color:#fff;text-wrap:balance}
+.pillar__desc{font-size:clamp(.88rem,.35vw + .75rem,1rem);line-height:1.4;color:rgba(255,255,255,.75)}
+@media (hover:hover){
+  .pillar:hover{transform:translateY(-3px);border-color:rgba(24,119,242,.6);box-shadow:0 16px 40px -20px rgba(24,119,242,.6)}
+}
+@media (max-width:640px){
+  .hero__pillars{grid-template-columns:1fr;max-width:440px;gap:.55rem}
+  .pillar{flex-direction:row;align-items:center;text-align:left;gap:.9rem;padding:.8rem 1rem}
+  .pillar__num{flex:none}
+  .pillar__body{gap:.2rem;min-width:0}
+  .pillar__name{font-size:1.3rem}
+  .pillar__desc{font-size:.88rem}
 }
 .hero__reels{
   margin-top:clamp(1.8rem,4.5vh,3.4rem);
@@ -1117,7 +1146,7 @@ body.vmodal-open{overflow:hidden}
   .nav .btn--outline{font-size:.66rem;padding:.66em .9em;letter-spacing:.05em}
   .brand{font-size:.9rem;gap:.4rem}
   .brand .logo,.nav .logo{height:26px}
-  .hero__title{font-size:min(10vw,2.6rem)}
+  .hero__title{font-size:min(8.2vw,2.1rem)}
   .hero__reels{gap:1.6vw;max-width:100%}
   .hero__reels .reel__cap{padding:.4rem .3rem}
   .hero__reels .reel__sub{font-size:.6rem}
@@ -1185,8 +1214,12 @@ body.vmodal-open{overflow:hidden}
         <span class="hero-prop hero-prop--phone"><img src="assets/img/props/logometa.png" alt="" loading="lazy" decoding="async"></span>
       </span>
     </div>
-    <h1 class="hero__title">On vous apporte des vues. <span class="hero__title-hl">Pis des ventes.</span></h1>
-    <p class="hero__sub">Publicité Meta, contenu vidéo, sites web pis applications. On construit ce qui fait rentrer des clients.</p>
+    <h1 class="hero__title">On transforme les vues en clients. <span class="hero__title-hl">Pis on le prouve.</span></h1>
+    <ul class="hero__pillars" aria-label="Nos 3 piliers">
+      <li class="pillar"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span></li>
+      <li class="pillar"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span></li>
+      <li class="pillar"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span></li>
+    </ul>
     <div class="hero__cta">
       <div class="magnet" id="heroMagnet">
         <a class="btn btn--solid" href="#rdv" onclick="return openCalendly();">Prendre rendez-vous →</a>
