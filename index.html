@@ -36,7 +36,6 @@
   --faint:rgba(255,255,255,.66);
   --bg-2:#0E0E12;
   --line:rgba(255,255,255,.10);
-  --cream:#F4F3EF;
   --ink:#0A0A0B;
   --meta:#1877F2;
   --gold:#FFB200;
@@ -203,11 +202,12 @@ section{position:relative;z-index:1}
 .btn--gold:hover{border-color:rgba(255,178,0,.9);background:rgba(255,178,0,.06)}
 
 /* Reveal au scroll */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.reveal.in{opacity:1;transform:none}
+/* États « cachés » seulement si le système de reveal a démarré (classe .rv posée par le JS) — sans JS ou si le JS plante, tout reste visible */
+.reveal{transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv .reveal:not(.in){opacity:0;transform:translateY(26px)}
 /* Reveals directionnels (couche 2) */
-.reveal-wipe{clip-path:inset(0 100% 0 0);transition:clip-path 1s var(--ease)}
-.reveal-wipe.in{clip-path:inset(0 0 0 0)}
+.reveal-wipe{transition:clip-path 1s var(--ease)}
+.rv .reveal-wipe:not(.in){clip-path:inset(0 100% 0 0)}
 .cards .card.reveal:nth-child(2){transition-delay:.1s}
 .cards .card.reveal:nth-child(3){transition-delay:.2s}
 
@@ -553,8 +553,8 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 /* Transitions entre sections (couche 3) — divider + fade/scale + eyebrow */
 .section::after,.booking::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease) .1s;z-index:2}
 .sec-in::after{transform:scaleX(1)}
-.sec-anim{opacity:0;transform:scale(.98);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.sec-anim.sec-in{opacity:1;transform:none}
+.sec-anim{opacity:0;transition:opacity .7s var(--ease)}
+.sec-anim.sec-in{opacity:1}
 .sec-anim .eyebrow{opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
 .sec-anim.sec-in .eyebrow{opacity:1;transform:none;transition-delay:.15s}
 
@@ -806,13 +806,15 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 /* ============================================================
    ÉQUIPE (crème)
    ============================================================ */
-.team{color:#fff;position:relative;z-index:1;overflow:hidden}
+/* Équipe : visible par défaut, aucune dépendance au JS (pas de reveal, pas d'anim de section) */
+.team{color:#fff;position:relative;z-index:1;overflow:hidden;opacity:1}
+.team .mate,.team__grid > li{opacity:1;transform:none;visibility:visible}
+.team::after{transform:none}
 /* Grille blueprint discrète */
 .team::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
   background-size:var(--grid) var(--grid);
-  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 100%);mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 100%);
 }
 .team__waves{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.13;pointer-events:none}
 .team__waves path{fill:none;stroke:#1877F2;stroke-width:1.5;vector-effect:non-scaling-stroke}
@@ -821,12 +823,10 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .team .section__title{margin:0;text-align:center}
 .team__sub{margin:1rem auto 0;max-width:46ch;text-align:center;font-size:clamp(1rem,.4vw + .9rem,1.15rem);line-height:1.6;color:rgba(255,255,255,.84)}
 .team__grid{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.4rem,2.6vw,2.2rem);margin-top:clamp(2.6rem,5vw,4rem)}
-.team__grid > li.reveal:nth-child(2){transition-delay:.12s}
-.team__grid > li.reveal:nth-child(3){transition-delay:.24s}
 .team__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
 /* Fiche profil */
 .mate{position:relative;height:100%;display:flex;flex-direction:column;border-radius:22px;
-  background:rgba(255,255,255,.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.045));
   border:1px solid rgba(255,255,255,.2);
   box-shadow:var(--elev-blue);
   transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease)}
@@ -839,7 +839,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .mate__photo img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .mate__photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(10,10,11,.72));pointer-events:none}
 .mate__num{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.16em;color:#fff;
-  padding:.4em .7em;border-radius:8px;background:rgba(10,10,11,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2)}
+  padding:.4em .7em;border-radius:8px;background:rgba(10,10,11,.72);border:1px solid rgba(255,255,255,.2)}
 .mate__role{position:absolute;top:12px;right:12px;z-index:2;display:inline-flex;align-items:center;gap:.5em;
   font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;
   padding:.45em .8em;border-radius:999px;background:var(--meta);box-shadow:0 6px 20px -6px rgba(24,119,242,.8)}
@@ -1326,8 +1326,8 @@ section[aria-label="Avis clients"]{background:
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none !important;transition:none !important}
-  .reveal{opacity:1;transform:none}
-  .reveal-wipe{clip-path:none}
+  .rv .reveal:not(.in){opacity:1;transform:none}
+  .rv .reveal-wipe:not(.in){clip-path:none}
   .sec-anim{opacity:1;transform:none}
   .sec-anim .eyebrow{opacity:1;transform:none}
   .section::after,.booking::after{transform:none}
@@ -1738,13 +1738,13 @@ section[aria-label="Avis clients"]{background:
     <path d="M-40,680 C280,600 520,780 760,700 S1200,600 1480,700"/>
   </svg>
   <div class="wrap">
-    <div class="section__head reveal">
+    <div class="section__head">
       <h2 class="section__title">Notre équipe</h2>
       <p class="team__sub">Trois gars, une obsession : que ton contenu rapporte.</p>
     </div>
 
     <ul class="team__grid">
-      <li class="reveal">
+      <li>
         <article class="mate">
           <div class="mate__photo">
             <img src="assets/img/team/nate.jpg" alt="Portrait de Nate" loading="lazy" decoding="async">
@@ -1759,7 +1759,7 @@ section[aria-label="Avis clients"]{background:
           </div>
         </article>
       </li>
-      <li class="reveal">
+      <li>
         <article class="mate">
           <div class="mate__photo">
             <img src="assets/img/team/georges.jpg" alt="Portrait de George" loading="lazy" decoding="async">
@@ -1774,7 +1774,7 @@ section[aria-label="Avis clients"]{background:
           </div>
         </article>
       </li>
-      <li class="reveal">
+      <li>
         <article class="mate">
           <div class="mate__photo">
             <img src="assets/img/team/jeremie.jpg" alt="Portrait de Jérémie" loading="lazy" decoding="async">
@@ -1791,7 +1791,7 @@ section[aria-label="Avis clients"]{background:
       </li>
     </ul>
 
-    <div class="team__cta reveal">
+    <div class="team__cta">
       <a class="btn btn--solid" href="#rdv" data-calendly="section-equipe">Contactez l'équipe</a>
     </div>
   </div>
@@ -1872,6 +1872,44 @@ section[aria-label="Avis clients"]{background:
 (function(){
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- Reveal au scroll (en premier : si une autre partie du JS plante, le contenu reste visible) --- */
+  var reveals = document.querySelectorAll(".reveal, .reveal-wipe");
+  if (reduce || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  } else try {
+    // .reveal-wipe part entièrement clippé : Chrome le considère hors écran → on observe son parent
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          (e.target._wipe || e.target).classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+    // Filet de sécurité : si l'élément touche l'écran et que l'observer principal n'a rien fait en 1 s, on force
+    var safety = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        var el = e.target; safety.unobserve(el);
+        setTimeout(function(){ el.classList.add("in"); }, 1000);
+      });
+    }, {threshold:0});
+    reveals.forEach(function(el){ safety.observe(el); });
+    reveals.forEach(function(el){
+      if (el.classList.contains("reveal-wipe") && el.parentElement){
+        var proxy = document.createElement("span");          // sentinelle invisible collée au titre
+        proxy.setAttribute("aria-hidden", "true");
+        proxy.style.cssText = "position:absolute;inset:0;pointer-events:none";
+        if (getComputedStyle(el.parentElement).position === "static") el.parentElement.style.position = "relative";
+        el.parentElement.appendChild(proxy);
+        proxy._wipe = el;
+        io.observe(proxy);
+      } else io.observe(el);
+    });
+    document.documentElement.classList.add("rv");   // tout est branché : on peut cacher en attendant le scroll
+  } catch(err){ reveals.forEach(function(el){ el.classList.add("in"); }); }
+
 
   /* --- Intro d'ouverture : une fois par session (classe posée dans <head>), scroll bloqué pendant ~1,8 s --- */
   var intro = document.getElementById("intro");
@@ -2047,33 +2085,6 @@ section[aria-label="Avis clients"]{background:
     });
   });
 
-  /* --- Reveal au scroll --- */
-  var reveals = document.querySelectorAll(".reveal, .reveal-wipe");
-  if (reduce || !("IntersectionObserver" in window)){
-    reveals.forEach(function(el){ el.classList.add("in"); });
-  } else {
-    // .reveal-wipe part entièrement clippé : Chrome le considère hors écran → on observe son parent
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){
-          (e.target._wipe || e.target).classList.add("in");
-          io.unobserve(e.target);
-        }
-      });
-    }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
-    reveals.forEach(function(el){
-      if (el.classList.contains("reveal-wipe") && el.parentElement){
-        var proxy = document.createElement("span");          // sentinelle invisible collée au titre
-        proxy.setAttribute("aria-hidden", "true");
-        proxy.style.cssText = "position:absolute;inset:0;pointer-events:none";
-        if (getComputedStyle(el.parentElement).position === "static") el.parentElement.style.position = "relative";
-        el.parentElement.appendChild(proxy);
-        proxy._wipe = el;
-        io.observe(proxy);
-      } else io.observe(el);
-    });
-  }
-
   /* --- Hero : props 3D sortent de derrière le wordmark près du haut de page --- */
   var heroProps = document.querySelector(".hero-props");
   if (heroProps){
@@ -2189,13 +2200,13 @@ section[aria-label="Avis clients"]{background:
 
   /* --- Couche 3 : transitions d'entrée de section (divider scaleX + fade/scale + eyebrow) --- */
   if (!reduce && "IntersectionObserver" in window){
-    var secs = document.querySelectorAll(".section, .booking");
+    var secs = document.querySelectorAll(".section:not(.team), .booking");
     secs.forEach(function(s){ s.classList.add("sec-anim"); });
     var sio = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if (e.isIntersecting){ e.target.classList.add("sec-in"); sio.unobserve(e.target); }
       });
-    }, {threshold:0.12});
+    }, {threshold:0});
     secs.forEach(function(s){ sio.observe(s); });
   }
 
