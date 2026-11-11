@@ -55,7 +55,7 @@
    RESET
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
 body{
   background:var(--bg);
   color:var(--text);
@@ -64,7 +64,7 @@ body{
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+  overflow-x:hidden;overflow-x:clip;
 }
 img,svg,video{display:block;max-width:100%}
 img,video{height:auto}
@@ -823,10 +823,10 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .team .section__head{max-width:none;margin-inline:auto;text-align:center}
 .team .section__title{margin:0;text-align:center}
 .team__sub{margin:1rem auto 0;max-width:46ch;text-align:center;font-size:clamp(1rem,.4vw + .9rem,1.15rem);line-height:1.6;color:rgba(255,255,255,.84)}
-.team__grid{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.4rem,2.6vw,2.2rem);margin-top:clamp(2.6rem,5vw,4rem)}
+.team__grid{list-style:none;width:100%;margin-inline:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.4rem,2.6vw,2.2rem);margin-top:clamp(2.6rem,5vw,4rem)}
 .team__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
 /* Fiche profil */
-.mate{position:relative;height:100%;display:flex;flex-direction:column;border-radius:22px;
+.mate{position:relative;width:100%;margin-inline:auto;height:100%;display:flex;flex-direction:column;border-radius:22px;
   background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.045));
   border:1px solid rgba(255,255,255,.2);
   box-shadow:var(--elev-blue);
@@ -932,7 +932,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 /* Layout vertical centré (titre → gros stat → vidéo → lien) */
 .case{
   --accent:#fff;--accent-rgb:255,255,255;
-  position:relative;overflow:clip;overflow-clip-margin:80px;
+  position:relative;overflow:hidden;overflow:clip;overflow-clip-margin:80px;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   gap:clamp(1.6rem,3.5vw,2.6rem);
 }
@@ -1209,12 +1209,14 @@ body.vmodal-open{overflow:hidden}
    ============================================================ */
 @media (max-width:900px){
   .flow__step{grid-template-columns:1fr}
+  .flow__visual{margin-left:calc(-1 * clamp(3.6rem,6vw,5.2rem))}
   .process__head{margin-bottom:clamp(1.6rem,4vw,2.4rem)}
   .cards{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
   .team__grid{grid-template-columns:1fr;max-width:520px;margin-inline:auto}
 }
 @media (max-width:600px){
   .flow{padding-left:3.3rem;gap:4rem}
+  .flow__visual{margin-left:-3.3rem}
   .flow__text .step-badge{left:-3.3rem;width:2.4rem;height:2.4rem;font-size:.85rem}
   .flow::before,.flow::after{left:calc(1.2rem - 1px)}
   .flow__title{font-size:clamp(2rem,8.6vw,2.6rem)}
