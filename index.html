@@ -1346,6 +1346,156 @@ section[aria-label="Avis clients"]{background:
   .sec-anim .eyebrow{opacity:1;transform:none}
   .section::after,.booking::after{transform:none}
 }
+
+/* ============================================================
+   RÉALISATIONS WEB — roue 3D de sites livrés + modal aperçu
+   (réutilise tokens, .eyebrow, .section__title, .btn, .chip, .dots)
+   ============================================================ */
+.dev__next{display:flex;justify-content:center;margin-top:1.5rem}
+.section.real{overflow-x:clip;padding-top:clamp(5.5rem,10vw,9rem);background:
+  radial-gradient(ellipse 55% 40% at 50% 0%,rgba(24,119,242,.12),transparent 70%),
+  radial-gradient(ellipse 60% 35% at 50% 70%,rgba(24,119,242,.07),transparent 70%),
+  linear-gradient(180deg,rgba(14,14,18,0) 0%,rgba(14,14,18,.9) 50%,rgba(14,14,18,0) 100%)}
+/* Connecteur vertical : prolonge la section Développement */
+.real__link{position:absolute;top:0;left:50%;width:1px;height:clamp(52px,7vw,96px);z-index:2;pointer-events:none;
+  background:linear-gradient(var(--meta),rgba(24,119,242,0));box-shadow:0 0 12px rgba(24,119,242,.55);
+  transform:translateX(-50%);transform-origin:top;transition:transform .9s var(--ease) .25s}
+.real__link::after{content:"";position:absolute;left:50%;top:0;width:7px;height:7px;margin:-3px 0 0 -3.5px;border-radius:50%;background:#BFE0FF;box-shadow:0 0 10px #3B9BFF,0 0 22px rgba(24,119,242,.7)}
+.sec-anim:not(.sec-in) .real__link{transform:translateX(-50%) scaleY(0)}
+.real__head{max-width:none;text-align:center;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.real__head .section__title{text-wrap:balance}
+.real__pitch{max-width:52ch;margin:clamp(1rem,2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:rgba(255,255,255,.86)}
+
+/* Roue 3D : seul .wheel__ring bouge (transform) */
+.wheel{--cw:min(78vw,640px);--bar:38px;--ch:calc(var(--cw) * .625 + var(--bar));--r:calc(var(--cw) * .92);--step:60deg;--persp:1900px;
+  position:relative;z-index:1;outline:none;border-radius:28px}
+.wheel:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:-2px}
+.wheel__stage{position:relative;height:calc(var(--ch) + 3rem);perspective:var(--persp);perspective-origin:50% 45%;
+  touch-action:pan-y;-webkit-user-select:none;user-select:none;cursor:grab}
+.wheel__stage.is-dragging{cursor:grabbing}
+.wheel__ring{position:absolute;left:50%;top:1.5rem;width:var(--cw);height:var(--ch);margin-left:calc(var(--cw) / -2);
+  transform-style:preserve-3d;transform:translateZ(calc(var(--r) * -1)) rotateY(0deg);
+  transition:transform 1s cubic-bezier(.16,1,.3,1);will-change:transform}
+.wheel__stage.is-dragging .wheel__ring{transition:none}
+.wheel__slot{position:absolute;inset:0;transform:rotateY(calc(var(--i) * var(--step))) translateZ(var(--r));
+  -webkit-backface-visibility:hidden;backface-visibility:hidden}
+/* Carte = fenêtre de navigateur */
+.site-card{position:relative;display:flex;flex-direction:column;width:100%;height:100%;text-align:left;cursor:inherit;
+  border-radius:16px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.14);
+  box-shadow:var(--elev),0 50px 90px -50px rgba(0,0,0,.95);
+  transition:border-color .5s var(--ease),box-shadow .5s var(--ease)}
+.site-card::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(180deg,rgba(6,6,8,.45),rgba(6,6,8,.7));opacity:1;transition:opacity .7s var(--ease)}
+.is-front .site-card{cursor:pointer;border-color:rgba(255,255,255,.22);box-shadow:var(--elev-blue-hi),0 60px 120px -50px rgba(24,119,242,.45)}
+.is-front .site-card::after{opacity:0}
+.site-card:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.bframe__bar{flex:none;height:var(--bar,38px);display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:.6rem;padding:0 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border-bottom:1px solid rgba(255,255,255,.08)}
+.bframe__url{justify-self:center;display:flex;align-items:center;justify-content:center;gap:.45em;width:min(100%,300px);min-width:0;height:24px;padding:0 .9em;
+  border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bframe__url svg{width:11px;height:11px;flex:none;color:#7CF0B0}
+.bframe__screen{position:relative;flex:1;min-height:0;overflow:hidden;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(24,119,242,.16),transparent 70%),#0E0E12}
+.bframe__screen img,.bframe__screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.bframe__screen img.is-broken{visibility:hidden}
+.bframe__ph{position:absolute;inset:0;display:grid;place-items:center;padding:1rem;text-align:center;
+  font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,3.4vw,2.6rem);letter-spacing:-.02em;color:rgba(255,255,255,.14)}
+.site-card__cue{position:absolute;z-index:4;left:50%;bottom:clamp(.8rem,2vw,1.4rem);display:inline-flex;align-items:center;gap:.5em;
+  font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  padding:.7em 1.15em;border-radius:999px;white-space:nowrap;background:rgba(10,10,11,.62);border:1px solid rgba(255,255,255,.24);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 30px -10px rgba(0,0,0,.8),0 0 24px -8px rgba(24,119,242,.6);
+  opacity:0;transform:translate(-50%,8px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.site-card__cue svg{width:12px;height:12px}
+.is-front .site-card:focus-visible .site-card__cue{opacity:1;transform:translate(-50%,0)}
+@media (hover:hover){
+  .is-front .site-card:hover{border-color:rgba(24,119,242,.6)}
+  .is-front .site-card:hover .site-card__cue{opacity:1;transform:translate(-50%,0)}
+}
+@media (hover:none){.is-front .site-card__cue{opacity:1;transform:translate(-50%,0)}}
+
+.wheel__meta{display:flex;flex-direction:column;align-items:center;gap:.35rem;margin-top:clamp(.5rem,1.5vw,1rem);padding-inline:var(--pad);text-align:center}
+.wheel__name{font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.1;letter-spacing:-.02em}
+.wheel__tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.wheel__ctrl{display:flex;align-items:center;justify-content:center;gap:clamp(.8rem,2vw,1.25rem);margin-top:clamp(1.25rem,2.5vw,1.75rem);padding-inline:var(--pad)}
+.wheel__btn{width:52px;height:52px;flex:none;display:grid;place-items:center;border-radius:50%;color:#fff;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.22);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--elev);
+  transition:border-color .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),transform .25s var(--ease)}
+.wheel__btn svg{width:20px;height:20px}
+@media (hover:hover){.wheel__btn:hover{border-color:rgba(142,197,255,.9);background:rgba(24,119,242,.14);box-shadow:0 0 26px -6px rgba(24,119,242,.6)}}
+.wheel__btn:active{transform:scale(.94)}
+.wheel__dots{display:flex;align-items:center;gap:4px}
+.wheel__dot{width:30px;height:30px;display:grid;place-items:center}
+.wheel__dot::before{content:"";width:14px;height:3px;border-radius:3px;background:rgba(255,255,255,.28);transition:width .4s var(--ease),background .4s var(--ease),box-shadow .4s var(--ease)}
+.wheel__dot[aria-current="true"]::before{width:26px;background:var(--meta);box-shadow:0 0 12px rgba(24,119,242,.8)}
+.wheel__count{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--faint);min-width:5.5em;text-align:center}
+.wheel__count b{color:#fff;font-weight:500}
+.wheel__hint{margin-top:1rem;text-align:center;font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42);padding-inline:var(--pad)}
+@media (max-width:600px){
+  .wheel{--cw:76vw;--bar:30px;--r:calc(var(--cw) * .94);--persp:1000px}
+  .site-card{border-radius:12px}
+  .bframe__bar{grid-template-columns:34px 1fr 34px;padding:0 10px;gap:.4rem}
+  .bframe__bar .dots{gap:4px}
+  .bframe__bar .dots i{width:7px;height:7px}
+  .bframe__url{height:19px;font-size:.6rem;padding:0 .7em}
+  .site-card__cue{font-size:.62rem;padding:.6em 1em}
+  .wheel__dots{display:none}
+  .wheel__btn{width:48px;height:48px}
+}
+
+/* Modal aperçu : glass plein écran, <dialog> natif (top layer, focus piégé) */
+body.realisation-open .nav{opacity:0;pointer-events:none}
+.rmodal{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;
+  background:transparent;color:#fff;overflow:hidden}
+.rmodal:not([open]){display:none}
+.rmodal::backdrop{background:transparent}
+.rmodal[open]{animation:vmodalIn .3s var(--ease)}
+.rmodal__scrim{position:absolute;inset:0;background:rgba(6,6,8,.74);
+  -webkit-backdrop-filter:blur(24px) saturate(1.2);backdrop-filter:blur(24px) saturate(1.2)}
+.rmodal__scrim::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 30% 40%,rgba(24,119,242,.16),transparent 70%)}
+.rmodal__scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  display:grid;place-items:center;padding:clamp(4.5rem,8vw,5.5rem) var(--pad) clamp(2rem,5vw,4rem)}
+.rmodal__panel{width:100%;max-width:1240px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(1.75rem,3.5vw,3.5rem);align-items:center}
+.rmodal[open] .rmodal__panel{animation:rmodalIn .55s cubic-bezier(.16,1,.3,1)}
+@keyframes rmodalIn{from{opacity:0;transform:translateY(18px) scale(.97)}}
+.rmodal__frame{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.2);
+  box-shadow:var(--elev-blue-hi),0 60px 140px -50px rgba(24,119,242,.55)}
+.rmodal__frame .bframe__screen{flex:none;aspect-ratio:16/10}
+.rmodal__eyebrow{display:block;margin-bottom:1rem}
+.rmodal__title{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.6vw,3.2rem);line-height:1;letter-spacing:-.03em;
+  text-shadow:0 0 28px rgba(24,119,242,.38)}
+.rmodal__tag{margin-top:.75rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.rmodal__desc{margin-top:1.1rem;font-size:clamp(1rem,.3vw + .95rem,1.1rem);color:rgba(255,255,255,.86)}
+.rmodal__list{list-style:none;margin-top:1.4rem;display:grid;gap:.7rem}
+.rmodal__list li{position:relative;padding-left:1.9rem;font-size:1rem;line-height:1.5;color:rgba(255,255,255,.92)}
+.rmodal__list li::before{content:"";position:absolute;left:0;top:.15em;width:1.2rem;height:1.2rem;border-radius:50%;
+  background:rgba(24,119,242,.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%238EC5FF' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/70% no-repeat;
+  border:1px solid rgba(24,119,242,.55);box-shadow:0 0 14px -4px rgba(24,119,242,.7)}
+.rmodal__chips{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.rmodal__chips .chip{text-transform:none;letter-spacing:.06em;font-size:.72rem;color:#8EC5FF;border-color:rgba(30,144,255,.4);background:rgba(30,144,255,.08)}
+.rmodal__cta{margin-top:1.9rem}
+.rmodal__close{position:absolute;z-index:3;top:max(1rem,env(safe-area-inset-top,0px));right:max(1rem,env(safe-area-inset-right,0px));
+  width:48px;height:48px;display:grid;place-items:center;border-radius:50%;color:#fff;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background .25s var(--ease),border-color .25s var(--ease),transform .25s var(--ease)}
+.rmodal__close svg{width:18px;height:18px}
+.rmodal__close:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.55);transform:rotate(90deg)}
+@media (max-width:900px){
+  .rmodal__scroll{place-items:start center}
+  .rmodal__panel{grid-template-columns:1fr;max-width:640px;gap:1.6rem}
+}
+@media (max-width:600px){
+  .rmodal__scroll{padding-top:5.25rem}
+  .rmodal__frame{border-radius:12px}
+  .rmodal__frame .bframe__bar{--bar:30px}
+  .rmodal__cta{width:100%;justify-content:center;font-size:.8rem;padding:1.05em 1.2em}
+}
+@media (prefers-reduced-motion:reduce){
+  .wheel__ring,.site-card,.site-card::after,.real__link{transition:none}
+  .sec-anim:not(.sec-in) .real__link{transform:translateX(-50%)}
+}
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" media="print" onload="this.media='all'">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
@@ -1698,8 +1848,105 @@ section[aria-label="Avis clients"]{background:
     <div class="dev__cta reveal">
       <a class="btn btn--solid" href="#rdv" data-calendly="section-dev">Parler de votre projet →</a>
     </div>
+    <p class="dev__next reveal"><a class="link-mono" href="#realisations">Voir ce qu'on a livré ↓</a></p>
   </div>
 </section>
+
+<!-- ====================== RÉALISATIONS WEB ====================== -->
+<section class="section real" id="realisations" aria-labelledby="real-title">
+  <span class="real__link" aria-hidden="true"></span>
+  <span class="vlabel vlabel--left">Réalisations</span>
+  <span class="vlabel vlabel--right">Sur mesure · Zéro template</span>
+
+  <div class="wrap">
+    <div class="section__head real__head reveal">
+      <span class="eyebrow eyebrow--meta">// 03.1 — Ce qu'on a livré</span>
+      <h2 class="section__title reveal-wipe" id="real-title">Réalisations web</h2>
+      <p class="real__pitch">Des vrais sites pour des vraies business d'ici. Clique sur un site pour le voir bouger.</p>
+    </div>
+  </div>
+
+  <div class="wheel" id="wheel" role="region" aria-roledescription="carrousel" aria-label="Sites web livrés par GNJ Média" tabindex="0">
+    <div class="wheel__stage">
+      <div class="wheel__ring">
+        <div class="wheel__slot" style="--i:0" data-site="0" role="group" aria-roledescription="diapositive" aria-label="Site 1 de 3">
+          <button type="button" class="site-card" aria-label="L'Ultra Frette — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ultrafrette.ca</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">L'Ultra Frette</span>
+              <img src="assets/img/realisations/ultra-frette-hero.jpg" alt="Page d'accueil du site de L'Ultra Frette" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:1" data-site="1" role="group" aria-roledescription="diapositive" aria-label="Site 2 de 3">
+          <button type="button" class="site-card" aria-label="Store Mobile Québec — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>storemobilequebec.ca</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Store Mobile Québec</span>
+              <img src="assets/img/realisations/store-mobile-quebec-hero.jpg" alt="Page d'accueil du site de Store Mobile Québec" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:2" data-site="2" role="group" aria-roledescription="diapositive" aria-label="Site 3 de 3">
+          <button type="button" class="site-card" aria-label="Groupe NC Air — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ventilationnc.com</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Groupe NC Air</span>
+              <img src="assets/img/realisations/groupe-nc-air-hero.jpg" alt="Page d'accueil du site de Groupe NC Air" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wheel__meta" aria-hidden="true">
+      <span class="wheel__name">L'Ultra Frette</span>
+      <span class="wheel__tag">Événement sportif · OBNL</span>
+    </div>
+
+    <div class="wheel__ctrl">
+      <button type="button" class="wheel__btn" data-wheel="prev" aria-label="Site précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="wheel__dots">
+        <button type="button" class="wheel__dot" data-go="0" aria-label="Voir le site 1 : L'Ultra Frette" aria-current="true"></button>
+        <button type="button" class="wheel__dot" data-go="1" aria-label="Voir le site 2 : Store Mobile Québec"></button>
+        <button type="button" class="wheel__dot" data-go="2" aria-label="Voir le site 3 : Groupe NC Air"></button>
+      </div>
+      <p class="wheel__count" aria-hidden="true"><b>01</b> / 03</p>
+      <button type="button" class="wheel__btn" data-wheel="next" aria-label="Site suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <p class="wheel__hint" aria-hidden="true">Glisse, clique ou utilise les flèches</p>
+    <p class="sr-only" id="wheelLive" aria-live="polite" aria-atomic="true"></p>
+  </div>
+</section>
+
+<!-- Modal aperçu réalisation (rempli par le JS depuis REALISATIONS) -->
+<dialog class="rmodal" id="rmodal" aria-labelledby="rmodalTitle" aria-describedby="rmodalDesc">
+  <div class="rmodal__scrim" aria-hidden="true"></div>
+  <div class="rmodal__scroll">
+    <article class="rmodal__panel">
+      <div class="rmodal__frame">
+        <div class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="rmodal__url"></span></span><span class="bframe__sp"></span></div>
+        <div class="bframe__screen">
+          <span class="bframe__ph rmodal__ph" aria-hidden="true"></span>
+          <video class="rmodal__video" muted autoplay loop playsinline preload="none" aria-label="Aperçu vidéo du site"></video>
+        </div>
+      </div>
+      <div class="rmodal__info">
+        <p class="eyebrow eyebrow--meta rmodal__eyebrow"></p>
+        <h2 class="rmodal__title" id="rmodalTitle"></h2>
+        <p class="rmodal__tag"></p>
+        <p class="rmodal__desc" id="rmodalDesc"></p>
+        <ul class="rmodal__list"></ul>
+        <ul class="rmodal__chips" aria-label="Approche"></ul>
+        <button type="button" class="btn btn--solid rmodal__cta" data-calendly="" data-calendly-campaign="realisations">Un site de même pour ta business →</button>
+      </div>
+    </article>
+  </div>
+  <button type="button" class="rmodal__close" aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+</dialog>
 
 <!-- ====================== AVIS ====================== -->
 <section class="section" aria-label="Avis clients">
@@ -2299,6 +2546,285 @@ section[aria-label="Avis clients"]{background:
     seq.forEach(function(src){ trustTrack.appendChild(mkLogo(src, "trust__logo")); });
   }
 
+})();
+</script>
+<script>
+/* ============================================================
+   RÉALISATIONS WEB — DONNÉES (à raffiner après revue des captures)
+   Ordre = ordre des cartes dans la roue. Médias :
+   assets/img/realisations/{slug}-hero.jpg · assets/video/realisations/{slug}.mp4
+   ============================================================ */
+const REALISATIONS = [
+  {
+    slug: "ultra-frette",
+    name: "L'Ultra Frette",
+    url: "ultrafrette.ca",
+    tag: "Événement sportif · OBNL",
+    desc: "Le site officiel d'un ultramarathon hivernal backyard de 24 h sur le lac Beauport — 9 et 10 janvier 2027.",
+    bullets: [
+      "Intro cinéma : poudrerie animée, « FRETTE » qui s'allume en givre — t'as froid avant même de scroller",
+      "Compte à rebours live jusqu'au départ pis jusqu'à la prochaine vague d'inscriptions",
+      "Carte de la boucle de 5,5 km dessinée à la main, horaire 24 h en timeline verticale",
+      "Direction artistique 100 % sur mesure — zéro template, l'hiver québécois au pixel près"
+    ],
+    chips: ["#custom", "#intro-animée", "#countdown", "#mobile-first"]
+  },
+  {
+    slug: "store-mobile-quebec",
+    name: "Store Mobile Québec",
+    url: "storemobilequebec.ca",
+    tag: "Stores sur mesure · Québec & Montréal",
+    desc: "Stores sur mesure et motorisés, service à domicile de Québec à Montréal — un site bâti pour faire rentrer des soumissions.",
+    bullets: [
+      "Hero vidéo + « Soumission gratuite » en évidence : le chemin vers le lead est tracé d'avance",
+      "Comparateurs avant/après à glisser sur de vraies pièces — le client voit le résultat chez eux",
+      "Produits rendus en 3D lumineux, présentés comme dans une salle de montre",
+      "Zone de service + carte pour ramasser le SEO local, ville par ville"
+    ],
+    chips: ["#custom", "#conversion", "#avant-après", "#seo-local"]
+  },
+  {
+    slug: "groupe-nc-air",
+    name: "Groupe NC Air",
+    url: "ventilationnc.com",
+    tag: "Entretien résidentiel · Région de Québec",
+    desc: "Nettoyage de thermopompes, sécheuses, échangeurs d'air pis systèmes centraux — un site qui fait sonner le téléphone.",
+    bullets: [
+      "Intro cinématique : vue aérienne du lac, zoom sur la maison qui s'ouvre en coupe",
+      "Maison interactive : tu cliques un équipement, tu tombes direct sur le bon service",
+      "Carte des zones desservies + engagements clairs (réponse 24 h, rapport écrit)",
+      "Sur mobile : barre fixe Appeler / Soumission — le lead est à un pouce"
+    ],
+    chips: ["#custom", "#interactif", "#animations", "#leads"]
+  }
+];
+
+(function(){
+  "use strict";
+  const wheel = document.getElementById("wheel");
+  const dlg = document.getElementById("rmodal");
+  if (!wheel || !dlg) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const N = REALISATIONS.length;
+  const SLOTS = N * 2;                       // chaque site 2× sur l'anneau : 3 cartes visibles, l'arrière caché
+  const STEP = 360 / SLOTS;
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const mod = (a, b) => ((a % b) + b) % b;
+
+  const stage = wheel.querySelector(".wheel__stage");
+  const ring = wheel.querySelector(".wheel__ring");
+  const live = document.getElementById("wheelLive");
+  const nameEl = wheel.querySelector(".wheel__name");
+  const tagEl = wheel.querySelector(".wheel__tag");
+  const countEl = wheel.querySelector(".wheel__count b");
+  const dots = Array.from(wheel.querySelectorAll(".wheel__dot"));
+  wheel.style.setProperty("--step", STEP + "deg");
+
+  // Cartes dupliquées (décoratives, jamais focusables) pour fermer l'anneau
+  Array.from(ring.children).forEach((slot, k) => {
+    const c = slot.cloneNode(true);
+    c.style.setProperty("--i", k + N);
+    ring.appendChild(c);
+  });
+  const slots = Array.from(ring.children);
+
+  // Capture absente : on garde le fond de remplacement (nom du site) au lieu de l'icône d'image brisée
+  const markBroken = (img) => img.classList.add("is-broken");
+  slots.forEach((s) => {
+    const img = s.querySelector("img");
+    if (!img) return;
+    img.addEventListener("error", () => markBroken(img));
+    if (img.complete && img.naturalWidth === 0 && img.currentSrc) markBroken(img);
+  });
+
+  let step = 0;
+  const siteIdx = () => mod(step, N);
+  const frontSlot = () => mod(step, SLOTS);
+  const ringTransform = (deg) => "translateZ(calc(var(--r) * -1)) rotateY(" + deg + "deg)";
+
+  function render(announce){
+    const f = frontSlot(), s = siteIdx(), d = REALISATIONS[s];
+    ring.style.transform = ringTransform(-step * STEP);
+    const hadFocus = ring.contains(document.activeElement);
+    slots.forEach((slot, i) => {
+      const on = i === f;
+      const btn = slot.querySelector(".site-card");
+      slot.classList.toggle("is-front", on);
+      btn.tabIndex = on ? 0 : -1;
+      if (on){ slot.removeAttribute("aria-hidden"); if (hadFocus) btn.focus({preventScroll:true}); }
+    });
+    slots.forEach((slot, i) => { if (i !== f) slot.setAttribute("aria-hidden", "true"); });
+    nameEl.textContent = d.name;
+    tagEl.textContent = d.tag;
+    countEl.textContent = pad2(s + 1);
+    dots.forEach((dot, i) => dot.setAttribute("aria-current", i === s ? "true" : "false"));
+    if (announce) live.textContent = "Site " + (s + 1) + " de " + N + " : " + d.name;
+  }
+
+  /* --- Auto-rotation lente : jamais en reduced-motion, pause survol/focus/modal/hors écran/onglet caché,
+         arrêt définitif dès que l'utilisateur prend le contrôle --- */
+  let userTook = false, hovering = false, focused = false, inView = false, modalOpen = false, timer = null;
+  function canAuto(){ return !reduce && !userTook && !hovering && !focused && !modalOpen && inView && !document.hidden; }
+  function syncAuto(){
+    if (canAuto()){ if (!timer) timer = setInterval(() => { step++; render(false); }, 5000); }
+    else if (timer){ clearInterval(timer); timer = null; }
+  }
+  function go(delta){ userTook = true; syncAuto(); step += delta; render(true); }
+
+  wheel.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse"){ hovering = true; syncAuto(); } });
+  wheel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse"){ hovering = false; syncAuto(); } });
+  wheel.addEventListener("focusin", () => { focused = true; syncAuto(); });
+  wheel.addEventListener("focusout", (e) => { if (!wheel.contains(e.relatedTarget)){ focused = false; syncAuto(); } });
+  document.addEventListener("visibilitychange", syncAuto);
+
+  // Entrée à l'écran : petit quart de tour d'arrivée (une fois), puis auto-rotation
+  let entered = reduce;
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      if (inView && !entered){
+        entered = true;
+        stage.classList.add("is-dragging");               // pose l'angle de départ sans transition
+        ring.style.transform = ringTransform(STEP * .75);
+        ring.getBoundingClientRect();
+        stage.classList.remove("is-dragging");
+        requestAnimationFrame(() => render(false));
+      }
+      syncAuto();
+    }, {threshold:.35}).observe(stage);
+  } else { inView = true; }
+
+  /* --- Contrôles --- */
+  wheel.querySelector('[data-wheel="prev"]').addEventListener("click", () => go(-1));
+  wheel.querySelector('[data-wheel="next"]').addEventListener("click", () => go(1));
+  dots.forEach((dot) => dot.addEventListener("click", () => {
+    const t = +dot.dataset.go;
+    go(mod(t - siteIdx() + 1, N) - 1);                  // chemin le plus court (−1, 0, +1)
+  }));
+  wheel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft"){ e.preventDefault(); go(-1); }
+    else if (e.key === "ArrowRight"){ e.preventDefault(); go(1); }
+  });
+
+  /* --- Glisser (souris + tactile). touch-action:pan-y : le scroll vertical reste natif --- */
+  let drag = null, suppressClick = false;
+  stage.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    drag = {x:e.clientX, y:e.clientY, dx:0, id:e.pointerId, on:false, w:ring.offsetWidth || 1};
+  });
+  stage.addEventListener("pointermove", (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    drag.dx = e.clientX - drag.x;
+    if (!drag.on){
+      if (Math.abs(drag.dx) < 8) return;
+      if (Math.abs(e.clientY - drag.y) > Math.abs(drag.dx)){ drag = null; return; }   // geste vertical : on laisse scroller
+      drag.on = true; userTook = true; syncAuto();
+      stage.classList.add("is-dragging");
+      try { stage.setPointerCapture(e.pointerId); } catch(err){}
+    }
+    ring.style.transform = ringTransform(-step * STEP + (drag.dx / drag.w) * STEP * 1.1);
+  });
+  function endDrag(e){
+    if (!drag || e.pointerId !== drag.id) return;
+    const d = drag; drag = null;
+    if (!d.on) return;
+    stage.classList.remove("is-dragging");
+    suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
+    let n = Math.round(-d.dx / d.w * 1.1);
+    if (n === 0 && Math.abs(d.dx) > 40) n = d.dx < 0 ? 1 : -1;
+    n = Math.max(-2, Math.min(2, n));
+    if (n) go(n); else render(false);
+  }
+  stage.addEventListener("pointerup", endDrag);
+  stage.addEventListener("pointercancel", endDrag);
+  stage.addEventListener("dragstart", (e) => e.preventDefault());
+
+  // Clic : carte de côté → tourne vers elle ; carte de face → ouvre l'aperçu
+  stage.addEventListener("click", (e) => {
+    if (suppressClick){ e.preventDefault(); e.stopPropagation(); return; }
+    const card = e.target.closest(".site-card");
+    if (!card) return;
+    const i = slots.indexOf(card.closest(".wheel__slot"));
+    if (i === frontSlot()){ openModal(siteIdx()); return; }
+    go(mod(i - frontSlot() + SLOTS / 2, SLOTS) - SLOTS / 2);
+  });
+
+  /* --- Modal aperçu --- */
+  const video = dlg.querySelector(".rmodal__video");
+  const cta = dlg.querySelector(".rmodal__cta");
+  const q = (sel) => dlg.querySelector(sel);
+  let lockY = 0;
+
+  // Scroll lock iOS-safe : body figé à sa position, aucun saut (compense la barre de défilement)
+  function lockScroll(){
+    lockY = window.scrollY;
+    const sb = window.innerWidth - document.documentElement.clientWidth;
+    const b = document.body.style;
+    b.position = "fixed"; b.top = -lockY + "px"; b.left = "0"; b.right = "0"; b.width = "100%";
+    if (sb > 0) b.paddingRight = sb + "px";
+  }
+  function unlockScroll(){
+    const b = document.body.style, h = document.documentElement.style;
+    b.position = b.top = b.left = b.right = b.width = b.paddingRight = "";
+    const prev = h.scrollBehavior;
+    h.scrollBehavior = "auto";                          // html{scroll-behavior:smooth} : retour instantané
+    window.scrollTo(0, lockY);
+    h.scrollBehavior = prev;
+  }
+
+  function openModal(i){
+    const d = REALISATIONS[i];
+    q(".rmodal__eyebrow").textContent = "// Réalisation " + pad2(i + 1) + " / " + pad2(N);
+    q(".rmodal__title").textContent = d.name;
+    q(".rmodal__tag").textContent = d.tag;
+    q(".rmodal__desc").textContent = d.desc;
+    q(".rmodal__url").textContent = d.url;
+    q(".rmodal__ph").textContent = d.name;
+    const list = q(".rmodal__list"); list.textContent = "";
+    d.bullets.forEach((t) => { const li = document.createElement("li"); li.textContent = t; list.appendChild(li); });
+    const chips = q(".rmodal__chips"); chips.textContent = "";
+    d.chips.forEach((t) => { const li = document.createElement("li"); li.className = "chip"; li.textContent = t; chips.appendChild(li); });
+    cta.setAttribute("data-calendly", "realisation-" + d.slug);
+
+    video.poster = "assets/img/realisations/" + d.slug + "-hero.jpg";
+    video.src = "assets/video/realisations/" + d.slug + ".mp4";   // src posé seulement à l'ouverture
+    video.muted = true;
+
+    modalOpen = true; syncAuto();
+    lockScroll();
+    document.body.classList.add("realisation-open");
+    dlg.showModal();
+    q(".rmodal__close").focus({preventScroll:true});
+    q(".rmodal__scroll").scrollTop = 0;
+    if (!reduce){ const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+  }
+  function cleanup(){
+    if (!modalOpen) return;
+    modalOpen = false;
+    video.pause();
+    video.removeAttribute("src"); video.removeAttribute("poster");
+    video.load();                                        // libère la bande passante
+    document.body.classList.remove("realisation-open");
+    unlockScroll();
+    const front = slots[frontSlot()].querySelector(".site-card");
+    if (front) front.focus({preventScroll:true});
+    syncAuto();
+  }
+  function closeModal(){ if (dlg.open) dlg.close(); cleanup(); }
+
+  dlg.addEventListener("close", cleanup);               // Esc (cancel natif) passe par ici
+  q(".rmodal__close").addEventListener("click", closeModal);
+  // Clic sur le fond (hors panneau) = fermer ; on exige que le geste commence aussi sur le fond
+  let downOnBackdrop = false;
+  const isBackdrop = (t) => t === dlg || t.classList.contains("rmodal__scroll") || t.classList.contains("rmodal__scrim");
+  dlg.addEventListener("pointerdown", (e) => { downOnBackdrop = isBackdrop(e.target); });
+  dlg.addEventListener("click", (e) => { if (downOnBackdrop && isBackdrop(e.target)) closeModal(); downOnBackdrop = false; });
+  // CTA : on ferme d'abord le modal (top layer) ; le gestionnaire global [data-calendly] ouvre ensuite Calendly
+  cta.addEventListener("click", closeModal);
+
+  render(false);
+  syncAuto();
 })();
 </script>
 </body>
