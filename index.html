@@ -1367,7 +1367,7 @@ section[aria-label="Avis clients"]{background:
 .real__pitch{max-width:52ch;margin:clamp(1rem,2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:rgba(255,255,255,.86)}
 
 /* Roue 3D : seul .wheel__ring bouge (transform) */
-.wheel{--cw:min(78vw,640px);--bar:38px;--ch:calc(var(--cw) * .625 + var(--bar));--r:calc(var(--cw) * .92);--step:60deg;--persp:1900px;
+.wheel{--cw:min(78vw,640px);--bar:38px;--ch:calc(var(--cw) * .625 + var(--bar));--r:calc(var(--cw) * .92 * var(--rk,1));--step:60deg;--persp:1900px;
   position:relative;z-index:1;outline:none;border-radius:28px}
 .wheel:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:-2px}
 .wheel__stage{position:relative;height:calc(var(--ch) + 3rem);perspective:var(--persp);perspective-origin:50% 45%;
@@ -1378,7 +1378,9 @@ section[aria-label="Avis clients"]{background:
   transition:transform 1s cubic-bezier(.16,1,.3,1);will-change:transform}
 .wheel__stage.is-dragging .wheel__ring{transition:none}
 .wheel__slot{position:absolute;inset:0;transform:rotateY(calc(var(--i) * var(--step))) translateZ(var(--r));
-  -webkit-backface-visibility:hidden;backface-visibility:hidden}
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;transition:opacity .6s var(--ease),visibility 0s}
+/* Seules la carte de face et ses deux voisines sont visibles (les autres passeraient par la tranche) */
+.wheel__slot.is-far{opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility 0s .4s}
 /* Carte = fenêtre de navigateur */
 .site-card{position:relative;display:flex;flex-direction:column;width:100%;height:100%;text-align:left;cursor:inherit;
   border-radius:16px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.14);
@@ -1433,7 +1435,7 @@ section[aria-label="Avis clients"]{background:
 .wheel__count b{color:#fff;font-weight:500}
 .wheel__hint{margin-top:1rem;text-align:center;font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42);padding-inline:var(--pad)}
 @media (max-width:600px){
-  .wheel{--cw:76vw;--bar:30px;--r:calc(var(--cw) * .94);--persp:1000px}
+  .wheel{--cw:76vw;--bar:30px;--r:calc(var(--cw) * .94 * var(--rk,1));--persp:1000px}
   .site-card{border-radius:12px}
   .bframe__bar{grid-template-columns:34px 1fr 34px;padding:0 10px;gap:.4rem}
   .bframe__bar .dots{gap:4px}
@@ -1869,7 +1871,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   <div class="wheel" id="wheel" role="region" aria-roledescription="carrousel" aria-label="Sites web livrés par GNJ Média" tabindex="0">
     <div class="wheel__stage">
       <div class="wheel__ring">
-        <div class="wheel__slot" style="--i:0" data-site="0" role="group" aria-roledescription="diapositive" aria-label="Site 1 de 3">
+        <div class="wheel__slot" style="--i:0" data-site="0" role="group" aria-roledescription="diapositive" aria-label="Site 1 de 4">
           <button type="button" class="site-card" aria-label="L'Ultra Frette — voir l'aperçu du site">
             <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ultrafrette.ca</span><span class="bframe__sp"></span></span>
             <span class="bframe__screen">
@@ -1879,7 +1881,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
             <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
           </button>
         </div>
-        <div class="wheel__slot" style="--i:1" data-site="1" role="group" aria-roledescription="diapositive" aria-label="Site 2 de 3">
+        <div class="wheel__slot" style="--i:1" data-site="1" role="group" aria-roledescription="diapositive" aria-label="Site 2 de 4">
           <button type="button" class="site-card" aria-label="Store Mobile Québec — voir l'aperçu du site">
             <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>storemobilequebec.ca</span><span class="bframe__sp"></span></span>
             <span class="bframe__screen">
@@ -1889,12 +1891,22 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
             <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
           </button>
         </div>
-        <div class="wheel__slot" style="--i:2" data-site="2" role="group" aria-roledescription="diapositive" aria-label="Site 3 de 3">
+        <div class="wheel__slot" style="--i:2" data-site="2" role="group" aria-roledescription="diapositive" aria-label="Site 3 de 4">
           <button type="button" class="site-card" aria-label="Groupe NC Air — voir l'aperçu du site">
             <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ventilationnc.com</span><span class="bframe__sp"></span></span>
             <span class="bframe__screen">
               <span class="bframe__ph" aria-hidden="true">Groupe NC Air</span>
               <img src="assets/img/realisations/groupe-nc-air-hero.jpg" alt="Page d'accueil du site de Groupe NC Air" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:3" data-site="3" role="group" aria-roledescription="diapositive" aria-label="Site 4 de 4">
+          <button type="button" class="site-card" aria-label="Rock Fish Tattoo — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>rockfishtattoo.com</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Rock Fish Tattoo</span>
+              <img src="assets/img/realisations/rockfish-tattoo-hero.jpg" alt="Page d'accueil du site de Rock Fish Tattoo" width="1440" height="900" loading="lazy" decoding="async">
             </span>
             <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
           </button>
@@ -1913,8 +1925,9 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
         <button type="button" class="wheel__dot" data-go="0" aria-label="Voir le site 1 : L'Ultra Frette" aria-current="true"></button>
         <button type="button" class="wheel__dot" data-go="1" aria-label="Voir le site 2 : Store Mobile Québec"></button>
         <button type="button" class="wheel__dot" data-go="2" aria-label="Voir le site 3 : Groupe NC Air"></button>
+        <button type="button" class="wheel__dot" data-go="3" aria-label="Voir le site 4 : Rock Fish Tattoo"></button>
       </div>
-      <p class="wheel__count" aria-hidden="true"><b>01</b> / 03</p>
+      <p class="wheel__count" aria-hidden="true"><b>01</b> / 04</p>
       <button type="button" class="wheel__btn" data-wheel="next" aria-label="Site suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <p class="wheel__hint" aria-hidden="true">Glisse, clique ou utilise les flèches</p>
@@ -2596,6 +2609,20 @@ const REALISATIONS = [
       "Sur mobile : barre fixe Appeler / Soumission — le lead est à un pouce"
     ],
     chips: ["#custom", "#interactif", "#animations", "#leads"]
+  },
+  {
+    slug: "rockfish-tattoo",
+    name: "Rock Fish Tattoo",
+    url: "rockfishtattoo.com",
+    tag: "Salon de tatouage · Québec",
+    desc: "Le salon de Lonik, à Québec — un site aussi noir et soigné que l'encre qui sort de sa machine.",
+    bullets: [
+      "Direction artistique noir & blanc avec accents rouges — l'identité du shop, pas un template",
+      "Hero photo plein écran + titres en contour : ça frappe dès l'arrivée",
+      "Portfolio en grille qui laisse le travail parler, processus expliqué en 3 étapes",
+      "« Book ton tattoo » partout — la prise de rendez-vous est à un clic, même au pouce"
+    ],
+    chips: ["#custom", "#portfolio", "#booking", "#mobile-first"]
   }
 ];
 
@@ -2607,7 +2634,7 @@ const REALISATIONS = [
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const N = REALISATIONS.length;
-  const SLOTS = N * 2;                       // chaque site 2× sur l'anneau : 3 cartes visibles, l'arrière caché
+  const SLOTS = N * 2;                       // chaque site 2× sur l'anneau : voisins toujours distincts, l'arrière caché
   const STEP = 360 / SLOTS;
   const pad2 = (n) => String(n).padStart(2, "0");
   const mod = (a, b) => ((a % b) + b) % b;
@@ -2620,6 +2647,8 @@ const REALISATIONS = [
   const countEl = wheel.querySelector(".wheel__count b");
   const dots = Array.from(wheel.querySelectorAll(".wheel__dot"));
   wheel.style.setProperty("--step", STEP + "deg");
+  // Rayon calibré à 60° ; ∝ cot(step/2) pour que les voisines restent derrière la carte de face, peu importe le nombre de sites
+  wheel.style.setProperty("--rk", (Math.tan(Math.PI / 6) / Math.tan(STEP * Math.PI / 360)).toFixed(4));
 
   // Cartes dupliquées (décoratives, jamais focusables) pour fermer l'anneau
   Array.from(ring.children).forEach((slot, k) => {
@@ -2651,6 +2680,7 @@ const REALISATIONS = [
       const on = i === f;
       const btn = slot.querySelector(".site-card");
       slot.classList.toggle("is-front", on);
+      slot.classList.toggle("is-far", Math.abs(mod(i - f + SLOTS / 2, SLOTS) - SLOTS / 2) > 1);
       btn.tabIndex = on ? 0 : -1;
       if (on){ slot.removeAttribute("aria-hidden"); if (hadFocus) btn.focus({preventScroll:true}); }
     });
