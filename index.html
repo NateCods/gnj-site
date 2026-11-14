@@ -2820,6 +2820,7 @@ const REALISATIONS = [
     video.poster = "assets/img/realisations/" + d.slug + "-hero.jpg";
     video.src = "assets/video/realisations/" + d.slug + ".mp4";   // src posé seulement à l'ouverture
     video.muted = true;
+    video.defaultPlaybackRate = video.playbackRate = 0.7; // défilement ralenti (captures trop rapides à 1×)
 
     modalOpen = true; syncAuto();
     lockScroll();
