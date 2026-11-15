@@ -1465,6 +1465,10 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .wheel__ring,.site-card,.site-card::after,.real__link{transition:none}
   .sec-anim:not(.sec-in) .real__link{transform:translateX(-50%)}
 }
+/* Piliers du hero : titre seul sur mobile/tactile (portrait ET paysage), desktop inchangé */
+@media (max-width:768px),(hover:none) and (pointer:coarse){
+  .pillar__desc{display:none}
+}
 /* ============================================================
    MOBILE (≤768px) : aucun décor par-dessus le texte ou les cartes
    ============================================================ */
@@ -1476,8 +1480,6 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .flow__text .step-badge{position:static;margin:0 0 .9rem}
   /* Connecteur Développement → Réalisations (point + ligne) */
   .real__link{display:none}
-  /* Piliers du hero : titre seul, lecture directe */
-  .pillar__desc{display:none}
   .pillar__name{white-space:nowrap;font-size:clamp(1.05rem,5.2vw,1.3rem)}
   /* Rock Fish : stats leads / durée masquées sur mobile */
   .case--rock .case__aside{display:none}
