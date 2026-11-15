@@ -1384,7 +1384,7 @@ section[aria-label="Avis clients"]{background:
 @media (hover:none){.is-front .site-card__cue{opacity:1;transform:translate(-50%,0)}}
 
 .wheel__meta{display:flex;flex-direction:column;align-items:center;gap:.35rem;margin-top:clamp(.5rem,1.5vw,1rem);padding-inline:var(--pad);text-align:center}
-.wheel__name{color:var(--brand,#fff);transition:color .4s var(--ease);font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.1;letter-spacing:-.02em}
+.wheel__name{color:var(--brand,#fff);text-shadow:var(--brand-glow,none);transition:color .4s var(--ease),text-shadow .4s var(--ease);font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.1;letter-spacing:-.02em}
 .wheel__tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
 .wheel__ctrl{display:flex;align-items:center;justify-content:center;gap:clamp(.8rem,2vw,1.25rem);margin-top:clamp(1.25rem,2.5vw,1.75rem);padding-inline:var(--pad)}
 .wheel__btn{width:52px;height:52px;flex:none;display:grid;place-items:center;border-radius:50%;color:#fff;
@@ -1433,7 +1433,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .rmodal__frame .bframe__screen{flex:none;aspect-ratio:16/10}
 .rmodal__eyebrow{display:block;margin-bottom:1rem}
 .rmodal__title{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.6vw,3.2rem);line-height:1;letter-spacing:-.03em;
-  color:var(--brand,#fff);text-shadow:0 0 28px color-mix(in srgb,var(--brand,#1877F2) 40%,transparent)}
+  color:var(--brand,#fff);text-shadow:var(--brand-glow,0 0 28px color-mix(in srgb,var(--brand,#1877F2) 40%,transparent))}
 .rmodal__tag{margin-top:.75rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
 .rmodal__desc{margin-top:1.1rem;font-size:clamp(1rem,.3vw + .95rem,1.1rem);color:rgba(255,255,255,.86)}
 .rmodal__list{list-style:none;margin-top:1.4rem;display:grid;gap:.7rem}
@@ -1907,7 +1907,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
     </div>
 
     <div class="wheel__meta" aria-hidden="true">
-      <span class="wheel__name" style="--brand:#9FDCFF">L'Ultra Frette</span>
+      <span class="wheel__name" style="--brand:#F4FBFF;--brand-glow:0 0 6px rgba(159,220,255,.9),0 0 18px rgba(80,180,255,.75),0 0 38px rgba(24,119,242,.55)">L'Ultra Frette</span>
       <span class="wheel__tag">Événement sportif · OBNL</span>
     </div>
 
@@ -2532,7 +2532,8 @@ const REALISATIONS = [
   {
     slug: "ultra-frette",
     name: "L'Ultra Frette",
-    color: "#9FDCFF",
+    color: "#F4FBFF",
+    glow: "0 0 6px rgba(159,220,255,.9),0 0 18px rgba(80,180,255,.75),0 0 38px rgba(24,119,242,.55)",
     url: "ultrafrette.ca",
     tag: "Événement sportif · OBNL",
     desc: "Le site officiel d'un ultramarathon hivernal backyard de 24 h sur le lac Beauport — 9 et 10 janvier 2027.",
@@ -2652,6 +2653,7 @@ const REALISATIONS = [
     slots.forEach((slot, i) => { if (i !== f) slot.setAttribute("aria-hidden", "true"); });
     nameEl.textContent = d.name;
     nameEl.style.setProperty("--brand", d.color);
+    if (d.glow) nameEl.style.setProperty("--brand-glow", d.glow); else nameEl.style.removeProperty("--brand-glow");
     tagEl.textContent = d.tag;
     countEl.textContent = pad2(s + 1);
     dots.forEach((dot, i) => dot.setAttribute("aria-current", i === s ? "true" : "false"));
@@ -2774,6 +2776,7 @@ const REALISATIONS = [
     q(".rmodal__eyebrow").textContent = "// Réalisation " + pad2(i + 1) + " / " + pad2(N);
     q(".rmodal__title").textContent = d.name;
     q(".rmodal__title").style.setProperty("--brand", d.color);
+    if (d.glow) q(".rmodal__title").style.setProperty("--brand-glow", d.glow); else q(".rmodal__title").style.removeProperty("--brand-glow");
     q(".rmodal__tag").textContent = d.tag;
     q(".rmodal__desc").textContent = d.desc;
     q(".rmodal__url").textContent = d.url;
