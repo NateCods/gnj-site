@@ -990,9 +990,6 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 }
 
 /* Lien discret sous la vidéo */
-.case__link{margin:0}
-.case--store .case__link{color:var(--accent)}
-.case--store .case__link:hover{color:#57a4ff}
 
 /* Média : pleine largeur (Store Mobile) / centré, logos ghostés en angle derrière */
 .case__media{position:relative;width:100%;display:flex;justify-content:center}
@@ -1468,6 +1465,20 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .wheel__ring,.site-card,.site-card::after,.real__link{transition:none}
   .sec-anim:not(.sec-in) .real__link{transform:translateX(-50%)}
 }
+/* ============================================================
+   MOBILE (≤768px) : aucun décor par-dessus le texte ou les cartes
+   ============================================================ */
+@media (max-width:768px){
+  /* « Ce qu'on fait » : rail + pulse masqués, badges 01/02/03 dans le flux au-dessus de chaque bloc */
+  .flow{padding-left:0}
+  .flow::before,.flow::after{display:none}
+  .flow__visual{margin-left:0}
+  .flow__text .step-badge{position:static;margin:0 0 .9rem}
+  /* Connecteur Développement → Réalisations (point + ligne) */
+  .real__link{display:none}
+  /* Rock Fish : stats leads / durée masquées sur mobile */
+  .case--rock .case__aside{display:none}
+}
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" media="print" onload="this.media='all'">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
@@ -1626,7 +1637,6 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
           <p class="case__tag"><span class="case__stat">20x</span> ROI avec nous</p>
           <span class="case__rule" aria-hidden="true"></span>
           <p class="case__pitch">Contenu vidéo pis publicité Meta gérés de A à Z. Le témoignage parle de lui-même.</p>
-          <a class="case__link link-mono" href="https://storemobilequebec.ca" target="_blank" rel="noopener">Voir leur site →</a>
         </div>
       </article>
 
