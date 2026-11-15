@@ -56,6 +56,9 @@
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
+/* Ancres (piliers du hero) : la cible atterrit sous la nav fixe */
+html{scroll-padding-top:110px}
+@media (max-width:767px){html{scroll-padding-top:72px}}
 body{
   background:var(--bg);
   color:var(--text);
@@ -384,7 +387,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   gap:clamp(.7rem,1.4vw,1.1rem);max-width:1160px;margin:clamp(1.2rem,2.8vh,2rem) auto 0;
 }
 .pillar{
-  position:relative;display:flex;flex-direction:column;align-items:center;gap:.55rem;text-align:center;
+  position:relative;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:.55rem;text-align:center;
   padding:clamp(1rem,2vh,1.4rem) 1rem;
   background:rgba(255,255,255,.04);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
@@ -826,7 +829,7 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
 .team__grid{list-style:none;width:100%;margin-inline:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.4rem,2.6vw,2.2rem);margin-top:clamp(2.6rem,5vw,4rem)}
 .team__cta{display:flex;justify-content:center;margin-top:clamp(2.5rem,5vw,4rem)}
 /* Fiche profil */
-.mate{position:relative;width:100%;margin-inline:auto;height:100%;display:flex;flex-direction:column;border-radius:22px;
+.mate{position:relative;width:100%;max-width:100%;min-width:0;margin-inline:auto;height:100%;display:flex;flex-direction:column;border-radius:22px;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.045));
   border:1px solid rgba(255,255,255,.2);
   box-shadow:var(--elev-blue);
@@ -835,8 +838,8 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   .mate:hover{transform:translateY(-6px);border-color:rgba(24,119,242,.7);box-shadow:var(--elev-blue-hi)}
   .mate:hover .mate__photo img{transform:scale(1.04)}
 }
-.mate__photo{position:relative;margin:10px 10px 0;aspect-ratio:4/4.3;height:auto;max-height:560px;border-radius:16px;overflow:hidden;background:#151517;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.mate::before{content:"";position:absolute;top:-1px;left:22px;right:22px;height:1px;z-index:4;background:linear-gradient(90deg,transparent,rgba(142,197,255,.75),transparent)}
+.mate__photo{position:relative;flex:none;min-width:0;margin:10px 10px 0;aspect-ratio:4/4.3;height:auto;max-height:560px;border-radius:16px;overflow:hidden;background:#151517;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.mate::before{content:"";position:absolute;top:0;left:22px;right:22px;height:1px;z-index:4;background:linear-gradient(90deg,transparent,rgba(142,197,255,.75),transparent)}
 .mate__photo img{position:absolute;inset:0;width:100%;height:100%;max-width:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
 /* Repli si aspect-ratio non supporté (iOS < 15) : hauteur réservée par padding */
 @supports not (aspect-ratio:1){.mate__photo::before{content:"";display:block;padding-top:107.5%}}
@@ -847,56 +850,24 @@ body.calendly-open .nav{opacity:0;pointer-events:none}
   font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;
   padding:.45em .8em;border-radius:999px;background:var(--meta);box-shadow:0 6px 20px -6px rgba(24,119,242,.8)}
 .mate__role::before{content:"";width:.5em;height:.5em;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff}
-.mate__body{display:flex;flex-direction:column;gap:.85rem;padding:0 clamp(1.2rem,2vw,1.6rem) clamp(1.3rem,2.2vw,1.7rem);flex:1}
+.mate__body{display:flex;flex-direction:column;min-width:0;gap:.85rem;padding:0 clamp(1.2rem,2vw,1.6rem) clamp(1.3rem,2.2vw,1.7rem);flex:1}
 /* Nom XL qui chevauche la photo */
 .mate__name{margin:-1.25em 0 .35rem;padding-left:.12em;font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,4.4vw,3.6rem);line-height:1;letter-spacing:-.03em;color:#fff;
-  text-shadow:0 4px 24px rgba(10,10,11,.55);position:relative;z-index:3}
-.mate__title{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#5AA9FF;text-shadow:0 0 14px rgba(24,119,242,.55)}
+  text-shadow:0 4px 24px rgba(10,10,11,.55);position:relative;z-index:3;max-width:100%;overflow-wrap:anywhere}
+.mate__title{overflow-wrap:anywhere;font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#5AA9FF;text-shadow:0 0 14px rgba(24,119,242,.55)}
 .mate__desc{font-size:clamp(1rem,.3vw + .95rem,1.08rem);line-height:1.6;color:rgba(255,255,255,.84)}
 .mate__tags{list-style:none;display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto;padding-top:.4rem}
-.mate__tags li{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.86);
+.mate__tags li{max-width:100%;overflow-wrap:anywhere;font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.86);
   padding:.42em .75em;border-radius:8px;background:rgba(24,119,242,.1);border:1px solid rgba(24,119,242,.35);box-shadow:0 0 14px -6px rgba(24,119,242,.6)}
 .mate__tags li::before{content:"#";color:#5AA9FF;margin-right:.15em}
 
 /* ============================================================
    CTA FINAL
    ============================================================ */
-.booking{padding:clamp(4.5rem,9vw,8rem) 0;overflow:hidden}
+.booking{padding:clamp(4rem,8vw,7rem) 0;overflow:hidden}
 .booking .ghost{width:min(90vw,900px);height:auto;top:50%;right:-12%;transform:translateY(-50%);opacity:.05}
-.cta-final{max-width:960px;margin-inline:auto;text-align:center;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:clamp(1.2rem,2.5vw,2rem)}
+.cta-final{max-width:960px;margin-inline:auto;text-align:center;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:clamp(1.8rem,3.5vw,2.8rem)}
 .cta-final__title{display:inline-block;font-family:var(--display);font-weight:700;font-size:clamp(3.5rem,8vw,7rem);line-height:.9;letter-spacing:-.03em;color:#fff;text-wrap:balance}
-/* 3 raisons côte à côte : carte icône + texte, animation au hover */
-.cta-points{list-style:none;width:100%;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.5rem)}
-.cta-point{
-  position:relative;overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.05rem;
-  padding:clamp(1.7rem,3vw,2.4rem) 1.3rem;
-  border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);
-  transition:transform .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease),box-shadow .4s var(--ease);
-}
-.cta-point::before{
-  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.14),transparent 68%);
-  opacity:0;transition:opacity .4s var(--ease);
-}
-.cta-point__ico{
-  width:clamp(54px,7vw,66px);height:clamp(54px,7vw,66px);flex:none;
-  display:grid;place-items:center;border-radius:50%;
-  color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);
-  transition:transform .4s var(--ease),color .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
-}
-.cta-point__ico svg{width:52%;height:auto;display:block;transition:filter .4s var(--ease)}
-.cta-point__txt{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,1.7vw,1.34rem);line-height:1.25;letter-spacing:-.01em;color:#fff}
-@media (hover:hover){
-  .cta-point:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05);box-shadow:0 18px 50px -20px rgba(255,255,255,.45),0 0 0 1px rgba(255,255,255,.22)}
-  .cta-point:hover::before{opacity:1}
-  .cta-point:hover .cta-point__ico{transform:translateY(-2px) scale(1.08);color:#fff;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
-  .cta-point:hover .cta-point__ico svg{filter:drop-shadow(0 0 14px rgba(255,255,255,.7))}
-}
-.cta-points .cta-point.reveal:nth-child(2){transition-delay:.12s}
-.cta-points .cta-point.reveal:nth-child(3){transition-delay:.24s}
-@media (max-width:680px){.cta-points{grid-template-columns:1fr;max-width:440px;margin-inline:auto}}
-.cta-special{max-width:560px;width:100%;margin:0;padding:1rem 1.3rem;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.05);font-family:var(--sans);font-size:clamp(.98rem,2.4vw,1.18rem);line-height:1.5;color:#fff}
 .cta-final__btn{margin:0}
 .btn--xl{font-size:1.18rem;padding:1.32em 2.5em;box-shadow:0 0 30px rgba(255,255,255,.4)}
 .btn--xl:hover{box-shadow:0 16px 50px -10px rgba(255,255,255,.55),0 0 34px rgba(255,255,255,.4)}
@@ -1212,13 +1183,14 @@ body.vmodal-open{overflow:hidden}
   .flow__visual{margin-left:calc(-1 * clamp(3.6rem,6vw,5.2rem))}
   .process__head{margin-bottom:clamp(1.6rem,4vw,2.4rem)}
   .cards{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
-  .team__grid{grid-template-columns:1fr;max-width:520px;margin-inline:auto}
+  .team__grid{grid-template-columns:minmax(0,1fr);max-width:520px;margin-inline:auto}
+  .team__grid > li{min-width:0}
 }
 @media (max-width:768px){
   /* Cartes compactes : photo 4/3 cadrée sur les visages, badge rôle dans le flux sous le nom */
-  .mate__photo{aspect-ratio:4/3}
+  .mate__photo{aspect-ratio:auto;height:0;max-height:none;padding-top:calc(75% - 15px)}
+  .mate__photo::before{content:none}
   .mate__photo img{object-position:50% 22%}
-  @supports not (aspect-ratio:1){.mate__photo::before{padding-top:75%}}
   .mate__name{font-size:clamp(2.2rem,10vw,2.8rem);margin-bottom:0}
   .mate__role{position:static;align-self:flex-start;font-size:.64rem}
   .mate__body{gap:.7rem}
@@ -1299,15 +1271,13 @@ section[aria-label="Avis clients"]{background:
 .eyebrow--meta,.step-lbl{text-shadow:0 0 14px rgba(24,119,242,.55)}
 
 /* Glass renforcé + élévation : toutes les cartes/panneaux bleus */
-.pillar,.dev-card,.cta-point,.kpi{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);box-shadow:var(--elev-blue)}
+.pillar,.dev-card,.kpi{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);box-shadow:var(--elev-blue)}
 .panel{border-color:rgba(255,255,255,.2);box-shadow:var(--elev-blue),0 0 70px -24px rgba(24,119,242,.5)}
-.cta-point{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 @media (hover:hover){
-  .pillar:hover,.dev-card:hover,.cta-point:hover{border-color:rgba(24,119,242,.7);box-shadow:var(--elev-blue-hi)}
+  .pillar:hover,.dev-card:hover{border-color:rgba(24,119,242,.7);box-shadow:var(--elev-blue-hi)}
   .panel:hover{border-color:rgba(24,119,242,.6);box-shadow:var(--elev-blue-hi),0 0 90px -20px rgba(24,119,242,.6)}
   .kpi:hover{border-color:rgba(24,119,242,.5)}
 }
-.cta-point__ico{box-shadow:0 0 22px -6px rgba(24,119,242,.6);border-color:rgba(24,119,242,.5);background:rgba(24,119,242,.12)}
 /* Or des avis : même élévation, lueur dorée (confinée à la section) */
 .card{background:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 18px 40px -18px rgba(0,0,0,.85),0 0 40px -20px rgba(255,178,0,.5)}
 .card:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(255,178,0,.3),0 22px 50px -20px rgba(0,0,0,.9),0 0 44px -8px rgba(255,178,0,.55)}
@@ -1561,10 +1531,10 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
       </span>
     </div>
     <h1 class="hero__title">On transforme les vues en clients. <span class="hero__title-hl">Pis on le prouve.</span></h1>
-    <ul class="hero__pillars" aria-label="Nos 3 piliers — cliquez pour réserver un appel">
-      <li><button type="button" class="pillar" data-calendly="developpement-web" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
-      <li><button type="button" class="pillar" data-calendly="publicite-meta" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
-      <li><button type="button" class="pillar" data-calendly="visibilite-contenu" data-calendly-campaign="hero"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Réserver </span>→</span><span class="sr-only"> — réserver un appel</span></button></li>
+    <ul class="hero__pillars" aria-label="Nos 3 piliers">
+      <li><a class="pillar" href="#developpement"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
+      <li><a class="pillar" href="#resultats"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
+      <li><a class="pillar" href="#contenu-organique"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
     </ul>
     <div class="hero__cta">
       <div class="magnet" id="heroMagnet">
@@ -1626,7 +1596,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 </section>
 
 <!-- ====================== RÉSULTATS CLIENTS (case studies vidéo) ====================== -->
-<section class="section cases-section" aria-label="Résultats clients">
+<section class="section cases-section" id="resultats" aria-label="Résultats clients">
   <span class="vlabel vlabel--left">Études de cas</span>
   <span class="vlabel vlabel--right">Des résultats concrets, pas des promesses</span>
 
@@ -1705,7 +1675,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
     <ol class="flow">
 
       <!-- 01 — Contenu organique -->
-      <li class="flow__step">
+      <li class="flow__step" id="contenu-organique">
         <div class="flow__text reveal">
           <span class="step-badge" aria-hidden="true">01</span>
           <span class="step-lbl">Contenu organique</span>
@@ -2076,38 +2046,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="wrap">
     <div class="cta-final">
-      <h2 class="cta-final__title reveal">On peut vous<br>aider si&nbsp;:</h2>
-      <ol class="cta-points">
-        <li class="cta-point reveal">
-          <span class="cta-point__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-            </svg>
-          </span>
-          <span class="cta-point__txt">Vous avez besoin de plus de clients</span>
-        </li>
-        <li class="cta-point reveal">
-          <span class="cta-point__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </span>
-          <span class="cta-point__txt">Vous voulez plus de visibilité en ligne</span>
-        </li>
-        <li class="cta-point reveal">
-          <span class="cta-point__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-              <polyline points="17 6 23 6 23 12"/>
-            </svg>
-          </span>
-          <span class="cta-point__txt">Tout ce qui touche à grossir en ligne</span>
-        </li>
-      </ol>
-      <p class="cta-special reveal">★ On travaille avec du monde qui veut travailler autant que nous.</p>
+      <h2 class="cta-final__title reveal">On s'en jase&nbsp;?</h2>
       <div class="cta-final__btn reveal">
         <a class="btn btn--solid btn--xl" href="#rdv" data-calendly="cta-final">Prendre un appel →</a>
       </div>
