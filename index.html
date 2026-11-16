@@ -1498,6 +1498,165 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   /* Rock Fish : stats leads / durée masquées sur mobile */
   .case--rock .case__aside{display:none}
 }
+
+/* ============================================================
+   GNJ WEB — switch Média | Web, transition logo, vitrine de templates
+   Vue pilotée par <html data-view="web"> + hash #web
+   ============================================================ */
+/* Switch : segmented control glass dans la nav */
+.vswitch{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;align-items:center;flex:none;margin-left:auto;padding:3px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 24px -10px rgba(24,119,242,.55)}
+.vswitch__thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;pointer-events:none;
+  background:linear-gradient(180deg,#2A86FF,var(--meta));box-shadow:0 0 18px rgba(24,119,242,.65),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .5s var(--ease)}
+[data-view="web"] .vswitch__thumb{transform:translateX(100%)}
+.vswitch__opt{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:.4em;min-height:34px;padding:0 1.05em;border-radius:999px;
+  font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.62);white-space:nowrap;
+  transition:color .35s var(--ease)}
+.vswitch__opt[aria-current="page"]{color:#fff}
+.vswitch__opt:not([aria-current="page"]):hover{color:#fff}
+.vswitch__opt:focus-visible{outline-offset:1px}
+.vswitch__dot{width:6px;height:6px;border-radius:50%;background:#7CF0B0;box-shadow:0 0 8px #7CF0B0}
+.nav__in > .btn{flex:none}
+/* Mode Web : la nav garde le logo (retour Média) + switch + CTA */
+.brand__web{display:none}
+[data-view="web"] .brand__media{display:none}
+[data-view="web"] .brand__web{display:inline}
+@media (max-width:600px){
+  .vswitch__opt{min-height:30px;padding:0 .8em;font-size:.62rem;letter-spacing:.1em}
+  .vswitch__dot{display:none}
+}
+@media (max-width:440px){.nav__cta-long{display:none}}
+@media (max-width:389px){.brand > span{display:none}.vswitch__opt{padding:0 .7em}}
+
+/* Bascule des vues */
+.gweb[hidden]{display:none}
+[data-view="web"] #top,[data-view="web"] .footer{display:none}
+
+/* Transition : rideau noir qui monte, logo qui se reconstruit avec glow bleu, rideau qui sort par le haut */
+.vtrans{position:fixed;inset:0;z-index:9000;display:none;place-items:center;background:var(--bg);pointer-events:none;overflow:hidden}
+.vtrans.is-on{display:grid;pointer-events:auto}
+.vtrans::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:var(--grid) var(--grid);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 10%,transparent 100%);mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 10%,transparent 100%)}
+.vtrans__glow{position:absolute;left:50%;top:50%;width:70vmax;height:70vmax;margin:-35vmax 0 0 -35vmax;border-radius:50%;
+  background:radial-gradient(circle,rgba(24,119,242,.55) 0%,rgba(24,119,242,.18) 25%,transparent 55%);opacity:0}
+.vtrans__stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.vtrans__logo{width:clamp(64px,9vw,96px);height:auto;fill:#fff;overflow:visible;filter:drop-shadow(0 0 18px rgba(24,119,242,.85))}
+.vtrans__logo rect{transform-box:fill-box;transform-origin:50% 100%}
+.vtrans__label{font-family:var(--mono);font-size:clamp(.7rem,2.6vw,.95rem);font-weight:500;letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:var(--muted)}
+.vtrans.is-run{animation:vtCurtain .95s cubic-bezier(.76,0,.24,1) both}
+.vtrans.is-run .vtrans__logo rect{animation:vtBar .4s cubic-bezier(.3,1.5,.5,1) both}
+.vtrans.is-run .vtrans__logo rect:nth-child(1){animation-delay:.16s}
+.vtrans.is-run .vtrans__logo rect:nth-child(2){animation-delay:.21s}
+.vtrans.is-run .vtrans__logo rect:nth-child(3){animation-delay:.26s}
+.vtrans.is-run .vtrans__logo rect:nth-child(4){animation-delay:.31s}
+.vtrans.is-run .vtrans__logo rect:nth-child(5){animation-delay:.36s}
+.vtrans.is-run .vtrans__glow{animation:vtGlow .6s ease-out .34s both}
+.vtrans.is-run .vtrans__label{animation:vtLabel .5s var(--ease) .3s both}
+.vtrans.is-run .vtrans__stage{animation:vtStage .95s cubic-bezier(.76,0,.24,1) both}
+@keyframes vtCurtain{0%{clip-path:inset(100% 0 0 0)}30%,68%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+@keyframes vtBar{from{transform:scaleY(0);opacity:0}to{transform:none;opacity:1}}
+@keyframes vtGlow{0%{opacity:0;transform:scale(.4)}40%{opacity:1}100%{opacity:0;transform:scale(1.15)}}
+@keyframes vtLabel{from{opacity:0;letter-spacing:.9em}to{opacity:1}}
+@keyframes vtStage{0%,68%{transform:none}100%{transform:translateY(-28px);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .vtrans.is-run,.vtrans.is-run *{animation:none !important}
+  .vtrans{transition:opacity .2s ease;opacity:0}
+  .vtrans.is-on.is-shown{opacity:1}
+}
+
+/* Vue GNJ Web */
+.gweb{position:relative;z-index:1;min-height:100svh;padding:clamp(110px,14vh,150px) 0 clamp(3rem,6vw,5rem);overflow:hidden}
+.gweb::before{content:"";position:absolute;left:50%;top:-10%;width:min(1100px,140vw);height:70vh;transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(24,119,242,.2),transparent 65%)}
+.gweb .ghost{width:min(820px,110vw);right:-12%;top:8%;opacity:.04}
+.gweb__head{position:relative;text-align:center;max-width:900px;margin:0 auto clamp(2.75rem,6vw,4.5rem)}
+.gweb__mark{display:inline-flex;align-items:center;gap:.6rem;padding:.5rem 1rem .5rem .6rem;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.gweb__mark img{width:26px;height:26px}
+.gweb__mark span{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase}
+.gweb__mark b{color:var(--meta);font-weight:500}
+.gweb__title{margin-top:clamp(1.25rem,3vw,1.75rem);font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,6.4vw,5.2rem);line-height:1;letter-spacing:-.035em;text-wrap:balance}
+.gweb__title em{font-style:normal;color:var(--meta);text-shadow:0 0 40px rgba(24,119,242,.45)}
+.gweb__sub{max-width:46ch;margin:clamp(1rem,2.2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:var(--muted);text-wrap:pretty}
+
+.tgrid{position:relative;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:clamp(1.1rem,2.4vw,1.75rem)}
+.tcard{display:flex;flex-direction:column;height:100%;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--elev);
+  transition:transform .45s var(--ease),border-color .45s var(--ease),box-shadow .45s var(--ease)}
+@media (hover:hover){.tcard:hover{transform:translateY(-6px);border-color:rgba(24,119,242,.6);box-shadow:var(--elev-blue-hi)}}
+.tcard__frame{--bar:32px;display:flex;flex-direction:column;margin:10px 10px 0;border-radius:12px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.1)}
+.tcard__frame .bframe__bar{grid-template-columns:40px 1fr 40px;padding:0 10px}
+.tcard__frame .dots{gap:5px}
+.tcard__frame .dots i{width:8px;height:8px}
+.tcard__frame .bframe__url{height:20px;font-size:.62rem}
+.tcard__frame .bframe__screen{flex:none;aspect-ratio:16/10}
+.tcard__badge{position:absolute;z-index:3;top:10px;right:10px;display:inline-flex;align-items:center;gap:.45em;padding:.42em .75em;border-radius:999px;
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#7CF0B0;
+  background:rgba(10,10,11,.7);border:1px solid rgba(124,240,176,.35);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.tcard__badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.tcard__body{display:flex;flex-direction:column;gap:.85rem;flex:1;padding:1.2rem 1.25rem 1.3rem}
+.tcard__top{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+.tcard__name{font-family:var(--display);font-weight:600;font-size:1.5rem;line-height:1.1;letter-spacing:-.02em}
+.tcard__chip{display:inline-flex;align-items:center;gap:.5em;padding:.38em .75em;border-radius:999px;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;background:color-mix(in srgb,var(--tc) 14%,transparent);border:1px solid color-mix(in srgb,var(--tc) 45%,transparent)}
+.tcard__chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--tc);box-shadow:0 0 8px var(--tc)}
+.tcard__feats{list-style:none;display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.tcard__feats li{display:inline-flex;align-items:center;gap:.5em}
+.tcard__feats li::before{content:"";width:4px;height:4px;background:var(--meta);transform:rotate(45deg)}
+.tcard__cta{margin-top:auto;align-self:flex-start;padding:.9em 1.5em;font-size:.8rem}
+
+/* Aperçu placeholder (mockup abstrait en CSS, pas un faux screenshot) */
+.tprev{position:absolute;inset:0;display:flex;flex-direction:column;gap:7%;padding:5% 6%;
+  background:radial-gradient(ellipse 80% 70% at 75% 20%,color-mix(in srgb,var(--tc) 30%,transparent),transparent 70%),#0E0E12}
+.tprev i{display:block;border-radius:4px;background:rgba(255,255,255,.12)}
+.tprev__nav{display:flex;align-items:center;gap:5%}
+.tprev__nav i:first-child{width:14%;height:7px;background:var(--tc)}
+.tprev__nav i{width:8%;height:4px}
+.tprev__nav i:last-child{margin-left:auto;width:13%;height:12px;border-radius:999px;background:color-mix(in srgb,var(--tc) 60%,transparent)}
+.tprev__hero{display:flex;flex-direction:column;gap:.45rem;max-width:62%}
+.tprev__niche{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2.2vw,1.55rem);line-height:1;letter-spacing:-.02em;color:#fff}
+.tprev__hero i{height:5px;width:90%}
+.tprev__hero i + i{width:70%}
+.tprev__hero i:last-child{width:34%;height:12px;margin-top:.2rem;border-radius:999px;background:var(--tc)}
+.tprev__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4%;margin-top:auto}
+.tprev__cards i{aspect-ratio:4/3;border-radius:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.08)}
+/* Variantes de mise en page */
+.tprev--split .tprev__hero{max-width:52%}
+.tprev--split::after{content:"";position:absolute;right:6%;top:22%;width:36%;height:30%;border-radius:8px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--tc) 55%,transparent),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.12)}
+.tprev--center .tprev__hero{max-width:none;align-items:center;text-align:center}
+.tprev--center .tprev__hero i{width:60%}
+.tprev--center .tprev__hero i + i{width:44%}
+.tprev--center .tprev__hero i:last-child{width:22%}
+.tprev--center .tprev__cards{grid-template-columns:repeat(4,1fr)}
+.tprev--center .tprev__cards i{aspect-ratio:1;border-radius:50%}
+
+.gweb__more{margin-top:clamp(2.5rem,5vw,3.5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.gweb__more p{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.gweb__foot{margin-top:clamp(3.5rem,7vw,5rem);padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem 1.5rem;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.gweb__foot a:hover{color:#fff}
+/* Entrée de la vue */
+.gweb.is-enter .gweb__head > *,.gweb.is-enter .tgrid > li{animation:gwIn .8s var(--ease) both}
+.gweb.is-enter .gweb__head > :nth-child(2){animation-delay:.06s}
+.gweb.is-enter .gweb__head > :nth-child(3){animation-delay:.12s}
+.gweb.is-enter .tgrid > li:nth-child(1){animation-delay:.16s}
+.gweb.is-enter .tgrid > li:nth-child(2){animation-delay:.24s}
+.gweb.is-enter .tgrid > li:nth-child(3){animation-delay:.32s}
+.gweb.is-enter .tgrid > li:nth-child(n+4){animation-delay:.4s}
+@keyframes gwIn{from{opacity:0;transform:translateY(22px)}}
+@media (prefers-reduced-motion:reduce){.gweb.is-enter *{animation:none !important}.tcard{transition:none}}
+@media (max-width:600px){
+  .tcard{border-radius:16px}
+  .tcard__body{padding:1.05rem 1.05rem 1.15rem}
+  .tcard__name{font-size:1.3rem}
+  .tcard__cta{align-self:stretch;justify-content:center}
+  .gweb__more .btn{font-size:.74rem;padding:1em 1.3em;letter-spacing:.08em}
+  .gweb__foot{flex-direction:column;align-items:center;text-align:center}
+}
 </style>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" media="print" onload="this.media='all'">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
@@ -1532,13 +1691,27 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 <!-- ====================== NAV ====================== -->
 <header class="nav" id="nav">
   <div class="nav__in">
-    <a class="brand" href="#top" aria-label="GNJ Média, accueil">
+    <a class="brand" href="#top" aria-label="GNJ Média, accueil" data-view-go="media">
       <img class="logo" src="assets/img/logo-gnj.svg" width="32" height="32" alt="">
-      <span>GNJ MÉDIA</span>
+      <span><span class="brand__media">GNJ MÉDIA</span><span class="brand__web">GNJ WEB</span></span>
     </a>
-    <a class="btn btn--outline" href="#rdv" data-calendly="nav">Prendre rendez-vous</a>
+    <nav class="vswitch" aria-label="Choisir la vue">
+      <span class="vswitch__thumb" aria-hidden="true"></span>
+      <a class="vswitch__opt" href="#top" data-view-go="media" aria-current="page">Média</a>
+      <a class="vswitch__opt" href="#web" data-view-go="web"><span class="vswitch__dot" aria-hidden="true"></span>Web</a>
+    </nav>
+    <a class="btn btn--outline" href="#rdv" data-calendly="nav" data-calendly-web="gnj-web"><span class="nav__cta-long">Prendre </span>rendez-vous</a>
   </div>
 </header>
+
+<!-- Transition Média ⇄ Web -->
+<div class="vtrans" id="vtrans" aria-hidden="true">
+  <div class="vtrans__glow"></div>
+  <div class="vtrans__stage">
+    <svg class="vtrans__logo" viewBox="0 0 41 40"><rect x="2" y="25.5" width="5" height="12.5" rx="1.5"/><rect x="10" y="14" width="5" height="24" rx="1.5"/><rect x="18" y="2" width="5" height="36" rx="1.5"/><rect x="26" y="18" width="5" height="20" rx="1.5"/><rect x="34" y="30" width="5" height="8" rx="1.5"/></svg>
+    <span class="vtrans__label" id="vtransLabel">GNJ Web</span>
+  </div>
+</div>
 
 <main id="top">
 
@@ -2080,6 +2253,31 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   </div>
 </section>
 
+</main>
+
+<!-- ====================== GNJ WEB : vitrine de templates (#web) ====================== -->
+<main class="gweb" id="gnj-web" aria-labelledby="gweb-title" hidden>
+  <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true" loading="lazy" decoding="async">
+  <div class="wrap">
+    <header class="gweb__head">
+      <p class="gweb__mark"><img src="assets/img/logo-gnj.svg" width="26" height="26" alt=""><span>GNJ <b>WEB</b></span></p>
+      <h1 class="gweb__title" id="gweb-title" tabindex="-1">Des sites web <em>déjà prêts</em> pour vous.</h1>
+      <p class="gweb__sub">Choisis ton modèle, on le personnalise à ta business, t'es en ligne en 48&nbsp;h.</p>
+    </header>
+
+    <!-- Cartes générées depuis le tableau TEMPLATES (script GNJ WEB, plus bas). Ajouter un template = ajouter un objet. -->
+    <ul class="tgrid" id="tgrid" aria-label="Modèles de sites web disponibles"></ul>
+
+    <div class="gweb__more">
+      <p>D'autres modèles s'en viennent</p>
+      <a class="btn btn--solid" href="#rdv" data-calendly="gnj-web-sur-mesure" data-calendly-campaign="gnj-web">Un site sur mesure à la place →</a>
+    </div>
+
+    <footer class="gweb__foot">
+      <span>© <span class="gweb__year">2026</span> GNJ WEB · une division de GNJ Média</span>
+      <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
+    </footer>
+  </div>
 </main>
 
 <!-- ====================== FOOTER ====================== -->
@@ -2830,6 +3028,133 @@ const REALISATIONS = [
 
   render(false);
   syncAuto();
+})();
+</script>
+<script>
+/* ============================================================
+   GNJ WEB — vitrine de templates + switch Média ⇄ Web (#web)
+   ============================================================ */
+(function(){
+  "use strict";
+
+  /* TEMPLATE CARD : duplique un objet pour ajouter un template.
+     slug  → utm_content=template-{slug} dans Calendly
+     color → couleur de la niche (chip + aperçu)
+     layout→ "split" | "center" | "" (mockup placeholder)
+     img   → chemin du vrai screenshot (remplace le mockup quand le template est cooké) */
+  var TEMPLATES = [
+    { slug:"bistro",   name:"Bistro",   niche:"Resto",        color:"#FF6B3D", url:"bistro-demo.ca",   layout:"split",
+      feats:["Menu en ligne","Réservations","Google Maps"] },
+    { slug:"chantier", name:"Chantier", niche:"Construction", color:"#FFB200", url:"chantier-demo.ca", layout:"",
+      feats:["Soumission en ligne","Avant / après","Zones desservies"] },
+    { slug:"encre",    name:"Encre",    niche:"Salon / Tattoo", color:"#C084FC", url:"encre-demo.ca",  layout:"center",
+      feats:["Prise de rendez-vous","Portfolio","Avis Google"] }
+  ];
+
+  var grid = document.getElementById("tgrid");
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  if (grid) grid.innerHTML = TEMPLATES.map(function(t){
+    var preview = t.img
+      ? '<img src="' + esc(t.img) + '" alt="Aperçu du modèle ' + esc(t.name) + '" loading="lazy" decoding="async">'
+      : '<span class="tprev' + (t.layout ? " tprev--" + t.layout : "") + '" aria-hidden="true">' +
+          '<span class="tprev__nav"><i></i><i></i><i></i><i></i></span>' +
+          '<span class="tprev__hero"><span class="tprev__niche">' + esc(t.niche) + '</span><i></i><i></i><i></i></span>' +
+          '<span class="tprev__cards"><i></i><i></i><i></i>' + (t.layout === "center" ? "<i></i>" : "") + '</span></span>';
+    return '<li><article class="tcard" style="--tc:' + esc(t.color) + '">' +
+      '<div class="tcard__frame">' +
+        '<span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url">' + esc(t.url) + '</span><span class="bframe__sp"></span></span>' +
+        '<span class="bframe__screen">' + preview + '<span class="tcard__badge">Disponible</span></span>' +
+      '</div>' +
+      '<div class="tcard__body">' +
+        '<div class="tcard__top"><h2 class="tcard__name">' + esc(t.name) + '</h2><span class="tcard__chip">' + esc(t.niche) + '</span></div>' +
+        '<ul class="tcard__feats">' + t.feats.map(function(f){ return "<li>" + esc(f) + "</li>"; }).join("") + '</ul>' +
+        '<a class="btn btn--solid tcard__cta" href="#rdv" data-calendly="template-' + esc(t.slug) + '" data-calendly-campaign="gnj-web" aria-label="Je veux le modèle ' + esc(t.name) + '">Je le veux →</a>' +
+      '</div></article></li>';
+  }).join("");
+  document.querySelectorAll(".gweb__year").forEach(function(el){ el.textContent = new Date().getFullYear(); });
+
+  /* --- Bascule de vue --- */
+  var root = document.documentElement;
+  var web = document.getElementById("gnj-web");
+  var trans = document.getElementById("vtrans");
+  var label = document.getElementById("vtransLabel");
+  var navCta = document.querySelector(".nav [data-calendly-web]");
+  var opts = document.querySelectorAll(".vswitch__opt");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var TITLE_MEDIA = document.title;
+  var TITLE_WEB = "GNJ Web — Des sites web déjà prêts pour vous";
+  var current = "media", busy = false, mediaY = 0, pushed = false;
+
+  function wanted(){ return location.hash === "#web" ? "web" : "media"; }
+
+  function apply(view){
+    if (view === current) return;
+    if (current === "media") mediaY = window.scrollY;
+    current = view;
+    var isWeb = view === "web";
+    if (isWeb) root.setAttribute("data-view", "web"); else root.removeAttribute("data-view");
+    web.hidden = !isWeb;
+    document.title = isWeb ? TITLE_WEB : TITLE_MEDIA;
+    opts.forEach(function(o){
+      if (o.getAttribute("data-view-go") === view) o.setAttribute("aria-current", "page"); else o.removeAttribute("aria-current");
+    });
+    if (navCta) navCta.setAttribute("data-calendly", isWeb ? navCta.getAttribute("data-calendly-web") : "nav");
+    var target = !isWeb && location.hash.length > 1 && location.hash !== "#top" ? document.getElementById(location.hash.slice(1)) : null;
+    if (target) target.scrollIntoView({behavior:"instant"});   // ex. lien #rdv suivi depuis la vue Web
+    else window.scrollTo({top:isWeb ? 0 : mediaY, left:0, behavior:"instant"});
+    if (isWeb){
+      web.classList.remove("is-enter"); void web.offsetWidth;
+      if (!reduce) web.classList.add("is-enter");
+    }
+    window.dispatchEvent(new Event("scroll"));   // nav : état .scrolled recalculé
+    window.dispatchEvent(new Event("resize"));
+  }
+
+  // Joue le rideau, permute la vue au milieu (écran couvert), puis révèle. Se recale sur l'URL à la fin.
+  function run(animate){
+    var view = wanted();
+    if (busy) return;
+    if (view === current) return;
+    if (!animate || !trans){ apply(view); return; }
+    busy = true;
+    label.textContent = view === "web" ? "GNJ Web" : "GNJ Média";
+    trans.classList.add("is-on");
+    var swapAt = reduce ? 220 : 470, endAt = reduce ? 460 : 960;
+    if (reduce){ void trans.offsetWidth; trans.classList.add("is-shown"); }
+    else { trans.classList.remove("is-run"); void trans.offsetWidth; trans.classList.add("is-run"); }
+    setTimeout(function(){ apply(view); if (reduce) trans.classList.remove("is-shown"); }, swapAt);
+    setTimeout(function(){
+      trans.classList.remove("is-on", "is-run", "is-shown");
+      busy = false;
+      if (view === "web"){ var h = document.getElementById("gweb-title"); if (h) h.focus({preventScroll:true}); }
+      if (wanted() !== current) run(true);   // clics / back rapides pendant l'animation
+    }, endAt);
+  }
+
+  function go(view){
+    if (view === wanted()) return;
+    if (view === "web"){ location.hash = "web"; pushed = true; return; }   // hashchange → run
+    if (pushed){ pushed = false; history.back(); return; }                 // retour = entrée d'historique d'origine
+    history.pushState(null, "", location.pathname + location.search);       // arrivé direct sur /#web
+    run(true);
+  }
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest("[data-view-go]");
+    if (!a) return;
+    var view = a.getAttribute("data-view-go");
+    if (view === "media" && current === "media" && !busy) return;   // en Média : le logo garde son comportement (#top)
+    e.preventDefault();
+    go(view);
+  });
+  window.addEventListener("hashchange", function(){
+    if (wanted() === "media") pushed = false;
+    run(true);
+  });
+  window.addEventListener("popstate", function(){ if (wanted() !== current) run(true); });
+
+  // Lien direct /#web : vue Web immédiate, sans rideau
+  if (wanted() === "web") apply("web");
 })();
 </script>
 </body>
