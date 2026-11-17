@@ -1582,16 +1582,21 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .gweb__sub{max-width:46ch;margin:clamp(1rem,2.2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:var(--muted);text-wrap:pretty}
 
 .tgrid{position:relative;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:clamp(1.1rem,2.4vw,1.75rem)}
+/* 2 cartes : centrées, sans colonne vide · 1 carte : vedette (voir plus bas) */
+.tgrid--duo{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));max-width:980px;margin-inline:auto}
 .tcard{display:flex;flex-direction:column;height:100%;border-radius:18px;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--elev);
   transition:transform .45s var(--ease),border-color .45s var(--ease),box-shadow .45s var(--ease)}
 @media (hover:hover){.tcard:hover{transform:translateY(-6px);border-color:rgba(24,119,242,.6);box-shadow:var(--elev-blue-hi)}}
-.tcard__frame{--bar:32px;display:flex;flex-direction:column;margin:10px 10px 0;border-radius:12px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.1)}
+.tcard__frame{--bar:32px;position:relative;display:flex;flex-direction:column;margin:10px 10px 0;border-radius:12px;overflow:hidden;background:#111114;border:1px solid rgba(255,255,255,.1)}
 .tcard__frame .bframe__bar{grid-template-columns:40px 1fr 40px;padding:0 10px}
 .tcard__frame .dots{gap:5px}
 .tcard__frame .dots i{width:8px;height:8px}
 .tcard__frame .bframe__url{height:20px;font-size:.62rem}
+.tcard__frame .bframe__url{display:block;line-height:18px;text-align:center}
+/* Sur une vraie capture, le badge descend en bas pour ne pas couvrir la nav de la démo */
+@media (min-width:601px){.tcard__shot ~ .tcard__badge{top:auto;bottom:10px}}
 .tcard__frame .bframe__screen{flex:none;aspect-ratio:16/10}
 .tcard__badge{position:absolute;z-index:3;top:10px;right:10px;display:inline-flex;align-items:center;gap:.45em;padding:.42em .75em;border-radius:999px;
   font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#7CF0B0;
@@ -1606,7 +1611,30 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .tcard__feats{list-style:none;display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .tcard__feats li{display:inline-flex;align-items:center;gap:.5em}
 .tcard__feats li::before{content:"";width:4px;height:4px;background:var(--meta);transform:rotate(45deg)}
-.tcard__cta{margin-top:auto;align-self:flex-start;padding:.9em 1.5em;font-size:.8rem}
+.tcard__actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:.65rem}
+.tcard__cta{padding:.9em 1.5em;font-size:.8rem}
+.tcard__frame:focus-visible{outline:2px solid var(--meta);outline-offset:3px}
+
+/* Vraie capture de la démo : ancrée en haut, défile doucement au survol (transform seulement) */
+.tcard__shot{position:absolute;inset:0;display:block}
+.bframe__screen .tcard__shot img{inset:0 0 auto;height:auto;object-fit:initial;will-change:transform;transition:transform 5s cubic-bezier(.45,.05,.35,1)}
+@media (hover:hover){
+  .tcard:hover .tcard__shot img,.tcard__frame:focus-visible .tcard__shot img{transform:translateY(-32%);transition-duration:6s}
+}
+
+/* Carte vedette (une seule carte visible) */
+.tgrid--solo{grid-template-columns:minmax(0,1fr);max-width:1080px;margin-inline:auto}
+@media (min-width:900px){
+  .tgrid--solo .tcard{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:stretch}
+  .tgrid--solo .tcard__frame{--bar:36px;margin:12px 0 12px 12px}
+  .tgrid--solo .tcard__frame .bframe__url{height:22px;line-height:20px;font-size:.66rem}
+  .tgrid--solo .tcard__body{justify-content:center;gap:1.1rem;padding:clamp(1.5rem,3vw,2.5rem)}
+  .tgrid--solo .tcard__top{flex-direction:column;align-items:flex-start}
+  .tgrid--solo .tcard__name{font-size:clamp(2rem,3vw,2.6rem)}
+  .tgrid--solo .tcard__feats{flex-direction:column;gap:.6rem;font-size:.7rem}
+  .tgrid--solo .tcard__actions{margin-top:.6rem;flex-direction:column;align-items:stretch}
+  .tgrid--solo .tcard__cta{justify-content:center}
+}
 
 /* Aperçu placeholder (mockup abstrait en CSS, pas un faux screenshot) */
 .tprev{position:absolute;inset:0;display:flex;flex-direction:column;gap:7%;padding:5% 6%;
@@ -1623,16 +1651,6 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .tprev__hero i:last-child{width:34%;height:12px;margin-top:.2rem;border-radius:999px;background:var(--tc)}
 .tprev__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4%;margin-top:auto}
 .tprev__cards i{aspect-ratio:4/3;border-radius:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.08)}
-/* Variantes de mise en page */
-.tprev--split .tprev__hero{max-width:52%}
-.tprev--split::after{content:"";position:absolute;right:6%;top:22%;width:36%;height:30%;border-radius:8px;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--tc) 55%,transparent),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.12)}
-.tprev--center .tprev__hero{max-width:none;align-items:center;text-align:center}
-.tprev--center .tprev__hero i{width:60%}
-.tprev--center .tprev__hero i + i{width:44%}
-.tprev--center .tprev__hero i:last-child{width:22%}
-.tprev--center .tprev__cards{grid-template-columns:repeat(4,1fr)}
-.tprev--center .tprev__cards i{aspect-ratio:1;border-radius:50%}
 
 .gweb__more{margin-top:clamp(2.5rem,5vw,3.5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
 .gweb__more p{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
@@ -1648,12 +1666,16 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .gweb.is-enter .tgrid > li:nth-child(3){animation-delay:.32s}
 .gweb.is-enter .tgrid > li:nth-child(n+4){animation-delay:.4s}
 @keyframes gwIn{from{opacity:0;transform:translateY(22px)}}
-@media (prefers-reduced-motion:reduce){.gweb.is-enter *{animation:none !important}.tcard{transition:none}}
+@media (prefers-reduced-motion:reduce){.gweb.is-enter *{animation:none !important}.tcard{transition:none}.tcard__shot img{transition:none;transform:none !important}}
 @media (max-width:600px){
   .tcard{border-radius:16px}
   .tcard__body{padding:1.05rem 1.05rem 1.15rem}
   .tcard__name{font-size:1.3rem}
-  .tcard__cta{align-self:stretch;justify-content:center}
+  .tcard__actions{flex-direction:column}
+  .tcard__cta{justify-content:center}
+  .tcard__frame .bframe__screen:has(.tcard__shot){aspect-ratio:4/5}
+  .tcard__frame .bframe__bar{grid-template-columns:34px 1fr 10px}
+  .tcard__frame .bframe__url{width:100%;padding:0 .6em;letter-spacing:0}
   .gweb__more .btn{font-size:.74rem;padding:1em 1.3em;letter-spacing:.08em}
   .gweb__foot{flex-direction:column;align-items:center;text-align:center}
 }
@@ -3037,40 +3059,61 @@ const REALISATIONS = [
 (function(){
   "use strict";
 
-  /* TEMPLATE CARD : duplique un objet pour ajouter un template.
-     slug  → utm_content=template-{slug} dans Calendly
-     color → couleur de la niche (chip + aperçu)
-     layout→ "split" | "center" | "" (mockup placeholder)
-     img   → chemin du vrai screenshot (remplace le mockup quand le template est cooké) */
+  /* TEMPLATES : un objet par modèle. Seuls les modèles visible:true sont affichés.
+     nom      → nom affiché
+     niche    → secteur (chip)
+     url      → URL de la démo live (ouverte dans un nouvel onglet)
+     image    → { desktop, mobile, w, h, mw, mh } : vraies captures WebP de la démo (sinon mockup abstrait)
+     features → puces affichées sous le nom
+     visible  → false = prêt mais caché
+     slug     → utm_content=template-{slug} dans Calendly · color → couleur de la niche
+     1 carte visible = carte vedette centrée; la grille se réadapte seule avec 2+ cartes. */
   var TEMPLATES = [
-    { slug:"bistro",   name:"Bistro",   niche:"Resto",        color:"#FF6B3D", url:"bistro-demo.ca",   layout:"split",
-      feats:["Menu en ligne","Réservations","Google Maps"] },
-    { slug:"chantier", name:"Chantier", niche:"Construction", color:"#FFB200", url:"chantier-demo.ca", layout:"",
-      feats:["Soumission en ligne","Avant / après","Zones desservies"] },
-    { slug:"encre",    name:"Encre",    niche:"Salon / Tattoo", color:"#C084FC", url:"encre-demo.ca",  layout:"center",
-      feats:["Prise de rendez-vous","Portfolio","Avis Google"] }
+    { slug:"construction", nom:"Construction", niche:"Construction · Paysagement", color:"#FFB200",
+      url:"https://templates.gnjmedia.ca/construction/",
+      image:{ desktop:"assets/img/templates/construction-desktop.webp", w:1200, h:2250,
+              mobile:"assets/img/templates/construction-mobile.webp", mw:780, mh:2600 },
+      features:["Soumission en ligne","Avant / Après","Zones desservies"], visible:true },
+    { slug:"lavage-auto", nom:"Lavage d'auto", niche:"Esthétique auto", color:"#22D3EE",
+      url:"https://templates.gnjmedia.ca/detailing-auto/",
+      image:null,
+      features:["Réservation en ligne","Forfaits","Avant / Après"], visible:false }
   ];
 
   var grid = document.getElementById("tgrid");
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
-  if (grid) grid.innerHTML = TEMPLATES.map(function(t){
-    var preview = t.img
-      ? '<img src="' + esc(t.img) + '" alt="Aperçu du modèle ' + esc(t.name) + '" loading="lazy" decoding="async">'
-      : '<span class="tprev' + (t.layout ? " tprev--" + t.layout : "") + '" aria-hidden="true">' +
-          '<span class="tprev__nav"><i></i><i></i><i></i><i></i></span>' +
-          '<span class="tprev__hero"><span class="tprev__niche">' + esc(t.niche) + '</span><i></i><i></i><i></i></span>' +
-          '<span class="tprev__cards"><i></i><i></i><i></i>' + (t.layout === "center" ? "<i></i>" : "") + '</span></span>';
-    return '<li><article class="tcard" style="--tc:' + esc(t.color) + '">' +
-      '<div class="tcard__frame">' +
-        '<span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url">' + esc(t.url) + '</span><span class="bframe__sp"></span></span>' +
-        '<span class="bframe__screen">' + preview + '<span class="tcard__badge">Disponible</span></span>' +
-      '</div>' +
-      '<div class="tcard__body">' +
-        '<div class="tcard__top"><h2 class="tcard__name">' + esc(t.name) + '</h2><span class="tcard__chip">' + esc(t.niche) + '</span></div>' +
-        '<ul class="tcard__feats">' + t.feats.map(function(f){ return "<li>" + esc(f) + "</li>"; }).join("") + '</ul>' +
-        '<a class="btn btn--solid tcard__cta" href="#rdv" data-calendly="template-' + esc(t.slug) + '" data-calendly-campaign="gnj-web" aria-label="Je veux le modèle ' + esc(t.name) + '">Je le veux →</a>' +
-      '</div></article></li>';
-  }).join("");
+  function bare(u){ return String(u).replace(/^https?:\/\//, "").replace(/\/$/, ""); }
+  var shown = TEMPLATES.filter(function(t){ return t.visible; });
+  if (grid) {
+    grid.classList.toggle("tgrid--solo", shown.length === 1);
+    grid.classList.toggle("tgrid--duo", shown.length === 2);
+    grid.innerHTML = shown.map(function(t){
+      var im = t.image;
+      var preview = im
+        ? '<picture class="tcard__shot">' +
+            (im.mobile ? '<source media="(max-width:600px)" srcset="' + esc(im.mobile) + '" width="' + im.mw + '" height="' + im.mh + '">' : '') +
+            '<img src="' + esc(im.desktop) + '" width="' + im.w + '" height="' + im.h + '" alt="Capture de la démo live du modèle ' + esc(t.nom) + '" loading="lazy" decoding="async">' +
+          '</picture>'
+        : '<span class="tprev" aria-hidden="true">' +
+            '<span class="tprev__nav"><i></i><i></i><i></i><i></i></span>' +
+            '<span class="tprev__hero"><span class="tprev__niche">' + esc(t.niche) + '</span><i></i><i></i><i></i></span>' +
+            '<span class="tprev__cards"><i></i><i></i><i></i></span></span>';
+      var demo = esc(t.url);
+      return '<li><article class="tcard" style="--tc:' + esc(t.color) + '">' +
+        '<a class="tcard__frame" href="' + demo + '" target="_blank" rel="noopener" aria-label="Voir la démo live du modèle ' + esc(t.nom) + ' (nouvel onglet)">' +
+          '<span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url">' + esc(bare(t.url)) + '</span><span class="bframe__sp"></span></span>' +
+          '<span class="bframe__screen">' + preview + '<span class="tcard__badge">Disponible</span></span>' +
+        '</a>' +
+        '<div class="tcard__body">' +
+          '<div class="tcard__top"><h2 class="tcard__name">' + esc(t.nom) + '</h2><span class="tcard__chip">' + esc(t.niche) + '</span></div>' +
+          '<ul class="tcard__feats">' + t.features.map(function(f){ return "<li>" + esc(f) + "</li>"; }).join("") + '</ul>' +
+          '<div class="tcard__actions">' +
+            '<a class="btn btn--solid tcard__cta" href="' + demo + '" target="_blank" rel="noopener" aria-label="Voir la démo live du modèle ' + esc(t.nom) + ' (nouvel onglet)">Voir la démo live →</a>' +
+            '<a class="btn btn--outline tcard__cta" href="#rdv" data-calendly="template-' + esc(t.slug) + '" data-calendly-campaign="gnj-web" aria-label="Je veux le modèle ' + esc(t.nom) + '">Je le veux →</a>' +
+          '</div>' +
+        '</div></article></li>';
+    }).join("");
+  }
   document.querySelectorAll(".gweb__year").forEach(function(el){ el.textContent = new Date().getFullYear(); });
 
   /* --- Bascule de vue --- */
