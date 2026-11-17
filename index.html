@@ -1483,6 +1483,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .pillar__name{white-space:nowrap;font-size:clamp(1.05rem,5.2vw,1.3rem)}
   /* Développement : les 3 cartes côte à côte, compactes */
   .dev__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;max-width:none}
+  .dev__grid.dev__grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dev-card{align-items:center;text-align:center;gap:.55rem;padding:1rem .3rem;border-radius:14px}
   .dev-card__ico{width:40px;height:40px}
   .dev-card__num{display:none}
@@ -1652,8 +1653,31 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .tprev__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4%;margin-top:auto}
 .tprev__cards i{aspect-ratio:4/3;border-radius:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.08)}
 
-.gweb__more{margin-top:clamp(2.5rem,5vw,3.5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
-.gweb__more p{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+/* Hero web : 2 boutons */
+.gweb__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:clamp(1.5rem,3vw,2.1rem)}
+/* Sections du mode Web (réalisations, ce qu'on peut faire, templates) */
+.gweb > .section{position:relative}
+.gtpl__head{text-align:center;max-width:none}
+/* Bloc « Votre industrie est pas là? » sous les templates : secondaire, centré */
+.gweb__custom{margin:clamp(2rem,4vw,3rem) auto 0;max-width:640px;display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center}
+.gweb__custom p{font-size:clamp(1rem,.4vw + .9rem,1.15rem);line-height:1.55;color:var(--muted);text-wrap:balance}
+.gweb__custom .btn{min-height:48px}
+/* Pied de page du mode Web (le footer Média est masqué en mode Web) */
+.gweb__footwrap{display:none}
+[data-view="web"] .gweb__footwrap{display:block}
+/* Bande Média → Web : seule mention du web en mode Média */
+.webband{position:relative;padding:clamp(1rem,3vw,2rem) 0}
+.webband__in{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;padding:clamp(1.4rem,3vw,2rem) clamp(1.2rem,3vw,2.4rem);border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid rgba(24,119,242,.35);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 0 40px -18px rgba(24,119,242,.6)}
+.webband__txt{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,2.4vw,1.9rem);line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+.webband .btn{min-height:48px}
+@media (min-width:760px){.webband__in{flex-direction:row;justify-content:space-between;text-align:left}}
+/* Ce qu'on peut faire : 4 cartes + terminal */
+@media (min-width:901px){.dev__grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.dev__grid--4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.dev__grid .dev-card.reveal:nth-child(4){transition-delay:.3s}
+.dev__term{max-width:760px;margin:clamp(2.5rem,5vw,4rem) auto 0}
 .gweb__foot{margin-top:clamp(3.5rem,7vw,5rem);padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem 1.5rem;
   font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .gweb__foot a:hover{color:#fff}
@@ -1676,7 +1700,6 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .tcard__frame .bframe__screen:has(.tcard__shot){aspect-ratio:4/5}
   .tcard__frame .bframe__bar{grid-template-columns:34px 1fr 10px}
   .tcard__frame .bframe__url{width:100%;padding:0 .6em;letter-spacing:0}
-  .gweb__more .btn{font-size:.74rem;padding:1em 1.3em;letter-spacing:.08em}
   .gweb__foot{flex-direction:column;align-items:center;text-align:center}
 }
 </style>
@@ -1742,7 +1765,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true">
   <div class="hero__spot" id="heroSpot" aria-hidden="true"></div>
   <span class="vlabel vlabel--left">Réalisations</span>
-  <span class="vlabel vlabel--right">Publicité Meta · Vidéo · Web — on transforme les vues en clients</span>
+  <span class="vlabel vlabel--right">Publicité Meta · Vidéo — on transforme les vues en clients</span>
 
   <div class="wrap">
     <div class="hero__word" aria-hidden="true">
@@ -1757,9 +1780,9 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
     </div>
     <h1 class="hero__title">On transforme les vues en clients. <span class="hero__title-hl">Pis on le prouve.</span></h1>
     <ul class="hero__pillars" aria-label="Nos 3 piliers">
-      <li><a class="pillar" href="#developpement"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Développement web</strong><span class="pillar__desc">Sites pis applications qui convertissent</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
-      <li><a class="pillar" href="#resultats"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
-      <li><a class="pillar" href="#contenu-organique"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
+      <li><a class="pillar" href="#resultats"><span class="pillar__num" aria-hidden="true">01</span><span class="pillar__body"><strong class="pillar__name">Publicité qui marche</strong><span class="pillar__desc">Meta Ads qui ramènent des clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
+      <li><a class="pillar" href="#contenu-organique"><span class="pillar__num" aria-hidden="true">02</span><span class="pillar__body"><strong class="pillar__name">Visibilité</strong><span class="pillar__desc">Du contenu vidéo qui fait connaître ta business</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
+      <li><a class="pillar" href="#stats"><span class="pillar__num" aria-hidden="true">03</span><span class="pillar__body"><strong class="pillar__name">Génération de leads</strong><span class="pillar__desc">3000+ leads générés pour nos clients</span></span><span class="pillar__cta" aria-hidden="true"><span class="pillar__cta-txt">Voir </span>↓</span><span class="sr-only"> — voir la section</span></a></li>
     </ul>
     <div class="hero__cta">
       <div class="magnet" id="heroMagnet">
@@ -1889,7 +1912,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 <!-- ====================== PROCESS ====================== -->
 <section class="section process" aria-labelledby="process-title">
   <span class="vlabel vlabel--left">Ce qu'on fait</span>
-  <span class="vlabel vlabel--right">Contenu · Publicité · Code</span>
+  <span class="vlabel vlabel--right">Contenu · Publicité</span>
 
   <div class="wrap">
     <div class="section__head process__head reveal">
@@ -1963,25 +1986,6 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
         </div>
       </li>
 
-      <!-- 03 — Développement -->
-      <li class="flow__step">
-        <div class="flow__text reveal">
-          <span class="step-badge" aria-hidden="true">03</span>
-          <span class="step-lbl">Développement</span>
-          <h3 class="flow__title">On code vos sites pis vos apps. Sur mesure, livrés vite.</h3>
-          <a class="link-mono flow__link" href="#developpement">Voir le développement ↓</a>
-        </div>
-        <div class="flow__visual reveal">
-          <div class="panel term tilt" role="img" aria-label="Éditeur de code : le pipeline GNJ Média, des vues aux leads jusqu'au site déployé">
-            <div class="panel__bar" aria-hidden="true">
-              <span class="dots"><i></i><i></i><i></i></span>
-              <span class="panel__title">pipeline.ts — gnj-media</span>
-              <span class="chip chip--ok">Build ✓</span>
-            </div>
-            <pre class="term__code" aria-hidden="true"><code id="termCode"></code></pre>
-          </div>
-        </div>
-      </li>
     </ol>
 
     <div class="process__cta reveal">
@@ -1990,170 +1994,18 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   </div>
 </section>
 
-<!-- ====================== DÉVELOPPEMENT ====================== -->
-<section class="section dev" id="developpement" aria-labelledby="dev-title">
-  <span class="vlabel vlabel--left">Développement</span>
-  <span class="vlabel vlabel--right">Sites web · Applications · Automatisation</span>
 
+
+
+<!-- ====================== PASSERELLE VERS LE MODE WEB (seule mention du web en mode Média) ====================== -->
+<section class="webband" aria-label="Développement web">
   <div class="wrap">
-    <div class="section__head dev__head reveal">
-      <span class="eyebrow eyebrow--meta">On code aussi</span>
-      <h2 class="section__title reveal-wipe" id="dev-title">Développement web &amp; applications</h2>
-      <p class="dev__pitch">On développe des sites web de conversion pis des applications sur mesure pour les PME — rapides, propres, pensés pour vendre.</p>
+    <div class="webband__in reveal">
+      <p class="webband__txt">On fait aussi du développement web.</p>
+      <a class="btn btn--solid" href="#web" data-view-go="web">Passer au web →</a>
     </div>
-
-    <ul class="dev__grid">
-      <li class="dev-card reveal">
-        <span class="dev-card__ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2.5" y="4" width="19" height="16" rx="2"/>
-            <path d="M2.5 8.5h19"/>
-            <path d="M6 6.25h.01M8.5 6.25h.01"/>
-            <path d="M7 13l2 2-2 2M12 17h4"/>
-          </svg>
-        </span>
-        <span class="dev-card__num" aria-hidden="true">01</span>
-        <h3 class="dev-card__title">Sites web</h3>
-        <p class="dev-card__txt">Design sur mesure, optimisé pour la conversion, livré vite.</p>
-      </li>
-      <li class="dev-card reveal">
-        <span class="dev-card__ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7.5" height="9" rx="1.5"/>
-            <rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/>
-            <rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/>
-            <rect x="3" y="15" width="7.5" height="6" rx="1.5"/>
-          </svg>
-        </span>
-        <span class="dev-card__num" aria-hidden="true">02</span>
-        <h3 class="dev-card__title">Applications</h3>
-        <p class="dev-card__txt">Outils internes, dashboards, SaaS sur mesure.</p>
-      </li>
-      <li class="dev-card reveal">
-        <span class="dev-card__ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 2 4 14h7l-1 8 9-12h-7z"/>
-          </svg>
-        </span>
-        <span class="dev-card__num" aria-hidden="true">03</span>
-        <h3 class="dev-card__title">Automatisation</h3>
-        <p class="dev-card__txt">Des systèmes qui vous font gagner du temps&nbsp;: leads, suivis, rapports.</p>
-      </li>
-    </ul>
-
-    <div class="dev__cta reveal">
-      <a class="btn btn--solid" href="#rdv" data-calendly="section-dev">Parler de votre projet →</a>
-    </div>
-    <p class="dev__next reveal"><a class="link-mono" href="#realisations">Voir ce qu'on a livré ↓</a></p>
   </div>
 </section>
-
-<!-- ====================== RÉALISATIONS WEB ====================== -->
-<section class="section real" id="realisations" aria-labelledby="real-title">
-  <span class="real__link" aria-hidden="true"></span>
-  <span class="vlabel vlabel--left">Réalisations</span>
-  <span class="vlabel vlabel--right">Sur mesure · Zéro template</span>
-
-  <div class="wrap">
-    <div class="section__head real__head reveal">
-      <span class="eyebrow eyebrow--meta">// 03.1 — Ce qu'on a livré</span>
-      <h2 class="section__title reveal-wipe" id="real-title">Réalisations web</h2>
-      <p class="real__pitch">Des vrais sites pour des vraies business d'ici. Clique sur un site pour le voir bouger.</p>
-    </div>
-  </div>
-
-  <div class="wheel" id="wheel" role="region" aria-roledescription="carrousel" aria-label="Sites web livrés par GNJ Média" tabindex="0">
-    <div class="wheel__stage">
-      <div class="wheel__ring">
-        <div class="wheel__slot" style="--i:0" data-site="0" role="group" aria-roledescription="diapositive" aria-label="Site 1 de 4">
-          <button type="button" class="site-card" aria-label="L'Ultra Frette — voir l'aperçu du site">
-            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ultrafrette.ca</span><span class="bframe__sp"></span></span>
-            <span class="bframe__screen">
-              <span class="bframe__ph" aria-hidden="true">L'Ultra Frette</span>
-              <img src="assets/img/realisations/ultra-frette-hero.jpg" alt="Page d'accueil du site de L'Ultra Frette" width="1440" height="900" loading="lazy" decoding="async">
-            </span>
-            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
-          </button>
-        </div>
-        <div class="wheel__slot" style="--i:1" data-site="1" role="group" aria-roledescription="diapositive" aria-label="Site 2 de 4">
-          <button type="button" class="site-card" aria-label="Store Mobile Québec — voir l'aperçu du site">
-            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>storemobilequebec.ca</span><span class="bframe__sp"></span></span>
-            <span class="bframe__screen">
-              <span class="bframe__ph" aria-hidden="true">Store Mobile Québec</span>
-              <img src="assets/img/realisations/store-mobile-quebec-hero.jpg" alt="Page d'accueil du site de Store Mobile Québec" width="1440" height="900" loading="lazy" decoding="async">
-            </span>
-            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
-          </button>
-        </div>
-        <div class="wheel__slot" style="--i:2" data-site="2" role="group" aria-roledescription="diapositive" aria-label="Site 3 de 4">
-          <button type="button" class="site-card" aria-label="Groupe NC Air — voir l'aperçu du site">
-            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ventilationnc.com</span><span class="bframe__sp"></span></span>
-            <span class="bframe__screen">
-              <span class="bframe__ph" aria-hidden="true">Groupe NC Air</span>
-              <img src="assets/img/realisations/groupe-nc-air-hero.jpg" alt="Page d'accueil du site de Groupe NC Air" width="1440" height="900" loading="lazy" decoding="async">
-            </span>
-            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
-          </button>
-        </div>
-        <div class="wheel__slot" style="--i:3" data-site="3" role="group" aria-roledescription="diapositive" aria-label="Site 4 de 4">
-          <button type="button" class="site-card" aria-label="Rock Fish Tattoo — voir l'aperçu du site">
-            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>rockfishtattoo.com</span><span class="bframe__sp"></span></span>
-            <span class="bframe__screen">
-              <span class="bframe__ph" aria-hidden="true">Rock Fish Tattoo</span>
-              <img src="assets/img/realisations/rockfish-tattoo-hero.jpg" alt="Page d'accueil du site de Rock Fish Tattoo" width="1440" height="900" loading="lazy" decoding="async">
-            </span>
-            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="wheel__meta" aria-hidden="true">
-      <span class="wheel__name" style="--brand:#F4FBFF;--brand-glow:0 0 6px rgba(159,220,255,.9),0 0 18px rgba(80,180,255,.75),0 0 38px rgba(24,119,242,.55)">L'Ultra Frette</span>
-      <span class="wheel__tag">Événement sportif · OBNL</span>
-    </div>
-
-    <div class="wheel__ctrl">
-      <button type="button" class="wheel__btn" data-wheel="prev" aria-label="Site précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <div class="wheel__dots">
-        <button type="button" class="wheel__dot" data-go="0" aria-label="Voir le site 1 : L'Ultra Frette" aria-current="true"></button>
-        <button type="button" class="wheel__dot" data-go="1" aria-label="Voir le site 2 : Store Mobile Québec"></button>
-        <button type="button" class="wheel__dot" data-go="2" aria-label="Voir le site 3 : Groupe NC Air"></button>
-        <button type="button" class="wheel__dot" data-go="3" aria-label="Voir le site 4 : Rock Fish Tattoo"></button>
-      </div>
-      <p class="wheel__count" aria-hidden="true"><b>01</b> / 04</p>
-      <button type="button" class="wheel__btn" data-wheel="next" aria-label="Site suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-    <p class="wheel__hint" aria-hidden="true">Glisse, clique ou utilise les flèches</p>
-    <p class="sr-only" id="wheelLive" aria-live="polite" aria-atomic="true"></p>
-  </div>
-</section>
-
-<!-- Modal aperçu réalisation (rempli par le JS depuis REALISATIONS) -->
-<dialog class="rmodal" id="rmodal" aria-labelledby="rmodalTitle" aria-describedby="rmodalDesc">
-  <div class="rmodal__scrim" aria-hidden="true"></div>
-  <div class="rmodal__scroll">
-    <article class="rmodal__panel">
-      <div class="rmodal__frame">
-        <div class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="rmodal__url"></span></span><span class="bframe__sp"></span></div>
-        <div class="bframe__screen">
-          <span class="bframe__ph rmodal__ph" aria-hidden="true"></span>
-          <video class="rmodal__video" muted autoplay loop playsinline preload="none" aria-label="Aperçu vidéo du site"></video>
-        </div>
-      </div>
-      <div class="rmodal__info">
-        <p class="eyebrow eyebrow--meta rmodal__eyebrow"></p>
-        <h2 class="rmodal__title" id="rmodalTitle"></h2>
-        <p class="rmodal__tag"></p>
-        <p class="rmodal__desc" id="rmodalDesc"></p>
-        <ul class="rmodal__list"></ul>
-        <ul class="rmodal__chips" aria-label="Approche"></ul>
-        <button type="button" class="btn btn--solid rmodal__cta" data-calendly="" data-calendly-campaign="realisations">Un site de même pour ta business →</button>
-      </div>
-    </article>
-  </div>
-  <button type="button" class="rmodal__close" aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-</dialog>
 
 <!-- ====================== AVIS ====================== -->
 <section class="section" aria-label="Avis clients">
@@ -2262,7 +2114,229 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   </div>
 </section>
 
-<!-- ====================== CTA FINAL ====================== -->
+
+</main>
+
+<!-- ====================== GNJ WEB : vitrine de templates (#web) ====================== -->
+<main class="gweb" id="gnj-web" aria-labelledby="gweb-title" hidden>
+  <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true" loading="lazy" decoding="async">
+  <!-- ---------- 1. Hero web ---------- -->
+  <div class="wrap">
+    <header class="gweb__head">
+      <p class="gweb__mark"><img src="assets/img/logo-gnj.svg" width="26" height="26" alt=""><span>GNJ <b>WEB</b></span></p>
+      <h1 class="gweb__title" id="gweb-title" tabindex="-1">Des sites web <em>déjà prêts</em> pour vous.</h1>
+      <p class="gweb__sub">Choisis ton modèle, on le personnalise à ta business, t'es en ligne en 48&nbsp;h.</p>
+      <div class="gweb__cta">
+        <a class="btn btn--solid" href="#realisations">Voir nos réalisations</a>
+        <a class="btn btn--outline" href="#rdv" data-calendly="gnj-web-hero" data-calendly-campaign="gnj-web">Prendre rendez-vous</a>
+      </div>
+    </header>
+  </div>
+
+<!-- ---------- 2. Réalisations web ---------- -->
+<section class="section real" id="realisations" aria-labelledby="real-title">
+  <span class="real__link" aria-hidden="true"></span>
+  <span class="vlabel vlabel--left">Réalisations</span>
+  <span class="vlabel vlabel--right">Sur mesure · Livré vite</span>
+
+  <div class="wrap">
+    <div class="section__head real__head reveal">
+      <span class="eyebrow eyebrow--meta">// Ce qu'on a livré</span>
+      <h2 class="section__title reveal-wipe" id="real-title">Réalisations web</h2>
+      <p class="real__pitch">Des vrais sites pour des vraies business d'ici. Clique sur un site pour le voir bouger.</p>
+    </div>
+  </div>
+
+  <div class="wheel" id="wheel" role="region" aria-roledescription="carrousel" aria-label="Sites web livrés par GNJ Média" tabindex="0">
+    <div class="wheel__stage">
+      <div class="wheel__ring">
+        <div class="wheel__slot" style="--i:0" data-site="0" role="group" aria-roledescription="diapositive" aria-label="Site 1 de 4">
+          <button type="button" class="site-card" aria-label="L'Ultra Frette — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ultrafrette.ca</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">L'Ultra Frette</span>
+              <img src="assets/img/realisations/ultra-frette-hero.jpg" alt="Page d'accueil du site de L'Ultra Frette" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:1" data-site="1" role="group" aria-roledescription="diapositive" aria-label="Site 2 de 4">
+          <button type="button" class="site-card" aria-label="Store Mobile Québec — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>storemobilequebec.ca</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Store Mobile Québec</span>
+              <img src="assets/img/realisations/store-mobile-quebec-hero.jpg" alt="Page d'accueil du site de Store Mobile Québec" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:2" data-site="2" role="group" aria-roledescription="diapositive" aria-label="Site 3 de 4">
+          <button type="button" class="site-card" aria-label="Groupe NC Air — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>ventilationnc.com</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Groupe NC Air</span>
+              <img src="assets/img/realisations/groupe-nc-air-hero.jpg" alt="Page d'accueil du site de Groupe NC Air" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+        <div class="wheel__slot" style="--i:3" data-site="3" role="group" aria-roledescription="diapositive" aria-label="Site 4 de 4">
+          <button type="button" class="site-card" aria-label="Rock Fish Tattoo — voir l'aperçu du site">
+            <span class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>rockfishtattoo.com</span><span class="bframe__sp"></span></span>
+            <span class="bframe__screen">
+              <span class="bframe__ph" aria-hidden="true">Rock Fish Tattoo</span>
+              <img src="assets/img/realisations/rockfish-tattoo-hero.jpg" alt="Page d'accueil du site de Rock Fish Tattoo" width="1440" height="900" loading="lazy" decoding="async">
+            </span>
+            <span class="site-card__cue" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>Voir l'aperçu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wheel__meta" aria-hidden="true">
+      <span class="wheel__name" style="--brand:#F4FBFF;--brand-glow:0 0 6px rgba(159,220,255,.9),0 0 18px rgba(80,180,255,.75),0 0 38px rgba(24,119,242,.55)">L'Ultra Frette</span>
+      <span class="wheel__tag">Événement sportif · OBNL</span>
+    </div>
+
+    <div class="wheel__ctrl">
+      <button type="button" class="wheel__btn" data-wheel="prev" aria-label="Site précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="wheel__dots">
+        <button type="button" class="wheel__dot" data-go="0" aria-label="Voir le site 1 : L'Ultra Frette" aria-current="true"></button>
+        <button type="button" class="wheel__dot" data-go="1" aria-label="Voir le site 2 : Store Mobile Québec"></button>
+        <button type="button" class="wheel__dot" data-go="2" aria-label="Voir le site 3 : Groupe NC Air"></button>
+        <button type="button" class="wheel__dot" data-go="3" aria-label="Voir le site 4 : Rock Fish Tattoo"></button>
+      </div>
+      <p class="wheel__count" aria-hidden="true"><b>01</b> / 04</p>
+      <button type="button" class="wheel__btn" data-wheel="next" aria-label="Site suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <p class="wheel__hint" aria-hidden="true">Glisse, clique ou utilise les flèches</p>
+    <p class="sr-only" id="wheelLive" aria-live="polite" aria-atomic="true"></p>
+  </div>
+</section>
+
+<!-- Modal aperçu réalisation (rempli par le JS depuis REALISATIONS) -->
+<dialog class="rmodal" id="rmodal" aria-labelledby="rmodalTitle" aria-describedby="rmodalDesc">
+  <div class="rmodal__scrim" aria-hidden="true"></div>
+  <div class="rmodal__scroll">
+    <article class="rmodal__panel">
+      <div class="rmodal__frame">
+        <div class="bframe__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="bframe__url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="rmodal__url"></span></span><span class="bframe__sp"></span></div>
+        <div class="bframe__screen">
+          <span class="bframe__ph rmodal__ph" aria-hidden="true"></span>
+          <video class="rmodal__video" muted autoplay loop playsinline preload="none" aria-label="Aperçu vidéo du site"></video>
+        </div>
+      </div>
+      <div class="rmodal__info">
+        <p class="eyebrow eyebrow--meta rmodal__eyebrow"></p>
+        <h2 class="rmodal__title" id="rmodalTitle"></h2>
+        <p class="rmodal__tag"></p>
+        <p class="rmodal__desc" id="rmodalDesc"></p>
+        <ul class="rmodal__list"></ul>
+        <ul class="rmodal__chips" aria-label="Approche"></ul>
+        <button type="button" class="btn btn--solid rmodal__cta" data-calendly="" data-calendly-campaign="realisations">Un site de même pour ta business →</button>
+      </div>
+    </article>
+  </div>
+  <button type="button" class="rmodal__close" aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+</dialog>
+
+<!-- ---------- 3. Ce qu'on peut faire ---------- -->
+<section class="section dev" id="developpement" aria-labelledby="dev-title">
+  <span class="vlabel vlabel--left">Développement</span>
+  <span class="vlabel vlabel--right">Sites web · Templates · Automatisation</span>
+
+  <div class="wrap">
+    <div class="section__head dev__head reveal">
+      <span class="eyebrow eyebrow--meta">Ce qu'on peut faire</span>
+      <h2 class="section__title reveal-wipe" id="dev-title">Développement web &amp; applications</h2>
+      <p class="dev__pitch">On développe des sites web de conversion pis des applications sur mesure pour les PME — rapides, propres, pensés pour vendre.</p>
+    </div>
+
+    <ul class="dev__grid dev__grid--4">
+      <li class="dev-card reveal">
+        <span class="dev-card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="4" width="19" height="16" rx="2"/>
+            <path d="M2.5 8.5h19"/>
+            <path d="M6 6.25h.01M8.5 6.25h.01"/>
+            <path d="M7 13l2 2-2 2M12 17h4"/>
+          </svg>
+        </span>
+        <span class="dev-card__num" aria-hidden="true">01</span>
+        <h3 class="dev-card__title">Sites web</h3>
+        <p class="dev-card__txt">Design sur mesure, optimisé pour la conversion, livré vite.</p>
+      </li>
+      <li class="dev-card reveal">
+        <span class="dev-card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7.5" height="9" rx="1.5"/>
+            <rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/>
+            <rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/>
+            <rect x="3" y="15" width="7.5" height="6" rx="1.5"/>
+          </svg>
+        </span>
+        <span class="dev-card__num" aria-hidden="true">02</span>
+        <h3 class="dev-card__title">Applications</h3>
+        <p class="dev-card__txt">Outils internes, dashboards, SaaS sur mesure.</p>
+      </li>
+      <li class="dev-card reveal">
+        <span class="dev-card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2 4 14h7l-1 8 9-12h-7z"/>
+          </svg>
+        </span>
+        <span class="dev-card__num" aria-hidden="true">03</span>
+        <h3 class="dev-card__title">Automatisation</h3>
+        <p class="dev-card__txt">Des systèmes qui vous font gagner du temps&nbsp;: leads, suivis, rapports.</p>
+      </li>
+      <li class="dev-card reveal">
+        <span class="dev-card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+        </span>
+        <span class="dev-card__num" aria-hidden="true">04</span>
+        <h3 class="dev-card__title">Templates</h3>
+        <p class="dev-card__txt">Choisis ton modèle, on le personnalise à ta business, t'es en ligne en 48&nbsp;h.</p>
+      </li>
+    </ul>
+
+    <div class="dev__term reveal">
+      <div class="panel term tilt" role="img" aria-label="Éditeur de code : le pipeline GNJ Média, des vues aux leads jusqu'au site déployé">
+            <div class="panel__bar" aria-hidden="true">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span class="panel__title">pipeline.ts — gnj-media</span>
+              <span class="chip chip--ok">Build ✓</span>
+            </div>
+            <pre class="term__code" aria-hidden="true"><code id="termCode"></code></pre>
+          </div>
+    </div>
+
+    <div class="dev__cta reveal">
+      <a class="btn btn--solid" href="#rdv" data-calendly="section-dev">Parler de votre projet →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 4. Templates ---------- -->
+<section class="section gtpl" id="templates" aria-labelledby="tpl-title">
+  <div class="wrap">
+    <div class="section__head gtpl__head reveal">
+      <span class="eyebrow eyebrow--meta">Templates</span>
+      <h2 class="section__title reveal-wipe" id="tpl-title">Nos templates</h2>
+    </div>
+    <!-- Cartes générées depuis le tableau TEMPLATES (script GNJ WEB, plus bas). Ajouter un template = ajouter un objet. -->
+    <ul class="tgrid" id="tgrid" aria-label="Modèles de sites web disponibles"></ul>
+    <div class="gweb__custom reveal">
+      <p>Votre industrie est pas là? On peut créer votre site web de A à Z.</p>
+      <a class="btn btn--outline" href="#rdv" data-calendly="gnj-web">Prendre un appel →</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ====================== PRISE DE RENDEZ-VOUS (partagée Média + Web) ====================== -->
 <section class="booking" id="rdv" aria-label="Prendre un appel">
   <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="wrap">
@@ -2275,32 +2349,12 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   </div>
 </section>
 
-</main>
-
-<!-- ====================== GNJ WEB : vitrine de templates (#web) ====================== -->
-<main class="gweb" id="gnj-web" aria-labelledby="gweb-title" hidden>
-  <img class="ghost" src="assets/img/logo-gnj.svg" width="500" height="500" alt="" aria-hidden="true" loading="lazy" decoding="async">
-  <div class="wrap">
-    <header class="gweb__head">
-      <p class="gweb__mark"><img src="assets/img/logo-gnj.svg" width="26" height="26" alt=""><span>GNJ <b>WEB</b></span></p>
-      <h1 class="gweb__title" id="gweb-title" tabindex="-1">Des sites web <em>déjà prêts</em> pour vous.</h1>
-      <p class="gweb__sub">Choisis ton modèle, on le personnalise à ta business, t'es en ligne en 48&nbsp;h.</p>
-    </header>
-
-    <!-- Cartes générées depuis le tableau TEMPLATES (script GNJ WEB, plus bas). Ajouter un template = ajouter un objet. -->
-    <ul class="tgrid" id="tgrid" aria-label="Modèles de sites web disponibles"></ul>
-
-    <div class="gweb__more">
-      <p>D'autres modèles s'en viennent</p>
-      <a class="btn btn--solid" href="#rdv" data-calendly="gnj-web-sur-mesure" data-calendly-campaign="gnj-web">Un site sur mesure à la place →</a>
-    </div>
-
-    <footer class="gweb__foot">
-      <span>© <span class="gweb__year">2026</span> GNJ WEB · une division de GNJ Média</span>
-      <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
-    </footer>
-  </div>
-</main>
+<div class="wrap gweb__footwrap">
+  <footer class="gweb__foot">
+    <span>© <span class="gweb__year">2026</span> GNJ WEB · une division de GNJ Média</span>
+    <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
+  </footer>
+</div>
 
 <!-- ====================== FOOTER ====================== -->
 <footer class="footer">
@@ -2310,7 +2364,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
       <span>GNJ MÉDIA</span>
     </a>
     <nav class="footer__links" aria-label="Pied de page">
-      <a href="#developpement">Développement web</a>
+      <a href="#web" data-view-go="web">Développement web</a>
       <a href="#rdv" data-calendly="footer">Prendre rendez-vous</a>
       <a href="mailto:contact@gnjmedia.ca">contact@gnjmedia.ca</a>
     </nav>
@@ -3126,6 +3180,9 @@ const REALISATIONS = [
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var TITLE_MEDIA = document.title;
   var TITLE_WEB = "GNJ Web — Des sites web déjà prêts pour vous";
+  var metaDesc = document.querySelector('meta[name="description"]');
+  var DESC_MEDIA = metaDesc ? metaDesc.getAttribute("content") : "";
+  var DESC_WEB = "GNJ Web : sites web sur mesure, templates personnalisés en ligne en 48 h et automatisation pour les PME du Québec.";
   var current = "media", busy = false, mediaY = 0, pushed = false;
 
   function wanted(){ return location.hash === "#web" ? "web" : "media"; }
@@ -3138,6 +3195,7 @@ const REALISATIONS = [
     if (isWeb) root.setAttribute("data-view", "web"); else root.removeAttribute("data-view");
     web.hidden = !isWeb;
     document.title = isWeb ? TITLE_WEB : TITLE_MEDIA;
+    if (metaDesc) metaDesc.setAttribute("content", isWeb ? DESC_WEB : DESC_MEDIA);
     opts.forEach(function(o){
       if (o.getAttribute("data-view-go") === view) o.setAttribute("aria-current", "page"); else o.removeAttribute("aria-current");
     });
@@ -3189,6 +3247,17 @@ const REALISATIONS = [
     if (view === "media" && current === "media" && !busy) return;   // en Média : le logo garde son comportement (#top)
     e.preventDefault();
     go(view);
+  });
+  // Mode Web : les ancres internes (#realisations, #rdv…) défilent sans changer le hash (#web reste l'état de la vue)
+  document.addEventListener("click", function(e){
+    if (e.defaultPrevented || current !== "web") return;
+    var a = e.target.closest('a[href^="#"]');
+    if (!a || a.hasAttribute("data-view-go")) return;
+    var id = a.getAttribute("href").slice(1);
+    var el = id && id !== "web" && id !== "top" ? document.getElementById(id) : null;
+    if (!el || el.closest("#top")) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"});
   });
   window.addEventListener("hashchange", function(){
     if (wanted() === "media") pushed = false;
