@@ -1582,7 +1582,8 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .gweb__sub{max-width:46ch;margin:clamp(1rem,2.2vw,1.4rem) auto 0;font-size:clamp(1rem,.5vw + .85rem,1.2rem);line-height:1.6;color:var(--muted);text-wrap:pretty}
 
 .tgrid{position:relative;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:clamp(1.1rem,2.4vw,1.75rem)}
-/* La carte fantôme (.tcard--ghost) est toujours la dernière cellule · 1 vrai modèle : vedette (voir plus bas) */
+/* 2 cartes : centrées, sans colonne vide · 1 carte : vedette (voir plus bas) */
+.tgrid--duo{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));max-width:980px;margin-inline:auto}
 .tcard{display:flex;flex-direction:column;height:100%;border-radius:18px;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--elev);
@@ -1623,9 +1624,8 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 
 /* Carte vedette (une seule carte visible) */
 .tgrid--solo{grid-template-columns:minmax(0,1fr);max-width:1080px;margin-inline:auto}
-@media (min-width:1100px){.tgrid--solo{grid-template-columns:minmax(0,2.7fr) minmax(0,1fr);max-width:none}}
 @media (min-width:900px){
-  .tgrid--solo .tcard:not(.tcard--ghost){display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:stretch}
+  .tgrid--solo .tcard{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:stretch}
   .tgrid--solo .tcard__frame{--bar:36px;margin:12px 0 12px 12px}
   .tgrid--solo .tcard__frame .bframe__url{height:22px;line-height:20px;font-size:.66rem}
   .tgrid--solo .tcard__body{justify-content:center;gap:1.1rem;padding:clamp(1.5rem,3vw,2.5rem)}
@@ -1652,26 +1652,8 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 .tprev__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4%;margin-top:auto}
 .tprev__cards i{aspect-ratio:4/3;border-radius:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.08)}
 
-/* Carte fantôme « Plus de sites web à venir » : même gabarit, contour pointillé, non cliquable comme une démo */
-.tcard--ghost{background:rgba(255,255,255,.018);border:1px dashed rgba(255,255,255,.2);box-shadow:none}
-@media (hover:hover){.tcard--ghost:hover{transform:none;border-color:rgba(255,255,255,.32);box-shadow:none}}
-.tghost__frame{display:grid;place-items:center;aspect-ratio:16/10;margin:10px 10px 0;border-radius:12px;border:1px dashed rgba(255,255,255,.14);
-  background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(24,119,242,.12),transparent 70%)}
-.tghost__icon{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;color:var(--muted);border:1px dashed rgba(255,255,255,.28);background:rgba(10,10,11,.5)}
-.tghost__icon svg{width:22px;height:22px}
-.tcard--ghost .tcard__name{color:var(--muted)}
-.tgrid--solo .tcard--ghost .tcard__name{font-size:clamp(1.3rem,1.6vw,1.55rem)}
-.tcard--ghost .tcard__cta{white-space:nowrap}
-@media (min-width:1100px){
-  .tgrid--solo .tcard--ghost .tcard__body{padding:1.4rem 1.4rem 1.5rem}
-  .tgrid--solo .tcard__frame .bframe__screen{flex:1 1 auto}
-  .tgrid--solo .tcard:not(.tcard--ghost) .tcard__name{font-size:clamp(1.9rem,2.4vw,2.25rem)}
-}
-.tghost__sub{font-size:.95rem;line-height:1.55;color:var(--faint);text-wrap:pretty}
-@media (min-width:601px) and (max-width:1099px){
-  .tgrid--solo .tcard--ghost{flex-direction:row;align-items:center}
-  .tgrid--solo .tghost__frame{flex:none;width:clamp(150px,20vw,210px);aspect-ratio:1;margin:12px 0 12px 12px}
-}
+.gweb__more{margin-top:clamp(2.5rem,5vw,3.5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.gweb__more p{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
 .gweb__foot{margin-top:clamp(3.5rem,7vw,5rem);padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem 1.5rem;
   font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .gweb__foot a:hover{color:#fff}
@@ -1694,6 +1676,7 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
   .tcard__frame .bframe__screen:has(.tcard__shot){aspect-ratio:4/5}
   .tcard__frame .bframe__bar{grid-template-columns:34px 1fr 10px}
   .tcard__frame .bframe__url{width:100%;padding:0 .6em;letter-spacing:0}
+  .gweb__more .btn{font-size:.74rem;padding:1em 1.3em;letter-spacing:.08em}
   .gweb__foot{flex-direction:column;align-items:center;text-align:center}
 }
 </style>
@@ -2306,6 +2289,11 @@ body.realisation-open .nav{opacity:0;pointer-events:none}
 
     <!-- Cartes générées depuis le tableau TEMPLATES (script GNJ WEB, plus bas). Ajouter un template = ajouter un objet. -->
     <ul class="tgrid" id="tgrid" aria-label="Modèles de sites web disponibles"></ul>
+
+    <div class="gweb__more">
+      <p>D'autres modèles s'en viennent</p>
+      <a class="btn btn--solid" href="#rdv" data-calendly="gnj-web-sur-mesure" data-calendly-campaign="gnj-web">Un site sur mesure à la place →</a>
+    </div>
 
     <footer class="gweb__foot">
       <span>© <span class="gweb__year">2026</span> GNJ WEB · une division de GNJ Média</span>
@@ -3098,6 +3086,7 @@ const REALISATIONS = [
   var shown = TEMPLATES.filter(function(t){ return t.visible; });
   if (grid) {
     grid.classList.toggle("tgrid--solo", shown.length === 1);
+    grid.classList.toggle("tgrid--duo", shown.length === 2);
     grid.innerHTML = shown.map(function(t){
       var im = t.image;
       var preview = im
@@ -3123,15 +3112,7 @@ const REALISATIONS = [
             '<a class="btn btn--outline tcard__cta" href="#rdv" data-calendly="template-' + esc(t.slug) + '" data-calendly-campaign="gnj-web" aria-label="Je veux le modèle ' + esc(t.nom) + '">Je le veux →</a>' +
           '</div>' +
         '</div></article></li>';
-    }).join("") +
-      /* Carte fantôme : toujours en dernier, aucun nom de modèle, aucune URL, aucun badge */
-      '<li><article class="tcard tcard--ghost" aria-labelledby="tghost-title">' +
-        '<div class="tghost__frame" aria-hidden="true"><span class="tghost__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div>' +
-        '<div class="tcard__body">' +
-          '<h2 class="tcard__name" id="tghost-title">Plus de sites web à venir</h2>' +
-          '<p class="tghost__sub">De nouvelles industries s\'ajoutent bientôt. La vôtre est pas là? On la cooke sur mesure.</p>' +
-          '<div class="tcard__actions"><a class="btn btn--outline tcard__cta" href="#rdv" data-calendly="gnj-web">Prendre rendez-vous →</a></div>' +
-        '</div></article></li>';
+    }).join("");
   }
   document.querySelectorAll(".gweb__year").forEach(function(el){ el.textContent = new Date().getFullYear(); });
 
